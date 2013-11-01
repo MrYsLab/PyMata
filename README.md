@@ -15,3 +15,9 @@ If you are CodeShield user, an enhanced version of Standard Firmata, called NotS
 http://code.google.com/p/adaencoder/
 
 http://code.google.com/p/oopinchangeint/
+
+
+ToDo
+====
+
+Add I2C support - the goal is to have this complete by Dec 1, 2013
