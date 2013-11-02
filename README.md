@@ -2,7 +2,7 @@ PyMata
 ======
 
 
-Harness the raw power of Standard Firmata without having to master its complexity. The PyMata class library is an easy to use, high performance abstraction layer for Standard Firmata. A fully documented, straight forward API is provided so that you can quickly code your application.
+Harness the raw power of Standard Firmata without having to master the complexities of Standard Firmata's communication protocol. The PyMata class library is an easy to use, high performance abstraction layer for Standard Firmata. A fully documented, straight forward API is provided so that you can quickly code your application.
 
 Pydoc generated API documentation is provided in PDF format. The source code is fully commented to help make extending PyMata a straight forward task.
 
