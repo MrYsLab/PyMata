@@ -27,7 +27,7 @@ The code is based on a bildr article: http://bildr.org/2011/01/tmp102-arduino/
 # import the API class
 import time
 
-from PyMata.pymata import PyMata
+from pymata import PyMata
 
 
 
