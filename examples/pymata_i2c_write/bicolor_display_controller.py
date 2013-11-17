@@ -26,8 +26,7 @@ The code is adapted from the Adafruit backpack library https://github.com/adafru
 """
 
 
-from pymata import PyMata
-import time
+from PyMata.pymata import PyMata
 
 
 class BiColorDisplayController:

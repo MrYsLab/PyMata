@@ -23,8 +23,8 @@ import threading
 import sys
 import time
 
-from pymata_serial import PyMataSerial
-from pymata_command_handler import PyMataCommandHandler
+from PyMata.pymata_serial import PyMataSerial
+from PyMata.pymata_command_handler import PyMataCommandHandler
 
 # For report data formats refer to http://firmata.org/wiki/Protocol
 

@@ -23,8 +23,10 @@ This file demonstrates how to use some of the basic PyMata operations
 """
 
 # import the API class
-from pymata import PyMata
 import time
+
+from PyMata.pymata import PyMata
+
 
 # Define some devices and their pin numbers and desired mode
 

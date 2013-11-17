@@ -25,8 +25,10 @@ The code is based on a bildr article: http://bildr.org/2011/01/tmp102-arduino/
 """
 
 # import the API class
-from pymata import PyMata
 import time
+
+from PyMata.pymata import PyMata
+
 
 
 # The PyMata constructor will print status to the console and will return
