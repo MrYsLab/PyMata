@@ -11,7 +11,7 @@ setup(
     author_email='MisterYsLab@gmail.com',
     install_requires=['pyserial'],
     url='https://github.com/MrYsLab/PyMata',
-    download_url = 'https://github.com/MrYsLab/PyMata/tarball/1.0',
+    download_url = 'https://github.com/MrYsLab/PyMata/archive/master.zip',
     keywords = ['Firmata', 'Arduino', 'Protocol'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
