@@ -25,7 +25,7 @@ This file demonstrates how to use some of the basic PyMata operations
 # import the API class
 import time
 
-from PyMata.pymata import PyMata
+from pymata import PyMata
 
 
 # Define some devices and their pin numbers and desired mode
