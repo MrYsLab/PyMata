@@ -5,13 +5,13 @@ from distutils.core import setup
 setup(
     name='PyMata',
     packages=['PyMata'],
-    version='1.3',
+    version='1.4',
     description="A Python Protocol Abstraction Library For Arduino Firmata",
     author='Alan Yorinks',
     author_email='MisterYsLab@gmail.com',
     install_requires=['pyserial'],
     url='https://github.com/MrYsLab/PyMata',
-    download_url = ' https://github.com/MrYsLab/PyMata/tarball/1.3',
+    download_url = ' https://github.com/MrYsLab/PyMata/tarball/1.4',
     keywords = ['Firmata', 'Arduino', 'Protocol'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
