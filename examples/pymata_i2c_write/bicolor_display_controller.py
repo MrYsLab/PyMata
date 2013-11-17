@@ -26,7 +26,7 @@ The code is adapted from the Adafruit backpack library https://github.com/adafru
 """
 
 
-from PyMata.pymata import PyMata
+from pymata import PyMata
 
 
 class BiColorDisplayController:
