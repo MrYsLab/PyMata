@@ -1,4 +1,4 @@
-__author__ =  'Copyright (c) 2013 Alan Yorinks All rights reserved.'
+__author__ = 'Copyright (c) 2013 Alan Yorinks All rights reserved.'
 
 """
 Copyright (c) 2013 Alan Yorinks All rights reserved.
@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
 import threading
-
+import time
 
 
 class PyMataCommandHandler(threading.Thread):
@@ -56,17 +56,29 @@ class PyMataCommandHandler(threading.Thread):
     # user defined SYSEX commands
     # from this client
     ENCODER_CONFIG = 0x20  # create and enable encoder object
-    TONE_PLAY = 0x22  # play a tone at a specified frequency and duration
+    TONE_PLAY = 0x5F  # play a tone at a specified frequency and duration
 
     # messages from firmata
     ENCODER_DATA = 0x21 # current encoder position data
 
-    # standard sysex commands
+    # standard Firmata sysex commands
 
     SERVO_CONFIG = 0x70     # set servo pin and max and min angles
-    STRING_DATA = 0x71 #  a string message with 14-bits per char
+    STRING_DATA = 0x71  #  a string message with 14-bits per char
+    I2C_REQUEST = 0x76  # send an I2C read/write request
+    I2C_REPLY = 0x77    # a reply to an I2C read request
+    I2C_CONFIG = 0x78   # config I2C settings such as delay times and power pins
     REPORT_FIRMWARE = 0x79  # report name and version of the firmware
     SAMPLING_INTERVAL = 0x7A  # modify the sampling interval
+
+    EXTENDED_ANALOG = 0x6F  # analog write (PWM, Servo, etc) to any pin
+    PIN_STATE_QUERY = 0x6D  # ask for a pin's current mode and value
+    PIN_STATE_RESPONSE = 0x6E  # reply with pin's current mode and value
+    CAPABILITY_QUERY = 0x6B  # ask for supported modes and resolution of all pins
+    CAPABILITY_RESPONSE = 0x6C  # reply with supported modes and resolution
+    ANALOG_MAPPING_QUERY = 0x69  # ask for mapping of analog to pin numbers
+    ANALOG_MAPPING_RESPONSE = 0x6A  # reply with analog mapping data
+
 
     # reserved values
     SYSEX_NON_REALTIME = 0x7E  # MIDI Reserved for non-realtime messages
@@ -74,15 +86,22 @@ class PyMataCommandHandler(threading.Thread):
 
 
     # pin modes
-    INPUT = 0x00
-    OUTPUT = 0x01
+    INPUT = 0x00 # pin set as input
+    OUTPUT = 0x01 # pin set as output
     ANALOG = 0x02  # analog pin in analogInput mode
     PWM = 0x03  # digital pin in PWM output mode
     SERVO = 0x04  # digital pin in Servo output mode
-    SHIFT = 0x05  # shiftIn/shiftOut mode
     I2C = 0x06  # pin included in I2C setup
-    ENCODER = 0x07  # Analog pin output pin in ENCODER mode
-    TONE = 0x08  # Any pin in TONE mode
+    ONEWIRE = 0x07 # possible future feature
+    STEPPER = 0x08 # possible future feature
+    TONE = 0x09  # Any pin in TONE mode
+    IGNORE = 0x7f
+
+    # the following pin modes are not part of or defined by Firmata
+    # but used by PyFirmata
+
+    ENCODER = 0x10  # Analog pin output pin in ENCODER mode
+    DIGITAL = 0x20
 
     # The response tables hold response information for all pins
     # Each table is a table of entries for each pin, which consists of the pin mode, and its last value from firmata
@@ -108,7 +127,7 @@ class PyMataCommandHandler(threading.Thread):
     # defines (python does not have forward referencing)
 
     # The "key" is the command, and the value contains is a list containing the  method name and the number of
-    # parameter bytes that the method will require to process the message
+    # parameter bytes that the method will require to process the message (in some cases the value is unused)
     command_dispatch = {}
 
     # this deque is used by the methods that assemble messages to be sent to Firmata. The deque is filled outside of
@@ -124,48 +143,87 @@ class PyMataCommandHandler(threading.Thread):
     # a lock to protect the data tables when they are being accessed
     data_lock = None
 
-    # number of pins defined by user for the _arduino board
-    number_digital_pins = 0
-    number_analog_pins = 0
+    # total number of pins for the discovered board
+    total_pins_discovered = 0
 
-    def __init__(self, transport, command_deque, data_lock,
-                 number_digital_pins, number_analog_pins):
+    # total number of analog pins for the discovered board
+    number_of_analog_pins_discovered = 0
+
+    # map of i2c addresses and associated data that has been read for that address
+    i2c_map = {}
+
+    def __init__(self, transport, command_deque, data_lock):
         """
         constructor for CommandHandler class
-        @param transport: A reference to the ommunications port designator.
+        @param transport: A reference to the communications port designator.
         @param command_deque:  A reference to a command deque.
         @param data_lock: A reference to a thread lock.
-        @param number_digital_pins: Number of digital pins to track in digital response table.
-        @param number_analog_pins: Number of analog pins to track in analog response table.
         """
 
-        # response table initialization
-        # for each pin set the mode to input and the last read data value to zero
-        for pin in range(0, number_digital_pins):
-            response_entry = [self.INPUT, 0]
-            self.digital_response_table.append(response_entry)
+        # this list contains the results of the last pin query
+        self.last_pin_query_results = []
 
-        for pin in range(0, number_analog_pins):
-            response_entry = [self.INPUT, 0]
-            self.analog_response_table.append(response_entry)
+        # this stores the results of a capability request
+        self.capability_query_results = []
+
+        # this stores the results of an analog mapping query
+        self.analog_mapping_query_results = []
+
         self.data_lock = data_lock
-
-        self.number_digital_pins = number_digital_pins
-        self.number_analog_pins = number_analog_pins
-
         self.transport = transport
         self.command_deque = command_deque
+
+        self.total_pins_discovered = 0
+
+        self.number_of_analog_pins_discovered = 0
+
         threading.Thread.__init__(self)
         self.daemon = True
 
+    def auto_discover_board(self):
+        """
+        This method will allow up to 30 seconds for discovery (communicating with) an Arduino board
+        and then will determine a pin configuration table for the board.
+        @return: True if board is successfully discovered or False upon timeout
+        """
+        # get current time
+        start_time = time.time()
 
-    #
-    # methods to handle messages received from Firmata
-    #
+        # wait for up to 30 seconds for a successful capability query to occur
+
+        while len(self.analog_mapping_query_results) == 0:
+            if time.time() - start_time > 30:
+                return False
+                # keep sending out a capability query until there is a response
+            self.send_sysex(self.ANALOG_MAPPING_QUERY, None)
+            time.sleep(.1)
+        print "Board initialized in %d seconds" % (time.time() - start_time)
+
+        for pin in self.analog_mapping_query_results:
+            self.total_pins_discovered += 1
+            # non analog pins will be marked as IGNORE
+            if pin != self.IGNORE:
+                self.number_of_analog_pins_discovered += 1
+
+        print 'Total Number of Pins Detected = %d' % self.total_pins_discovered
+        print 'Total Number of Analog Pins Detected = %d' % self.number_of_analog_pins_discovered
+
+        # response table initialization
+        # for each pin set the mode to input and the last read data value to zero
+        for pin in range(0, self.total_pins_discovered):
+            response_entry = [self.INPUT, 0]
+            self.digital_response_table.append(response_entry)
+
+        for pin in range(0, self.number_of_analog_pins_discovered):
+            response_entry = [self.INPUT, 0]
+            self.analog_response_table.append(response_entry)
+
+        return True
+
     def report_version(self, data):
         """
         This method processes the report version message,  sent asynchronously by Firmata when it starts up
-        NOTE: This message is never received for a Leonardo.
+        or after refresh_report_version() is called
 
         Use the api method api_get_version to retrieve this information
         @param data: Message data from Firmata
@@ -177,13 +235,12 @@ class PyMataCommandHandler(threading.Thread):
     def report_firmware(self, data):
         """
         This method processes the report firmware message,  sent asynchronously by Firmata when it starts up
-        NOTE: This message is never received for a Leonardo.
+        or after refresh_report_firmware() is called
         
         Use the api method api_get_firmware_version to retrieve this information
         @param data: Message data from Firmata
         @return: No return value.
         """
-
         self.firmata_firmware.append(data[0])  # add major
         self.firmata_firmware.append(data[1])  # add minor
 
@@ -330,11 +387,11 @@ class PyMataCommandHandler(threading.Thread):
             self.analog_response_table.pop()
 
         # reinitialize tables
-        for pin in range(0, self.number_digital_pins):
+        for pin in range(0, self.total_pins_discovered):
             response_entry = [self.INPUT, 0]
             self.digital_response_table.append(response_entry)
 
-        for pin in range(0, self.number_analog_pins):
+        for pin in range(0, self.number_of_analog_pins_discovered):
             response_entry = [self.INPUT, 0]
             self.analog_response_table.append(response_entry)
 
@@ -346,7 +403,7 @@ class PyMataCommandHandler(threading.Thread):
     def _string_data(self, data):
         """
         This method handles the incoming string data message from Firmata.
-        The string is printed to the consolse
+        The string is printed to the console
 
         @param data: Message data from Firmata
         @rtype : No return value.s
@@ -355,8 +412,47 @@ class PyMataCommandHandler(threading.Thread):
         string_to_print = []
         for i in data[::2]:
             string_to_print.append(chr(i))
-
         print string_to_print
+
+    def i2c_reply(self, data):
+        """
+        This method receives replies to i2c_read requests. It stores the data for each i2c device
+        address in a dictionary called i2c_map. The data is retrieved via a call to i2c_get_read_data()
+        in pymata.py
+        @param data: raw data returned from i2c device
+        """
+        reply_data = []
+        address = (data[0] & 0x7f) + (data[1] << 7)
+        register = data[2] & 0x7f + data[3] << 7
+        reply_data.append(register)
+        for i in xrange(4, len(data), 2):
+            data_item = (data[i] & 0x7f) + (data[i + 1] << 7)
+            reply_data.append(data_item)
+        self.i2c_map[address] = reply_data
+
+    def capability_response(self, data):
+        """
+        This method handles a capability response message and stores the results to be retrieved
+        via get_capability_query_results() in pymata.py
+        @param data: raw capability data
+        """
+        self.capability_query_results = data
+
+    def pin_state_response(self, data):
+        """
+        This method handles a pin state response message and stores the results to be retrieved
+        via get_pin_state_query_results() in pymata.py
+        @param data:  raw pin state data
+        """
+        self.last_pin_query_results = data
+
+    def analog_mapping_response(self, data):
+        """
+        This method handles an analog mapping query response message and stores the results to be retrieved
+        via get_analog_mapping_request_results() in pymata.py
+        @param data: raw analog mapping data
+        """
+        self.analog_mapping_query_results = data
 
 
     def run(self):
@@ -374,6 +470,10 @@ class PyMataCommandHandler(threading.Thread):
         self.command_dispatch.update({self.DIGITAL_MESSAGE: [self.digital_message, 2]})
         self.command_dispatch.update({self.ENCODER_DATA: [self.encoder_data, 3]})
         self.command_dispatch.update({self.STRING_DATA: [self._string_data, 2]})
+        self.command_dispatch.update({self.I2C_REPLY: [self.i2c_reply, 2]})
+        self.command_dispatch.update({self.CAPABILITY_RESPONSE: [self.capability_response, 2]})
+        self.command_dispatch.update({self.PIN_STATE_RESPONSE: [self.pin_state_response, 2]})
+        self.command_dispatch.update({self.ANALOG_MAPPING_RESPONSE: [self.analog_mapping_response, 2]})
 
         while 1:  # a forever loop
             if len(self.command_deque):
@@ -390,7 +490,6 @@ class PyMataCommandHandler(threading.Thread):
                     while len(self.command_deque) == 0:
                         pass
                     sysex_command = self.command_deque.popleft()
-
                     # retrieve the associated command_dispatch entry for this command
                     dispatch_entry = self.command_dispatch.get(sysex_command)
 
@@ -411,7 +510,7 @@ class PyMataCommandHandler(threading.Thread):
 
                             # invoke the method to process the command
                             method(command_data)
-                        # go to the beginning of the loop to process the next command
+                            # go to the beginning of the loop to process the next command
                     continue
 
                 #is this a command byte in the range of 0x80-0xff - these are the non-sysex messages

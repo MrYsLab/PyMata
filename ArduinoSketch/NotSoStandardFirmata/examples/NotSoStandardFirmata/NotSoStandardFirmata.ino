@@ -15,7 +15,7 @@
  Copyright (C) 2010-2011 Paul Stoffregen.  All rights reserved.
  Copyright (C) 2009 Shigeru Kobayashi.  All rights reserved.
  Copyright (C) 2009-2011 Jeff Hoefs.  All rights reserved.
- Copyright (C) 2013 Alan Yorinks  All rights reserved.
+ Copyright (C) 2013 Alan Yorinks. All rights reserved.
 
  
  This library is free software; you can redistribute it and/or
@@ -53,6 +53,9 @@
 
 #define ENCODER_NOT_PRESENT 0
 #define ENCODER_IS_PRESENT  1
+
+#define TONE_TONE 0
+#define TONE_NO_TONE 1
 
 /*==============================================================================
  * GLOBAL VARIABLES
@@ -557,17 +560,28 @@ void sysexCallback(byte command, byte argc, byte *argv)
     encoderPin2 = argv[1] ;
     static AdaEncoder encoder = 
       AdaEncoder('a', encoderPin1, encoderPin2) ;
+    //thisEncoder = &encoder ;
     encoderPresent = true ;
     break ;   
 
-  case TONE_REQUEST:
-    pin = argv[0];
-    frequency = argv[1] + (argv[2] << 7);
-    duration = argv[3] + (argv[4] << 7);
-    tone(pin, frequency, duration) ;
-    break ; 
+  case TONE_DATA:
 
-  }     
+      byte toneCommand, pin;
+      int frequency, duration;
+
+      toneCommand = argv[0];
+      pin = argv[1];
+
+      if (toneCommand == TONE_TONE) {
+          frequency = argv[2] + (argv[3] << 7);
+          // duration is currently limited to 16,383 ms
+          duration = argv[4] + (argv[5] << 7);
+          tone(pin, frequency, duration);
+       }
+       else if (toneCommand == TONE_NO_TONE) {
+            noTone(pin);
+     }
+   }
 }
 
 void enableI2CPins()
@@ -619,7 +633,10 @@ void systemResetCallback()
     if (IS_PIN_ANALOG(i)) {
       // turns off pullup, configures everything
       setPinModeCallback(i, ANALOG);
-    } 
+    }
+    else if( IS_PIN_TONE(i)) {
+        noTone(i) ;
+    }
     else {
       // sets the output to 0, configures portConfigInputs
       setPinModeCallback(i, OUTPUT);
@@ -729,5 +746,4 @@ void loop()
     }
   }
 }
-
 

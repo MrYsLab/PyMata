@@ -1,4 +1,4 @@
-__author__ =  'Copyright (c) 2013 Alan Yorinks All rights reserved.'
+__author__ = 'Copyright (c) 2013 Alan Yorinks All rights reserved.'
 
 """
 Copyright (c) 2013 Alan Yorinks All rights reserved.
@@ -18,94 +18,131 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
-from  pymata_serial import PyMataSerial
-from pymata_command_handler import PyMataCommandHandler
 from collections import deque
 import threading
 import sys
 import time
 
- # A general note: the construct SOMEVALUE & 0x7f, SOMEVALUE >> 7
- # translates an integer into 2 one byte
- # values required by the Firmata protocol
+from pymata_serial import PyMataSerial
+from pymata_command_handler import PyMataCommandHandler
+
+# For report data formats refer to http://firmata.org/wiki/Protocol
 
 class PyMata:
     """
-    This class contains the API for the PyMata library
+    This class contains the complete set of API methods that permit control of an Arduino
+    Micro-Controller utilizing Firmata or its derivatives.
 
-    This code is designed to be used with StandardFirmata,
-    If you require support for CodeShield on an Arduino UNO,
-    please use the included custom Arduino sketch called NoSoStandardFirmata.
+    For information about the Firmata protocol, refer to: http://firmata.org/wiki/Protocol
     """
-
-    # pin modes
-    INPUT = 0x00
-    OUTPUT = 0x01
-    ANALOG = 0x02  # analog pin in analogInput mode
-    PWM = 0x03  # digital pin in PWM output mode
-    SERVO = 0x04  # digital pin in Servo output mode
-    ENCODER = 0x07  # Analog pin output pin in ENCODER mode
-    TONE = 0x08  # Any pin in TONE mode
-    DIGITAL = 0x20
-
+    # some state variables
     HIGH = 1  # digital pin state high value
     LOW = 0  # digital pin state low value
 
     REPORTING_ENABLE = 1  # enable reporting for REPORT_ANALOG or REPORT_DIGITAL message sent to firmata
     REPORTING_DISABLE = 0  # disable reporting for REPORT_ANALOG or REPORT_DIGITAL message sent to firmata
 
+    # Shared Resources - data structures, controlling mechanisms, and reference variables
 
-
-    # commands and data from firmata are received in this deque and processed in a separate class
+    # Commands and data received from Firmata via the serial interface are placed into the command deque.
+    # The pymata_command_handler class removes and processes this information.
     _command_deque = deque()
 
-    # this is the instance reference to the _command_handler
+    # This is the instance reference to the _command_handler
     _command_handler = None
 
-    # this is the instance reference to the communications port object
+    # This is the instance reference to the communications port object
     _arduino = None
 
-    # communications port id (i.e. COM3 or /dev/ttyACM0
-    _port_id = ''
-
-    # this is  a lock to assure data integrity when reading or writing to the data response tables
-    # defined in the CommandHandler class
+    # This is  a thread lock to assure data integrity when reading or writing to the data response tables
+    # (defined in the CommandHandler class). It shared by the pymata class and the pymata_command_handler class.
     _data_lock = threading.Lock()
 
-    def __init__(self, port_id = '/dev/ttyACM0', number_digital_pins = 20, number_analog_pins = 6):
+    # I2C command operation modes
+    I2C_WRITE = 0B00000000
+    I2C_READ = 0B00001000
+    I2C_READ_CONTINUOUSLY = 0B00010000
+    I2C_STOP_READING = 0B00011000
+    I2C_READ_WRITE_MODE_MASK = 0B00011000
+
+    # Tone commands
+    TONE_TONE = 0 # play a tone
+    TONE_NO_TONE = 1 # turn off tone
+
+    # pin modes - these will map to the command handler values so as to have just one set of data
+    INPUT = None
+    OUTPUT = None
+    ANALOG = None
+    PWM = None
+    SERVO = None
+    I2C = None
+    TONE = None
+    IGNORE = None
+    ENCODER = None
+    DIGITAL = None
+
+    #noinspection PyPep8Naming
+    def __init__(self, port_id='/dev/ttyACM0'):
         """
-        The constructor builds the entire interface, connects to Firmata and awaits user commands
+        The constructor instantiates the entire interface. It starts the operational threads for the serial
+        interface as well as for the command handler.
         @param port_id: Communications port specifier (COM3, /dev/ttyACM0, etc)
-        @param number_digital_pins: Number of digital pins that the _arduino contains
-        @param number_digital_pins: Number of analog pins that the _arduino contains
-        @return: This function does not return
         """
-        # communications port
-        self._port_id = port_id
+        # Currently only serial communication over USB is supported, but in the future
+        # wifi and other transport mechanism support is anticipated
 
-        # currently only serial communication over USB is supported, but in the future
-        # wifi support is anticipated
+        # Instantiate the serial support class
+        self._arduino = PyMataSerial(port_id, self._command_deque)
 
-        # instantiate the serial support class
-        self._arduino = PyMataSerial(self._port_id, self._command_deque)
-
-        # attempt opening communications with the Arduino micro-controller
+        # Attempt opening communications with the Arduino micro-controller
         self._arduino.open()
 
-        #start the data receive thread
+        # Start the data receive thread
         self._arduino.start()
 
-        # instantiate the command handler
-        self._command_handler = PyMataCommandHandler(self._arduino, self._command_deque,
-                                              self._data_lock, number_digital_pins, number_analog_pins)
-        # start its command processing thread
+        # Instantiate the command handler
+        self._command_handler = PyMataCommandHandler(self._arduino, self._command_deque, self._data_lock)
+
+        # To have only one definition of the pin mode values, assign the values from the command handler
+        self.INPUT = self._command_handler.INPUT
+        self.OUTPUT = self._command_handler.OUTPUT
+        self.PWM = self._command_handler.PWM
+        self.SERVO = self._command_handler.SERVO
+        self.I2C = self._command_handler.I2C
+        self.TONE = self._command_handler.TONE
+        self.IGNORE = self._command_handler.INPUT
+        self.ENCODER = self._command_handler.ENCODER
+        self.DIGITAL = self._command_handler.DIGITAL
+
+        # Start the command processing thread
         self._command_handler.start()
 
-    def analog_read(self,pin):
+        # Command handler should now be prepared to receive replies from the Arduino, so go ahead
+        # detect the Arduino board
+
+        print 'Please wait while Arduino is being detected. This can take up to 30 seconds ...'
+
+        # perform board auto discovery
+
+        if not self._command_handler.auto_discover_board():
+            # board was not found so shutdown
+            print "Board Auto Discovery Failed!, Shutting Down"
+            self._arduino.close()
+            time.sleep(2)
+            sys.exit(0)
+
+    def analog_mapping_query(self):
         """
-        Read the value for the specified pin.
+        Send an analog mapping query message via sysex. Client retrieves the results with a
+        call to get_analog_mapping_request_results()
+        """
+        self._command_handler.send_sysex(self._command_handler.ANALOG_MAPPING_QUERY, None)
+
+    def analog_read(self, pin):
+        """
+        Retrieve the last analog data value received for the specified pin.
         @param pin: Selected pin
-        @return: The last value entered in the response table if returned.
+        @return: The last value entered into the analog response table.
         """
         self._data_lock.acquire(True)
         data = self._command_handler.analog_response_table[pin][self._command_handler.RESPONSE_TABLE_PIN_DATA_VALUE]
@@ -114,7 +151,7 @@ class PyMata:
 
     def analog_write(self, pin, value):
         """
-        Set the specified pin to the specified value
+        Set the specified pin to the specified value.
         @param pin: Pin number
         @param value: Pin value
         @return: No return value
@@ -122,10 +159,17 @@ class PyMata:
         command = [self._command_handler.ANALOG_MESSAGE + pin, value & 0x7f, value >> 7]
         self._command_handler.send_command(command)
 
+    def capability_query(self):
+        """
+        Send a Firmata capability query message via sysex. Client retrieves the results with a
+        call to get_capability_query_results()
+        """
+        self._command_handler.send_sysex(self._command_handler.CAPABILITY_QUERY, None)
+
     def close(self):
         """
         This method will close the transport (serial port) and exit
-        @return: No return value.
+        @return: No return value, but sys.exit(0) is called.
         """
         self._arduino.close()
         print "PyMata close(): Calling sys.exit(0): Hope to see you soon!"
@@ -133,10 +177,10 @@ class PyMata:
 
     def digital_read(self, pin):
         """
-        Read the value for the specified pin.
-        NOTE: This command will return values for digital, pwm, and encoder pin types
+        Retrieve the last digital data value received for the specified pin.
+        NOTE: This command will return values for digital, pwm, etc,  pin types
         @param pin: Selected pin
-        @return: The last value entered in the response table if returned.
+        @return: The last value entered into the digital response table.
         """
         self._data_lock.acquire(True)
         data = self._command_handler.digital_response_table[pin][self._command_handler.RESPONSE_TABLE_PIN_DATA_VALUE]
@@ -145,27 +189,26 @@ class PyMata:
 
     def digital_write(self, pin, value):
         """
-        Set the specified pin to the specified value
+        Set the specified pin to the specified value.
         @param pin: pin number
         @param value: pin value
         @return: No return value
         """
-        command = []
-
+        # The command value is not a fixed value, but needs to be calculated using the
+        # pin's port number
         port = pin / 8
         calculated_command = self._command_handler.DIGITAL_MESSAGE + port
 
-        # set the pin position in the byte for the pin to write
+        # Calculate the value for the pin's position in the port mask
         if value == 1:
             mask = 1 << (pin % 8)
         else:
             mask = 0
 
-        command.append(calculated_command)
-        command.append(mask & 0x7f)
-        command.append(mask >> 7)
-        self._command_handler.send_command(command)
+        # Assemble the command
+        command = (calculated_command, mask & 0x7f, mask >> 7)
 
+        self._command_handler.send_command(command)
 
     def disable_analog_reporting(self, pin):
         """
@@ -179,14 +222,12 @@ class PyMata:
     def disable_digital_reporting(self, pin):
         """
         Disables digital reporting. By turning reporting off for this pin, reporting
-        is disabled for all 8 bits in the "port" - this is part of Firmata's design
+        is disabled for all 8 bits in the "port" -
         @param pin: Pin and all pins for this port
         @return: No return value
         """
-        command = []
         port = pin / 8
-        command.append(self._command_handler.REPORT_DIGITAL + port)
-        command.append(self.REPORTING_DISABLE)
+        command = [self._command_handler.REPORT_DIGITAL + port, self.REPORTING_DISABLE]
         self._command_handler.send_command(command)
 
     def enable_analog_reporting(self, pin):
@@ -200,16 +241,13 @@ class PyMata:
 
     def enable_digital_reporting(self, pin):
         """
-        Enables digital reporting. By turning reporting on for a pin, reporting
-        is enabled for all 8 bits in the "port" - this is part of Firmata's design
+        Enables digital reporting. By turning reporting on for all 8 bits in the "port" -
+        this is part of Firmata's protocol specification.
         @param pin: Pin and all pins for this port
         @return: No return value
         """
-        command = []
-
         port = pin / 8
-        command.append(self._command_handler.REPORT_DIGITAL + port)
-        command.append(self.REPORTING_ENABLE)
+        command = [self._command_handler.REPORT_DIGITAL + port, self.REPORTING_ENABLE]
         self._command_handler.send_command(command)
 
 
@@ -217,26 +255,51 @@ class PyMata:
         """
         This command enables the rotary encoder (2 pin + ground) and will
         enable encoder reporting.
-        It is intended to be used with NotSoStandardFirmata.
+
+        NOTE: This command is not currently part of standard arduino firmata, but is provided for legacy
+        support of CodeShield on an Arduino UNO.
         @param pin_a: Encoder pin 1.
         @param pin_b: Encoder pin 2.
         @return: No return value
         """
         data = [pin_a, pin_b]
-        self._command_handler.digital_response_table[pin_a][self. _command_handler.RESPONSE_TABLE_MODE] \
-            = self._command_handler.ENCODER
-        self._command_handler.digital_response_table[pin_b][self. _command_handler.RESPONSE_TABLE_MODE] \
-            = self._command_handler.ENCODER
+        self._command_handler.digital_response_table[pin_a][self._command_handler.RESPONSE_TABLE_MODE] \
+            = self.ENCODER
+        self._command_handler.digital_response_table[pin_b][self._command_handler.RESPONSE_TABLE_MODE] \
+            = self.ENCODER
         self._command_handler.send_sysex(self._command_handler.ENCODER_CONFIG, data)
+
+    def extended_analog(self, pin, data):
+        """
+        This method will send an extended data analog output command to the selected pin
+        @param pin: 0 - 127
+        @param data: 0 - 0xfffff
+        """
+        analog_data = [pin, data & 0x7f, (data >> 7) & 0x7f, data >> 14]
+        self._command_handler.send_sysex(self._command_handler.EXTENDED_ANALOG, analog_data)
+
+    def get_analog_mapping_request_results(self):
+        """
+        Call this method after calling analog_mapping_query() to retrieve its results
+        @return: raw data returned by firmata
+        """
+        return self._command_handler.analog_mapping_query_results
 
     def get_analog_response_table(self):
         """
-        This method returns a list of lists representing the current pin mode and associated data for all
+        This method returns a list of lists representing the current pin mode and associated data values for all
         analog pins.
-        All pin types, both input and output will be listed. Output pin data will contain zero.
+        All configured pin types, both input and output will be listed. Output pin data will contain zero.
         @return: The last update of the digital response table
         """
         return self._command_handler.get_analog_response_table()
+
+    def get_capability_query_results(self):
+        """
+        Retrieve the data returned by a previous call to capability_query()
+        @return: Raw capability data returned by firmata
+        """
+        return self._command_handler.capability_query_results
 
     def get_digital_response_table(self):
         """
@@ -249,8 +312,7 @@ class PyMata:
 
     def get_firmata_version(self):
         """
-        Get the firmata version information
-        NOTE: For Leonardo Boards it will return None
+        Retrieve the firmata version information returned by a previous call to refresh_report_version()
         @return: Firmata_version list [major, minor] or None
          """
         return self._command_handler.firmata_version
@@ -258,65 +320,169 @@ class PyMata:
 
     def get_firmata_firmware_version(self):
         """
-        Get the firmware id information
-        NOTE: For Leonardo Boards it will return None
+        Retrieve the firmware id information returned by a previous call to refresh_report_firmware()
         @return: Firmata_firmware  list [major, minor, file_name] or None
         """
         return self._command_handler.firmata_firmware
 
-    def is_firmata_ready(self, timeout = 0):
-        """
-        This method checks to see if Firmata is ready to accept commands
-        @param timeout: If zero, will check for version string, else
-                        will wait for the timeout in seconds
-        @return: True if ready, False if not ready
-        """
-        if timeout:
-            time.sleep(timeout)
-        else:
-            while len(self.get_firmata_firmware_version()) == 0:
-                return False
-        return True
 
-    def play_tone(self, pin, frequency, duration):
+    def get_pin_state_query_results(self):
+        """
+        This method returns the results of a previous call to pin_state_query() and then resets
+        the pin state query data to None
+
+        @return: Raw pin state query data
+        """
+        r_data = self._command_handler.last_pin_query_results
+        self._command_handler.last_pin_query_results = []
+        return r_data
+
+
+    def i2c_config(self, read_delay_time=0, pin_type=None, clk_pin=0, data_pin=0):
+        """
+        NOTE: THIS METHOD MUST BE CALLED BEFORE ANY I2C REQUEST IS MADE
+        This method initializes Firmata for I2c operations.
+        It allows setting of a read time delay amount, and to optionally track
+        the pins as I2C in the appropriate response table.
+        To track pins: Set the pin_type to ANALOG or DIGITAL and provide the pin numbers.
+        If using ANALOG, pin numbers use the analog number, for example A4: use 4.
+
+        @param read_delay_time: an optional parameter, default is 0
+        @param pin_type: ANALOG or DIGITAL to select response table type to track pin numbers
+        @param clk_pin: pin number (see comment above).
+        @param data_pin: pin number (see comment above).
+        @return: No Return Value
+        """
+        data = [read_delay_time & 0x7f, read_delay_time >> 7]
+        self._command_handler.send_sysex(self._command_handler.I2C_CONFIG, data)
+
+        # If pin type is set, set pin mode in appropriate response table for these pins
+        if pin_type:
+            if pin_type == self.DIGITAL:
+                self._command_handler.digital_response_table[clk_pin][self._command_handler.RESPONSE_TABLE_MODE] \
+                    = self.I2C
+                self._command_handler.digital_response_table[data_pin][self._command_handler.RESPONSE_TABLE_MODE] \
+                    = self.I2C
+            else:
+                self._command_handler.analog_response_table[clk_pin][self._command_handler.RESPONSE_TABLE_MODE] \
+                    = self.I2C
+                self._command_handler.analog_response_table[data_pin][self._command_handler.RESPONSE_TABLE_MODE] \
+                    = self.I2C
+
+    def i2c_read(self, address, register, number_of_bytes, read_type):
+        """
+        This method requests the read of an i2c device. Results are retrieved by a call to
+        i2c_get_read_data()
+        @param address: i2c device address
+        @param register: register number (can be set to zero)
+        @param number_of_bytes: number of bytes expected to be returned
+        @param read_type: I2C_READ  or I2C_READ_CONTINUOUSLY
+        """
+        data = [address, read_type, register & 0x7f, register >> 7,
+                number_of_bytes & 0x7f, number_of_bytes >> 7]
+        self._command_handler.send_sysex(self._command_handler.I2C_REQUEST, data)
+
+    def i2c_write(self, address, *args):
+        """
+        Write data to an i2c device.
+        @param address: i2c device address
+        @param args: a variable number of bytes to be sent to the device
+        """
+        data = [address, self.I2C_WRITE]
+        for item in args:
+            data.append(item)
+        self._command_handler.send_sysex(self._command_handler.I2C_REQUEST, data)
+
+    def i2c_stop_reading(self, address):
+        """
+        This method stops an I2C_READ_CONTINUOUSLY operation for the i2c device address specified.
+        @param address: address of i2c device
+        """
+        data = [address, self.I2C_STOP_READING]
+        self._command_handler.send_sysex(self._command_handler.I2C_REQUEST, data)
+
+    def i2c_get_read_data(self, address):
+        """
+        This method retrieves the i2c read data as the result of an i2c_read() command.
+        @param address: i2c device address
+        @return: raw data read from device
+        """
+        if self._command_handler.i2c_map.has_key(address):
+            return self._command_handler.i2c_map[address]
+
+    def pin_state_query(self, pin):
+        """
+        This method issues a pin state query command. Data returned is retrieved via
+        a call to get_pin_state_query_results()
+        @param pin: pin number
+        """
+        self._command_handler.send_sysex(self._command_handler.PIN_STATE_QUERY, [pin])
+
+    def play_tone(self, pin, tone_command, frequency, duration):
         """
         This method will call the Tone library for the selected pin.
-        It is intended to be used with NotSoStandardFirmata.
+        If the tone command is set to TONE_TONE, then the specified tone will be played.
+        Else, if the tone command is TONE_NO_TONE, then any currently playing tone will be disabled.
+        It is intended for a future release of Arduino Firmata
         @param pin: Pin number
+        @param tone_command: Either TONE_TONE, or TONE_NO_TONE
         @param frequency: Frequency of tone
         @param duration: Duration of tone in milliseconds
         @return: No return value
         """
         # convert the integer values to bytes
-        data = [pin, frequency & 0x7f, frequency >> 7, duration & 0x7f, frequency >> 7]
+        if tone_command == self.TONE_TONE:
+            # duration is specfified
+            if duration:
+                data = [tone_command, pin, frequency & 0x7f, frequency >> 7, duration & 0x7f, frequency >> 7]
 
-        self._command_handler.digital_response_table[pin][self. _command_handler.RESPONSE_TABLE_MODE] = \
-            self._command_handler.TONE
+            else:
+                data = [tone_command, pin, frequency & 0x7f, frequency >> 7]
+
+            self._command_handler.digital_response_table[pin][self._command_handler.RESPONSE_TABLE_MODE] = \
+                    self.TONE
+        # turn off tone
+        else:
+            data = [tone_command, pin]
         self._command_handler.send_sysex(self._command_handler.TONE_PLAY, data)
+
+    def refresh_report_version(self):
+        """
+        This method will query firmata for the report version.
+        Retrieve the report version via a call to get_firmata_version()
+        """
+        self._command_handler.send_sysex(self._command_handler.REPORT_VERSION, None)
+
+    def refresh_report_firmware(self):
+        """
+        This method will query firmata to report firmware. Retrieve the report via a
+        call to get_firmata_firmware_version()
+        """
+        self._command_handler.send_sysex(self._command_handler.REPORT_FIRMWARE, None)
 
     def reset(self):
         """
         This command sends a reset message to the Arduino. The response tables will be reinitialized
         @return: No return value.
         """
-
         # set all output pins to a value of 0
-        for pin in range(0,self._command_handler.number_digital_pins):
+        for pin in range(0, self._command_handler.total_pins_discovered):
             if self._command_handler.digital_response_table[self._command_handler.RESPONSE_TABLE_MODE] \
-                    == self._command_handler.PWM:
+                    == self.PWM:
                 self.analog_write(pin, 0)
             elif self._command_handler.digital_response_table[self._command_handler.RESPONSE_TABLE_MODE] \
-                    == self._command_handler.SERVO:
-                self.analog_write(pin,0)
+                    == self.SERVO:
+                self.analog_write(pin, 0)
             else:
-                self.digital_write(pin,0)
+                self.digital_write(pin, 0)
         self._command_handler.system_reset()
 
     def set_pin_mode(self, pin, mode, pin_type):
         """
         This method sets a pin to the desired pin mode for the pin_type.
-        It automatically enables data reporting..
-        @param pin: Pin number (for analog use the analog number, for example A4: use 4
+        It automatically enables data reporting.
+        NOTE: DO NOT CALL THIS METHOD FOR I2C. See i2c_config().
+        @param pin: Pin number (for analog use the analog number, for example A4: use 4)
         @param mode: INPUT, OUTPUT, PWM, SERVO, ENCODER or TONE
         @param pin_type: ANALOG or DIGITAL
         @return: No return value
@@ -325,37 +491,33 @@ class PyMata:
         self._command_handler.send_command(command)
         #enable reporting for input pins
         if mode == self.INPUT:
-            command = []
             if pin_type == self.ANALOG:
 
                 # set analog response table to show this pin is an input pin
 
-                self._command_handler.analog_response_table[pin][self. _command_handler.RESPONSE_TABLE_MODE] = self.INPUT
+                self._command_handler.analog_response_table[pin][self._command_handler.RESPONSE_TABLE_MODE] = \
+                    self.INPUT
                 self.enable_analog_reporting(pin)
-
-                # the pin number is added to the report analog command
-                command.append(self._command_handler.REPORT_ANALOG + pin)
-                command.append(self.REPORTING_ENABLE)
-
             # if not analog it has to be digital
             else:
-                self._command_handler.digital_response_table[pin][self. _command_handler.RESPONSE_TABLE_MODE] = self.INPUT
+                self._command_handler.digital_response_table[pin][self._command_handler.RESPONSE_TABLE_MODE] = \
+                    self.INPUT
                 self.enable_digital_reporting(pin)
 
         else:  # must be output - so set the tables accordingly
             if pin_type == self.ANALOG:
-                self._command_handler.analog_response_table[pin][self. _command_handler.RESPONSE_TABLE_MODE] = mode
+                self._command_handler.analog_response_table[pin][self._command_handler.RESPONSE_TABLE_MODE] = mode
             else:
-                self._command_handler.digital_response_table[pin][self. _command_handler.RESPONSE_TABLE_MODE] = mode
+                self._command_handler.digital_response_table[pin][self._command_handler.RESPONSE_TABLE_MODE] = mode
 
     def set_sampling_interval(self, interval):
         """
         This method sends the desired sampling interval to Firmata.
-        Note: Standard Firmata (and NotSoStandardFirmata) will ignore any interval less than 10 milliseconds
-        @param interval: integer value for desired sampling interval in milliseconds
+        Note: Standard Firmata  will ignore any interval less than 10 milliseconds
+        @param interval: Integer value for desired sampling interval in milliseconds
         @return: No return value.
         """
-        data = [ interval & 0x7f, interval >> 7]
+        data = [interval & 0x7f, interval >> 7]
         self._command_handler.send_sysex(self._command_handler.SAMPLING_INTERVAL, data)
 
 
@@ -367,7 +529,7 @@ class PyMata:
         @param max_pulse: Max pulse width in ms.
         @return: No return value
         """
-        self.set_pin_mode(pin, self.SERVO, self._command_handler.OUTPUT)
+        self.set_pin_mode(pin, self.SERVO, self.OUTPUT)
         command = [self._command_handler.SERVO_CONFIG, pin, min_pulse & 0x7f, min_pulse >> 7, max_pulse & 0x7f,
                    max_pulse >> 7]
 

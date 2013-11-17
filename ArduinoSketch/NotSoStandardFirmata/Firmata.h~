@@ -1,7 +1,6 @@
 /*
   Firmata.h - Firmata library
   Copyright (C) 2006-2008 Hans-Christoph Steiner.  All rights reserved.
-  Copyright (C) 2013    Alan Yorinks. All rights reserved.
  
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -46,7 +45,7 @@
 /* user defined commands */
 #define ENCODER_CONFIG          0x20 // create and enable encoder object
 #define ENCODER_DATA            0x21 // current encoder data
-#define TONE_DATA               0x5F // request a tone be played
+#define TONE_DATA               0x5f // request a tone be played
 
 
 /* standard commands */
@@ -84,9 +83,8 @@
 #define ONEWIRE                 0x07
 #define STEPPER                 0x08
 #define TONE                    0x09 // Any pin in TONE mode
-#define ENCODER                 0x20 // Analog pin output pin in ENCODER mode
-#define INGORE                  0x7f
-
+#define ENCODER                 0x0a // Analog pin output pin in ENCODER mode
+#define IGNORE                  0x7f
 #define TOTAL_PIN_MODES         12
 
 extern "C" {

@@ -1,4 +1,4 @@
-__author__ =  'Copyright (c) 2013 Alan Yorinks All rights reserved.'
+__author__ = 'Copyright (c) 2013 Alan Yorinks All rights reserved.'
 """
 Created on Tue Sep  3 07:12:01 2013
 
@@ -38,7 +38,7 @@ class PyMataSerial(threading.Thread):
     command_deque = None
 
 
-    def __init__(self, port_id, command_deque ):
+    def __init__(self, port_id, command_deque):
         """
         Constructor:
         @param command_deque: A reference to the deque shared with the _command_handler
@@ -58,7 +58,7 @@ class PyMataSerial(threading.Thread):
         returns a reference to this instance
         """
         # open a serial port
-        print '\nOpening Arduino Serial port %s ' %  self.port_id
+        print '\nOpening Arduino Serial port %s ' % self.port_id
 
         try:
 
@@ -93,9 +93,15 @@ class PyMataSerial(threading.Thread):
         @return: Never Returns
         """
         while 1:
-            if self.arduino.inWaiting():
-                c = self.arduino.read()
-                self.command_deque.append(ord(c))
+            # we can get an OSError: [Errno9] Bad file descriptor when shutting down
+            # just ignore it
+            try:
+                if self.arduino.inWaiting():
+                    c = self.arduino.read()
+                    self.command_deque.append(ord(c))
+            except OSError:
+                pass
+
 
 
 
