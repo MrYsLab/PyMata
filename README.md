@@ -2,7 +2,7 @@ PyMata
 ======
 
 
-The PyMata class library is an easy to use, high performance abstraction layer for Standard Firmata. A fully documented, straight forward API is provided so that you can quickly code your application without having to worry about the complexities of Standard Firmata.
+Harness the raw power of Standard Firmata without having to master the complexities of Standard Firmata's communication protocol. The PyMata class library is an easy to use, high performance abstraction layer for Standard Firmata. A fully documented, straight forward API is provided so that you can quickly code your application.
 
 Pydoc generated API documentation is provided in PDF format. The source code is fully commented to help make extending PyMata a straight forward task.
 
@@ -15,3 +15,9 @@ If you are CodeShield user, an enhanced version of Standard Firmata, called NotS
 http://code.google.com/p/adaencoder/
 
 http://code.google.com/p/oopinchangeint/
+
+
+ToDo
+====
+
+Add I2C support - the goal is to have this complete by Dec 1, 2013
