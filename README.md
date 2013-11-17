@@ -17,7 +17,14 @@ http://code.google.com/p/adaencoder/
 http://code.google.com/p/oopinchangeint/
 
 
-ToDo
-====
+Included Examples
+=================
 
-Add I2C support - the goal is to have this complete by Dec 1, 2013
+pymata_basics - a simple client application to communicate with an Arduino board
+
+pymata_i2c_write - this contains both a control layer for the Adafruit Bi-Color 8x8 LED Matrix and a demo program
+
+pymata_i2c_read -  a demo program to read from a SparkFun TMP102 Breakout temperature device.
+
+
+
