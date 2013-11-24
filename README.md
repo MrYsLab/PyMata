@@ -1,7 +1,7 @@
 PyMata
 ======
 
-Version 1.50
+Version 1.51
 ------------
 
 Two new features have been added.
