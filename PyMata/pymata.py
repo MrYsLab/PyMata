@@ -81,6 +81,8 @@ class PyMata:
     ENCODER = None
     DIGITAL = None
 
+
+
     #noinspection PyPep8Naming
     def __init__(self, port_id='/dev/ttyACM0'):
         """
@@ -103,7 +105,11 @@ class PyMata:
         # Instantiate the command handler
         self._command_handler = PyMataCommandHandler(self._arduino, self._command_deque, self._data_lock)
 
-        # To have only one definition of the pin mode values, assign the values from the command handler
+        ########################################################################
+        # constants defined locally from values contained in the command handler
+        ########################################################################
+
+        # pin modes
         self.INPUT = self._command_handler.INPUT
         self.OUTPUT = self._command_handler.OUTPUT
         self.PWM = self._command_handler.PWM
@@ -113,6 +119,38 @@ class PyMata:
         self.IGNORE = self._command_handler.INPUT
         self.ENCODER = self._command_handler.ENCODER
         self.DIGITAL = self._command_handler.DIGITAL
+
+        # Data latch state constants to be used when accessing data returned from get_latch_data methods.
+        # The get_latch data methods return [pin_number, latch_state, latched_data, time_stamp]
+        # These three constants define possible values for the second item in the list, latch_state
+
+        # this pin will be ignored for latching - table initialized with this value
+        self.LATCH_IGNORE = self._command_handler.LATCH_IGNORE
+        # When the next pin value change is received for this pin, if it matches the latch criteria
+        # the data will be latched.
+        self.LATCH_ARMED = self._command_handler.LATCH_ARMED
+        # Data has been latched. Read the data to re-arm the latch.
+        self.LATCH_LATCHED = self._command_handler.LATCH_LATCHED
+
+        #
+        # These constants are used when setting a data latch.
+        # Latch threshold types
+        #
+        self.DIGITAL_LATCH_HIGH = self._command_handler.DIGITAL_LATCH_HIGH
+        self.DIGITAL_LATCH_LOW = self._command_handler.DIGITAL_LATCH_LOW
+
+        self.ANALOG_LATCH_GT = self._command_handler.ANALOG_LATCH_GT
+        self.ANALOG_LATCH_LT = self._command_handler.ANALOG_LATCH_LT
+        self.ANALOG_LATCH_GTE = self._command_handler.ANALOG_LATCH_GTE
+        self.ANALOG_LATCH_LTE = self._command_handler.ANALOG_LATCH_LTE
+
+        # constants to be used to parse the data returned from calling
+        # get_X_latch_data()
+
+        self.LATCH_PIN = 0
+        self.LATCH_STATE = 1
+        self.LATCHED_DATA = 2
+        self.LATCHED_TIME_STAMP = 3
 
         # Start the command processing thread
         self._command_handler.start()
@@ -278,6 +316,16 @@ class PyMata:
         analog_data = [pin, data & 0x7f, (data >> 7) & 0x7f, data >> 14]
         self._command_handler.send_sysex(self._command_handler.EXTENDED_ANALOG, analog_data)
 
+    def get_analog_latch_data(self, pin):
+        """
+        A list is returned containing the latch state for the pin, the latched value, and the time stamp
+        [pin_num, latch_state, latched_value, time_stamp]
+        If the the latch state is LATCH_LATCHED, the table is reset (data and timestamp set to zero)
+        @param pin: Pin number.
+        @return: [pin, latch_state, latch_data_value, time_stamp]
+        """
+        return self._command_handler.get_analog_latch_data(pin)
+
     def get_analog_mapping_request_results(self):
         """
         Call this method after calling analog_mapping_query() to retrieve its results
@@ -287,8 +335,8 @@ class PyMata:
 
     def get_analog_response_table(self):
         """
-        This method returns a list of lists representing the current pin mode and associated data values for all
-        analog pins.
+        This method returns a list of lists representing the current pin mode and
+        associated data values for all analog pins.
         All configured pin types, both input and output will be listed. Output pin data will contain zero.
         @return: The last update of the digital response table
         """
@@ -301,10 +349,20 @@ class PyMata:
         """
         return self._command_handler.capability_query_results
 
+    def get_digital_latch_data(self, pin):
+        """
+        A list is returned containing the latch state for the pin, the latched value, and the time stamp
+        [pin_num, latch_state, latched_value, time_stamp]
+        If the the latch state is LATCH_LATCHED, the table is reset (data and timestamp set to zero)
+        @param pin: Pin number.
+        @return: [pin, latch_state, latch_data_value, time_stamp]
+        """
+        return self._command_handler.get_digital_latch_data(pin)
+
     def get_digital_response_table(self):
         """
-        This method returns a list of lists representing the current pin mode and associated data for all
-        digital pins.
+        This method returns a list of lists representing the current pin mode
+        and associated data for all digital pins.
         All pin types, both input and output will be listed. Output pin data will contain zero.
         @return: The last update of the digital response table
         """
@@ -325,7 +383,6 @@ class PyMata:
         """
         return self._command_handler.firmata_firmware
 
-
     def get_pin_state_query_results(self):
         """
         This method returns the results of a previous call to pin_state_query() and then resets
@@ -336,6 +393,15 @@ class PyMata:
         r_data = self._command_handler.last_pin_query_results
         self._command_handler.last_pin_query_results = []
         return r_data
+
+    #noinspection PyMethodMayBeStatic
+    def get_pymata_version(self):
+        """
+        Returns the PyMata version number in a list: [Major Number, Minor Number]
+
+        @return:
+        """
+        return [1, 5]
 
 
     def i2c_config(self, read_delay_time=0, pin_type=None, clk_pin=0, data_pin=0):
@@ -386,7 +452,7 @@ class PyMata:
         """
         Write data to an i2c device.
         @param address: i2c device address
-        @param args: a variable number of bytes to be sent to the device
+        @param args: A variable number of bytes to be sent to the device
         """
         data = [address, self.I2C_WRITE]
         for item in args:
@@ -430,9 +496,10 @@ class PyMata:
         @param duration: Duration of tone in milliseconds
         @return: No return value
         """
+
         # convert the integer values to bytes
         if tone_command == self.TONE_TONE:
-            # duration is specfified
+            # duration is specified
             if duration:
                 data = [tone_command, pin, frequency & 0x7f, frequency >> 7, duration & 0x7f, frequency >> 7]
 
@@ -440,7 +507,7 @@ class PyMata:
                 data = [tone_command, pin, frequency & 0x7f, frequency >> 7]
 
             self._command_handler.digital_response_table[pin][self._command_handler.RESPONSE_TABLE_MODE] = \
-                    self.TONE
+                self.TONE
         # turn off tone
         else:
             data = [tone_command, pin]
@@ -476,6 +543,34 @@ class PyMata:
             else:
                 self.digital_write(pin, 0)
         self._command_handler.system_reset()
+
+    def set_analog_latch(self, pin, threshold_type, threshold_value):
+        """
+        This method "arms" an analog pin for its data to be latched and saved in the latching table
+        @param pin: Analog pin number (value following an 'A' designator, i.e. A5 = 5
+        @param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE
+        @param threshold_value: numerical value - between 0 and 1023
+        @return: True if successful, False if parameter data is invalid
+        """
+        if self.ANALOG_LATCH_GT <= threshold_type <= self.ANALOG_LATCH_LTE:
+            if 0 <= threshold_value <= 1023:
+                self._command_handler.set_analog_latch(pin, threshold_type, threshold_value)
+                return True
+        else:
+            return False
+
+    def set_digital_latch(self, pin, threshold_type):
+        """
+        This method "arms" a digital pin for its data to be latched and saved in the latching table
+        @param pin: Digital pin number
+        @param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW
+        @return: True if successful, False if parameter data is invalid
+        """
+        if 0 <= threshold_type <= 1:
+            self._command_handler.set_digital_latch(pin, threshold_type)
+            return True
+        else:
+            return False
 
     def set_pin_mode(self, pin, mode, pin_type):
         """

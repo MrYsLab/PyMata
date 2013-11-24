@@ -19,8 +19,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 
 This file demonstrates how to use some of the basic PyMata operations
-
 """
+
+
 
 # import the API class
 import time
@@ -30,11 +31,11 @@ from PyMata.pymata import PyMata
 
 # Define some devices and their pin numbers and desired mode
 
-RED_LED = 11 #  a digital output to control an LED
-WHITE_LED = 6 # a PWM output to control LED
-BUTTON_SWITCH = 12 # a digital input to read a push button switch
-POTENTIOMETER = 2 # this A2, an analog input
-BEEPER = 3 # A digital output connected to a piezo device
+RED_LED = 11  #  a digital output to control an LED
+WHITE_LED = 6  # a PWM output to control LED
+BUTTON_SWITCH = 12  # a digital input to read a push button switch
+POTENTIOMETER = 2  # this A2, an analog input
+BEEPER = 3  # A digital output connected to a piezo device
 SERVO_MOTOR = 5
 
 
