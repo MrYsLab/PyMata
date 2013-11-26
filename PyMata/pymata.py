@@ -116,7 +116,7 @@ class PyMata:
         self.SERVO = self._command_handler.SERVO
         self.I2C = self._command_handler.I2C
         self.TONE = self._command_handler.TONE
-        self.IGNORE = self._command_handler.INPUT
+        self.IGNORE = self._command_handler.IGNORE
         self.ENCODER = self._command_handler.ENCODER
         self.DIGITAL = self._command_handler.DIGITAL
 

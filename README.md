@@ -1,6 +1,11 @@
 PyMata
 ======
 
+Version 1.52
+------------
+
+Fixed IGNORE pin mode to be correct value in pymata.py
+
 Version 1.51
 ------------
 
