@@ -49,7 +49,6 @@ Harness the raw power of Standard Firmata without having to master the complexit
 
 Epydoc generated API documentation is provided in html format. The source code is fully commented to help make extending PyMata a straight forward task.
 
-The API can be viewed here: https://github.com/MrYsLab/PyMata/blob/master/documentation/html/PyMata.pymata.PyMata-class.html
 
 Fully commented example applications are provided to help accelerate your development efforts.
 
