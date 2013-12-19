@@ -1,6 +1,13 @@
 PyMata
 ======
 
+Version 1.53
+------------
+Corrected digital write  to only affect one bit in the port register. Previously all bits were affected
+as the result of a write.
+
+Support for the additional pins of the Mega 2560 R3 has been added.
+
 Version 1.52
 ------------
 

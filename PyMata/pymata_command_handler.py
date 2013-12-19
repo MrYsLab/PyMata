@@ -240,6 +240,7 @@ class PyMataCommandHandler(threading.Thread):
                 # keep sending out a capability query until there is a response
             self.send_sysex(self.ANALOG_MAPPING_QUERY, None)
             time.sleep(.1)
+
         print "Board initialized in %d seconds" % (time.time() - start_time)
 
         for pin in self.analog_mapping_query_results:
@@ -589,6 +590,8 @@ class PyMataCommandHandler(threading.Thread):
 
         self.data_lock.release()
 
+        time.sleep(2)
+
 
     #noinspection PyMethodMayBeStatic
     # keeps pycharm happy
@@ -716,7 +719,7 @@ class PyMataCommandHandler(threading.Thread):
                         command_data.append(port)
                         data = 0x90
                     # the pin number for analog data is embedded in the command so, decode it
-                    elif 0xe0 <= data <= 0xe9:
+                    elif 0xe0 <= data <= 0xef:
                         pin = data & 0xf
                         command_data.append(pin)
                         data = 0xe0

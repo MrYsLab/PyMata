@@ -46,6 +46,7 @@ PyMata.pymata.PyMata.analog_read	PyMata.pymata.PyMata-class.html#analog_read
 PyMata.pymata.PyMata.set_analog_latch	PyMata.pymata.PyMata-class.html#set_analog_latch
 PyMata.pymata.PyMata.I2C_STOP_READING	PyMata.pymata.PyMata-class.html#I2C_STOP_READING
 PyMata.pymata.PyMata.HIGH	PyMata.pymata.PyMata-class.html#HIGH
+PyMata.pymata.PyMata.digital_output_port_pins	PyMata.pymata.PyMata-class.html#digital_output_port_pins
 PyMata.pymata.PyMata.disable_digital_reporting	PyMata.pymata.PyMata-class.html#disable_digital_reporting
 PyMata.pymata.PyMata.set_digital_latch	PyMata.pymata.PyMata-class.html#set_digital_latch
 PyMata.pymata.PyMata.DIGITAL	PyMata.pymata.PyMata-class.html#DIGITAL

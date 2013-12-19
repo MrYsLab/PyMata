@@ -81,6 +81,9 @@ class PyMata:
     ENCODER = None
     DIGITAL = None
 
+    # each byte represents a digital port and its value contains the current port settings
+    digital_output_port_pins = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
 
 
     #noinspection PyPep8Naming
@@ -98,6 +101,7 @@ class PyMata:
 
         # Attempt opening communications with the Arduino micro-controller
         self._arduino.open()
+        time.sleep(1)
 
         # Start the data receive thread
         self._arduino.start()
@@ -194,13 +198,19 @@ class PyMata:
         @param value: Pin value
         @return: No return value
         """
-        command = [self._command_handler.ANALOG_MESSAGE + pin, value & 0x7f, value >> 7]
-        self._command_handler.send_command(command)
+
+        if self._command_handler.ANALOG_MESSAGE + pin < 0xf0:
+            command = [self._command_handler.ANALOG_MESSAGE + pin, value & 0x7f, value >> 7]
+            self._command_handler.send_command(command)
+        else:
+            self.extended_analog(pin, value)
 
     def capability_query(self):
         """
         Send a Firmata capability query message via sysex. Client retrieves the results with a
         call to get_capability_query_results()
+        The Arduino can be rather slow in responding to this command. For 
+        the Mega 2560 R3 it has taken up to 25 seconds for a response.   
         """
         self._command_handler.send_sysex(self._command_handler.CAPABILITY_QUERY, None)
 
@@ -234,19 +244,26 @@ class PyMata:
         """
         # The command value is not a fixed value, but needs to be calculated using the
         # pin's port number
+        #
+        #
         port = pin / 8
-        calculated_command = self._command_handler.DIGITAL_MESSAGE + port
 
+        calculated_command = self._command_handler.DIGITAL_MESSAGE + port
+        mask = 1 << (pin % 8)
         # Calculate the value for the pin's position in the port mask
         if value == 1:
-            mask = 1 << (pin % 8)
+            self.digital_output_port_pins[port] |= mask
+
         else:
-            mask = 0
+            self.digital_output_port_pins[port] &= ~mask
 
         # Assemble the command
-        command = (calculated_command, mask & 0x7f, mask >> 7)
+        command = (calculated_command, self.digital_output_port_pins[port] & 0x7f,
+                   self.digital_output_port_pins[port] >> 7)
 
         self._command_handler.send_command(command)
+
+
 
     def disable_analog_reporting(self, pin):
         """
