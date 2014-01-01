@@ -1,7 +1,7 @@
 __author__ = 'Copyright (c) 2013 Alan Yorinks All rights reserved.'
 
 """
-Copyright (c) 2013-14 Alan Yorinks All rights reserved.
+Copyright (c) 2013 Alan Yorinks All rights reserved.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU  General Public
@@ -77,12 +77,11 @@ class PyMata:
     SERVO = None
     I2C = None
     TONE = None
-    SONAR = None
     IGNORE = None
     ENCODER = None
     DIGITAL = None
 
-   # each byte represents a digital port and its value contains the current port settings
+    # each byte represents a digital port and its value contains the current port settings
     digital_output_port_pins = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
 
@@ -124,7 +123,6 @@ class PyMata:
         self.IGNORE = self._command_handler.IGNORE
         self.ENCODER = self._command_handler.ENCODER
         self.DIGITAL = self._command_handler.DIGITAL
-        self.SONAR = self._command_handler.SONAR
 
         # Data latch state constants to be used when accessing data returned from get_latch_data methods.
         # The get_latch data methods return [pin_number, latch_state, latched_data, time_stamp]
@@ -423,19 +421,6 @@ class PyMata:
         return [1, 5]
 
 
-    # noinspection PyMethodMayBeStatic
-    def get_sonar_data(self):
-        """
-        Retrieve Ping (HC-SR04 type) data. The data is presented as a dictionary.
-        The 'key' is the trigger pin specified in sonar_config() and the 'data' is the
-        current measured distance (in centimeters)
-        for that pin. If there is no data, the value is set to IGNORE (127).
-
-        @return: active_sonar_map
-        """
-        return self._command_handler.active_sonar_map
-
-
     def i2c_config(self, read_delay_time=0, pin_type=None, clk_pin=0, data_pin=0):
         """
         NOTE: THIS METHOD MUST BE CALLED BEFORE ANY I2C REQUEST IS MADE
@@ -661,32 +646,6 @@ class PyMata:
                    max_pulse >> 7]
 
         self._command_handler.send_command(command)
-
-    def sonar_config(self, trigger_pin, echo_pin, ping_interval=50):
-        """
-        Configure the pins, and ping interval for an HC-SR04 type device.
-        Single pin configuration may be used. To do so, set both the trigger and echo pins to the same value.
-        Up to a maximum of 6 SONAR devices is supported
-        If the maximum is exceeded a message is sent to the console and the request is ignored.
-        NOTE: data is measured in centimeters
-        :param trigger_pin: The pin number of for the trigger (transmitter).
-        :param echo_pin: The pin number for the received echo.
-        :param ping_interval: Minimum interval between pings. Lowest number to use is 33 ms.Max is 127
-        """
-        data = [trigger_pin, echo_pin, ping_interval]
-        self.set_pin_mode(trigger_pin, self.SONAR, self.INPUT)
-        self.set_pin_mode(echo_pin, self.SONAR, self.INPUT)
-        # update the ping data map for this pin
-        if len(self._command_handler.active_sonar_map) > 6:
-            print "sonar_config: maximum number of devices assigned - ignoring request"
-            return
-        else:
-           self._data_lock.acquire(True)
-           self._command_handler.active_sonar_map[trigger_pin] = self.IGNORE
-           self._data_lock.release()
-
-        self._command_handler.send_sysex(self._command_handler.SONAR_CONFIG, data)
-
 
 
 

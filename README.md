@@ -1,6 +1,21 @@
 PyMata
 ======
 
+Version 1.54
+------------
+Support for monitoring up to 6 simultaneous HC-SR04 Ping Devices. This feature requires the supplied Arduino sketch
+called FirmataPlus.
+
+To compile FirmataPlus, the NewPing library needs to be installed: https://code.google.com/p/arduino-new-ping/
+
+After downloading, one of the library files needs modification to successfully compile:
+https://code.google.com/p/arduino-new-ping/wiki/HELP_Error_Vector_7_When_Compiling
+
+FirmataPlus requires the use of the Arduino IDE version 1.5.5 or newer.
+
+FirmataPlus removed support for rotary encoder, because the library was limited to the Uno. It is still
+available with the supplied NotSoStandardFirmata Arduino sketch.
+
 Version 1.53
 ------------
 Corrected digital write  to only affect one bit in the port register. Previously all bits were affected

@@ -526,6 +526,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="PyMata.pymata.PyMata-class.html#get_sonar_data" class="summary-sig-name">get_sonar_data</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Retrieve Ping (HC-SR04 type) data.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.get_sonar_data">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="PyMata.pymata.PyMata-class.html#i2c_config" class="summary-sig-name">i2c_config</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">read_delay_time</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">pin_type</span>=<span class="summary-sig-default">None</span>,
@@ -809,6 +826,26 @@
       
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="PyMata.pymata.PyMata-class.html#sonar_config" class="summary-sig-name">sonar_config</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">trigger_pin</span>,
+        <span class="summary-sig-arg">echo_pin</span>,
+        <span class="summary-sig-arg">ping_interval</span>=<span class="summary-sig-default">50</span>)</span><br />
+      Configure the pins, and ping interval for an HC-SR04 type device.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.sonar_config">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
 </table>
 <!-- ==================== CLASS VARIABLES ==================== -->
 <a name="section-ClassVariables"></a>
@@ -979,6 +1016,13 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="TONE"></a><span class="summary-name">TONE</span> = <code title="None">None</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="SONAR"></a><span class="summary-name">SONAR</span> = <code title="None">None</code>
     </td>
   </tr>
 <tr>
@@ -1630,6 +1674,30 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="get_sonar_data"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_sonar_data</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.get_sonar_data">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Retrieve Ping (HC-SR04 type) data. The data is presented as a 
+  dictionary. The 'key' is the trigger pin specified in sonar_config() and 
+  the 'data' is the current measured distance (in centimeters) for that 
+  pin. If there is no data, the value is set to IGNORE (127).</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>active_sonar_map</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="i2c_config"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2051,6 +2119,36 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="sonar_config"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sonar_config</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">trigger_pin</span>,
+        <span class="sig-arg">echo_pin</span>,
+        <span class="sig-arg">ping_interval</span>=<span class="sig-default">50</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.sonar_config">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Configure the pins, and ping interval for an HC-SR04 type device. 
+  Single pin configuration may be used. To do so, set both the trigger and 
+  echo pins to the same value. Up to a maximum of 6 SONAR devices is 
+  supported If the maximum is exceeded a message is sent to the console and
+  the request is ignored. NOTE: data is measured in centimeters :param 
+  trigger_pin: The pin number of for the trigger (transmitter). :param 
+  echo_pin: The pin number for the received echo. :param ping_interval: 
+  Minimum interval between pings. Lowest number to use is 33 ms.Max is 
+  127</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
 <br />
 <!-- ==================== CLASS VARIABLE DETAILS ==================== -->
 <a name="section-ClassVariableDetails"></a>
@@ -2115,7 +2213,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 19 13:21:42 2013
+    Generated by Epydoc 3.0.1 on Sun Dec 29 17:11:31 2013
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

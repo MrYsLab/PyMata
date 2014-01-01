@@ -1,7 +1,7 @@
 __author__ = 'Copyright (c) 2013 Alan Yorinks All rights reserved.'
 
 """
-Copyright (c) 2013-14 Alan Yorinks All rights reserved.
+Copyright (c) 2013 Alan Yorinks All rights reserved.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU  General Public
@@ -57,11 +57,9 @@ class PyMataCommandHandler(threading.Thread):
     # from this client
     ENCODER_CONFIG = 0x20  # create and enable encoder object
     TONE_PLAY = 0x5F  # play a tone at a specified frequency and duration
-    SONAR_CONFIG = 0x60 # configure pins to control a Ping type sonar distance device
 
     # messages from firmata
     ENCODER_DATA = 0x21 # current encoder position data
-    SONAR_DATA = 0x61 # distance data returned
 
     # standard Firmata sysex commands
 
@@ -97,13 +95,12 @@ class PyMataCommandHandler(threading.Thread):
     ONEWIRE = 0x07 # possible future feature
     STEPPER = 0x08 # possible future feature
     TONE = 0x09  # Any pin in TONE mode
-    ENCODER = 0x0a
-    SONAR = 0x0b # Any pin in SONAR mode
     IGNORE = 0x7f
 
     # the following pin modes are not part of or defined by Firmata
     # but used by PyFirmata
 
+    ENCODER = 0x10  # Analog pin output pin in ENCODER mode
     DIGITAL = 0x20
 
     # The response tables hold response information for all pins
@@ -197,9 +194,6 @@ class PyMataCommandHandler(threading.Thread):
 
     # map of i2c addresses and associated data that has been read for that address
     i2c_map = {}
-
-    # the active_sonar_map maps the sonar trigger pin number (the key) to the current data value returned
-    active_sonar_map = {}
 
     def __init__(self, transport, command_deque, data_lock):
         """
@@ -508,20 +502,6 @@ class PyMataCommandHandler(threading.Thread):
         self.digital_response_table[data[self.RESPONSE_TABLE_MODE]][self.RESPONSE_TABLE_PIN_DATA_VALUE] = val
         self.data_lock.release()
 
-    def sonar_data(self, data):
-        """
-        This method handles the incoming sonar data message and stores
-        the data in the response table.
-        @param data: Message data from Firmata
-        @return: No return value.
-        """
-        val = int((data[self.MSB] << 7) + data[self.LSB])
-        pin_number = data[0]
-        self.data_lock.acquire(True)
-        self.active_sonar_map[pin_number] = val
-        # also write it into the digital response table
-        self.digital_response_table[data[self.RESPONSE_TABLE_MODE]][self.RESPONSE_TABLE_PIN_DATA_VALUE] = val
-        self.data_lock.release()
 
     def get_analog_response_table(self):
         """
@@ -684,7 +664,6 @@ class PyMataCommandHandler(threading.Thread):
         self.command_dispatch.update({self.ANALOG_MESSAGE: [self.analog_message, 2]})
         self.command_dispatch.update({self.DIGITAL_MESSAGE: [self.digital_message, 2]})
         self.command_dispatch.update({self.ENCODER_DATA: [self.encoder_data, 3]})
-        self.command_dispatch.update({self.SONAR_DATA: [self.sonar_data, 3]})
         self.command_dispatch.update({self.STRING_DATA: [self._string_data, 2]})
         self.command_dispatch.update({self.I2C_REPLY: [self.i2c_reply, 2]})
         self.command_dispatch.update({self.CAPABILITY_RESPONSE: [self.capability_response, 2]})

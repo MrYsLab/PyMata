@@ -315,6 +315,25 @@ threading._Verbose --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="PyMata.pymata_command_handler.PyMataCommandHandler-class.html#sonar_data" class="summary-sig-name">sonar_data</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">data</span>)</span><br />
+      This method handles the incoming sonar data message and stores the 
+      data in the response table.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="PyMata.pymata_command_handler-pysrc.html#PyMataCommandHandler.sonar_data">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="PyMata.pymata_command_handler.PyMataCommandHandler-class.html#get_analog_response_table" class="summary-sig-name">get_analog_response_table</a>(<span class="summary-sig-arg">self</span>)</span><br />
       This method returns the entire analog response table to the caller</td>
           <td align="right" valign="top">
@@ -654,7 +673,21 @@ threading._Verbose --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="SONAR_CONFIG"></a><span class="summary-name">SONAR_CONFIG</span> = <code title="96">96</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="ENCODER_DATA"></a><span class="summary-name">ENCODER_DATA</span> = <code title="33">33</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="SONAR_DATA"></a><span class="summary-name">SONAR_DATA</span> = <code title="97">97</code>
     </td>
   </tr>
 <tr>
@@ -836,14 +869,21 @@ threading._Verbose --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="IGNORE"></a><span class="summary-name">IGNORE</span> = <code title="127">127</code>
+        <a name="ENCODER"></a><span class="summary-name">ENCODER</span> = <code title="10">10</code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="ENCODER"></a><span class="summary-name">ENCODER</span> = <code title="16">16</code>
+        <a name="SONAR"></a><span class="summary-name">SONAR</span> = <code title="11">11</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="IGNORE"></a><span class="summary-name">IGNORE</span> = <code title="127">127</code>
     </td>
   </tr>
 <tr>
@@ -1075,6 +1115,13 @@ threading._Verbose --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="i2c_map"></a><span class="summary-name">i2c_map</span> = <code title="{}"><code class="variable-group">{</code><code class="variable-group">}</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="active_sonar_map"></a><span class="summary-name">active_sonar_map</span> = <code title="{}"><code class="variable-group">{</code><code class="variable-group">}</code></code>
     </td>
   </tr>
 </table>
@@ -1441,6 +1488,33 @@ threading._Verbose --+
   </dl>
 </td></tr></table>
 </div>
+<a name="sonar_data"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sonar_data</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">data</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="PyMata.pymata_command_handler-pysrc.html#PyMataCommandHandler.sonar_data">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>This method handles the incoming sonar data message and stores the 
+  data in the response table.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>data</code></strong> - Message data from Firmata</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>No return value.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="get_analog_response_table"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1741,7 +1815,7 @@ threading._Verbose --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 19 13:21:42 2013
+    Generated by Epydoc 3.0.1 on Sun Dec 29 17:11:31 2013
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
