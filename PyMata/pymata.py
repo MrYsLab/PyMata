@@ -533,10 +533,10 @@ class PyMata:
         if tone_command == self.TONE_TONE:
             # duration is specified
             if duration:
-                data = [tone_command, pin, frequency & 0x7f, frequency >> 7, duration & 0x7f, frequency >> 7]
+                data = [tone_command, pin, frequency & 0x7f, frequency >> 7, duration & 0x7f, duration >> 7]
 
             else:
-                data = [tone_command, pin, frequency & 0x7f, frequency >> 7]
+                data = [tone_command, pin, frequency & 0x7f, frequency >> 7, 0, 0]
 
             self._command_handler.digital_response_table[pin][self._command_handler.RESPONSE_TABLE_MODE] = \
                 self.TONE

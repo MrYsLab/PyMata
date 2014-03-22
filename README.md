@@ -1,5 +1,9 @@
 PyMata
 ======
+Version 1.55
+------------
+This is a minor bug fix release that only affects Tone support. The duration field was not being populated
+correctly and is now working properly.
 
 Version 1.54
 ------------

@@ -50,9 +50,6 @@
 
 #define REGISTER_NOT_SPECIFIED -1
 
-#define ENCODER_NOT_PRESENT 0
-#define ENCODER_IS_PRESENT  1
-
 #define TONE_TONE 0
 #define TONE_NO_TONE 1
 
@@ -60,6 +57,11 @@
 #define SONAR_MAX_DISTANCE 200    // Maximum distance (in cm) to ping.  
 
 #define INTER_PING_INTERVAL 40 // 40 ms.
+
+// encoder configuration specifiers
+# define ENCODER_IRQ_ATTACH  0
+# define ENCODER_IRQ_DETACH 1
+# define ENCODER_COUNTER_CLEAR 2
 
 
 /*==============================================================================
@@ -116,6 +118,17 @@ uint8_t sonarEchoPin ;
 uint8_t currentSonar = 0;            // Keeps track of which sensor is active.        // array to hold up to 6 instances of sonar devices
 uint8_t pingInterval = 33 ;          // Milliseconds between sensor pings (29ms is about the min to avoid cross-sensor echo).
 byte sonarMSB, sonarLSB ;
+
+// encoder counter variables
+uint8_t encoderPin1 = IGNORE ;
+uint8_t encoderPin2 = IGNORE ;
+uint8_t encoderIRQ1 = IGNORE ;
+uint8_t encoderIRQ2 = IGNORE ;
+byte encoder1MSB, encoder1LSB ;
+byte encoder2MSB, encoder2LSB ;
+
+volatile int encoder1Counter = 0 ;
+volatile int encoder2Counter = 0 ;
 
 /*==============================================================================
  * FUNCTIONS
@@ -285,6 +298,8 @@ void setPinModeCallback(byte pin, int mode)
     case SONAR:
       pinConfig[pin] = SONAR ;
       break ;
+    case ENCODER:
+      pinConfig[pin] = ENCODER ;
     default:
       Firmata.sendString("Unknown pin mode"); // TODO: put error msgs in EEPROM
   }
@@ -379,7 +394,6 @@ void sysexCallback(byte command, byte argc, byte *argv)
   byte pin ;// used for tone
   int frequency ;
   int duration ;
-
 
   switch (command) {
     case I2C_REQUEST:
@@ -567,8 +581,66 @@ void sysexCallback(byte command, byte argc, byte *argv)
 
 
     case ENCODER_CONFIG:
-      printData("ENCODER NOT SUPPORTED IN THIS VERSION", 0) ;
-      break ;
+      byte  irq, epin ;
+
+      // get irq identifier
+      irq = argv[1] ;
+      // switch on encoder command
+      switch (argv[0])
+      {
+        case ENCODER_IRQ_ATTACH:
+          {
+            epin = argv[2] ;
+            // find first open encoder slot
+            if ( encoderPin1 == IGNORE )
+            {
+              encoderPin1 = epin ;
+              encoderIRQ1 = irq ;
+              encoder1Counter = 0 ;
+              attachInterrupt(irq, encoder1Count, CHANGE) ;
+            }
+            else if ( encoderPin2 == IGNORE )
+            {
+              encoderPin2 = epin ;
+              encoderIRQ2 = irq ;
+              encoder2Counter = 0 ;
+              attachInterrupt(irq, encoder2Count, CHANGE) ;
+            }
+            else
+              Firmata.sendString("Encoder_IRQ_Attach: all slots taken") ;
+            break ;
+          }
+        case ENCODER_IRQ_DETACH:
+          {
+            detachInterrupt( irq ) ;
+            if ( irq == encoderIRQ1)
+            {
+              encoderIRQ1 = IGNORE ;
+              encoderPin1 = IGNORE ;
+            }
+            if ( irq == encoderIRQ2)
+            {
+              encoderIRQ2 = IGNORE ;
+              encoderPin2 = IGNORE ;
+            }
+            else
+              Firmata.sendString("Encoder Detach: unknown pin or irq") ;
+            break ;
+
+          }
+        case ENCODER_COUNTER_CLEAR:
+          {
+            encoder1Counter = 0 ;
+            encoder2Counter = 0 ;
+            break ;
+          }
+        default:
+          Firmata.sendString("Unknown Encoder_Config command") ;
+          break ;
+      }
+
+
+      // break ;
 
     case TONE_DATA:
 
@@ -619,7 +691,6 @@ void sysexCallback(byte command, byte argc, byte *argv)
         setPinModeCallback(sonarEchoPin, SONAR);
         sonars[numActiveSonars] = new NewPing(sonarTriggerPin, sonarEchoPin, pingInterval) ;
         numActiveSonars++ ;
-        //printData("numActiveSonars", numActiveSonars) ;
       }
       else {
         Firmata.sendString("PING_CONFIG Error: Exceeded number of supported ping devices");
@@ -694,6 +765,20 @@ void systemResetCallback()
     }
   }
   numActiveSonars = 0 ;
+
+  // detach any interrupts that were attached
+  if ( encoderIRQ1 != IGNORE )
+    detachInterrupt(encoderIRQ1) ;
+  if ( encoderIRQ2 != IGNORE)
+    detachInterrupt(encoderIRQ1) ;
+
+  encoderPin1 = IGNORE ;
+  encoderPin2 = IGNORE ;
+  encoderIRQ1 = IGNORE ;
+  encoderIRQ2 = IGNORE ;
+
+  encoder1Counter = 0 ;
+  encoder2Counter = 0 ;
 
   // by default, do not report any analog inputs
   analogInputsToReport = 0;
@@ -790,24 +875,40 @@ void loop()
         Firmata.write(END_SYSEX);
       }
     }
+    if ( (encoderPin1 != IGNORE ) || (encoderPin2 != IGNORE))
+    {
+      encoder1LSB = encoder1Counter & 0x7f ;
+      encoder1MSB = encoder1Counter >> 7 & 0x7f ;
 
-  }
-  /* ANALOGREAD - do all analogReads() at the configured sampling interval */
-  for (pin = 0; pin < TOTAL_PINS; pin++) {
-    if (IS_PIN_ANALOG(pin) && pinConfig[pin] == ANALOG) {
-      analogPin = PIN_TO_ANALOG(pin);
-      if (analogInputsToReport & (1 << analogPin)) {
-        Firmata.sendAnalog(analogPin, analogRead(analogPin));
+      encoder2LSB = encoder2Counter & 0x7f ;
+      encoder2MSB = encoder2Counter >> 7 & 0x7f ;
+      Firmata.write(START_SYSEX) ;
+      Firmata.write(ENCODER_DATA) ;
+      Firmata.write(encoderPin1) ;
+      Firmata.write(encoder1LSB) ;
+      Firmata.write(encoder1MSB) ;
+      Firmata.write(encoderPin2) ;
+      Firmata.write(encoder2LSB) ;
+      Firmata.write(encoder2MSB) ;
+      Firmata.write(END_SYSEX);
+    }
+
+    /* ANALOGREAD - do all analogReads() at the configured sampling interval */
+    for (pin = 0; pin < TOTAL_PINS; pin++) {
+      if (IS_PIN_ANALOG(pin) && pinConfig[pin] == ANALOG) {
+        analogPin = PIN_TO_ANALOG(pin);
+        if (analogInputsToReport & (1 << analogPin)) {
+          Firmata.sendAnalog(analogPin, analogRead(analogPin));
+        }
+      }
+    }
+    // report i2c data for all device with read continuous mode enabled
+    if (queryIndex > -1) {
+      for (byte i = 0; i < queryIndex + 1; i++) {
+        readAndReportData(query[i].addr, query[i].reg, query[i].bytes);
       }
     }
   }
-  // report i2c data for all device with read continuous mode enabled
-  if (queryIndex > -1) {
-    for (byte i = 0; i < queryIndex + 1; i++) {
-      readAndReportData(query[i].addr, query[i].reg, query[i].bytes);
-    }
-  }
-
 }
 
 
@@ -820,5 +921,15 @@ void printData(char * id, unsigned long data)
   myString.toCharArray(myArray, 64) ;
   Firmata.sendString(id) ;
   Firmata.sendString(myArray);
+}
+
+void encoder1Count()
+{
+  encoder1Counter++ ;
+}
+
+void encoder2Count()
+{
+  encoder2Counter++ ;
 }
 
