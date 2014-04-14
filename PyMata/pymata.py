@@ -28,6 +28,7 @@ from pymata_command_handler import PyMataCommandHandler
 
 # For report data formats refer to http://firmata.org/wiki/Protocol
 
+
 class PyMata:
     """
     This class contains the complete set of API methods that permit control of an Arduino
@@ -65,9 +66,9 @@ class PyMata:
     I2C_STOP_READING = 0B00011000
     I2C_READ_WRITE_MODE_MASK = 0B00011000
 
-    # Tone commands
-    TONE_TONE = 0 # play a tone
-    TONE_NO_TONE = 1 # turn off tone
+    #  Tone commands
+    TONE_TONE = 0  # play a tone
+    TONE_NO_TONE = 1  # turn off tone
 
     # pin modes - these will map to the command handler values so as to have just one set of data
     INPUT = None
@@ -86,7 +87,6 @@ class PyMata:
     digital_output_port_pins = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
 
-
     #noinspection PyPep8Naming
     def __init__(self, port_id='/dev/ttyACM0'):
         """
@@ -96,6 +96,8 @@ class PyMata:
         """
         # Currently only serial communication over USB is supported, but in the future
         # wifi and other transport mechanism support is anticipated
+
+        print 'PyMata version 1.56  Copyright(C) 2013-14 Alan Yorinks    All rights reserved.'
 
         # Instantiate the serial support class
         self._arduino = PyMataSerial(port_id, self._command_deque)
@@ -265,8 +267,6 @@ class PyMata:
 
         self._command_handler.send_command(command)
 
-
-
     def disable_analog_reporting(self, pin):
         """
         Disables analog reporting for a single analog pin.
@@ -306,7 +306,6 @@ class PyMata:
         port = pin / 8
         command = [self._command_handler.REPORT_DIGITAL + port, self.REPORTING_ENABLE]
         self._command_handler.send_command(command)
-
 
     def encoder_config(self, pin_a, pin_b):
         """
@@ -394,7 +393,6 @@ class PyMata:
          """
         return self._command_handler.firmata_version
 
-
     def get_firmata_firmware_version(self):
         """
         Retrieve the firmware id information returned by a previous call to refresh_report_firmware()
@@ -422,7 +420,6 @@ class PyMata:
         """
         return [1, 5]
 
-
     # noinspection PyMethodMayBeStatic
     def get_sonar_data(self):
         """
@@ -434,7 +431,6 @@ class PyMata:
         @return: active_sonar_map
         """
         return self._command_handler.active_sonar_map
-
 
     def i2c_config(self, read_delay_time=0, pin_type=None, clk_pin=0, data_pin=0):
         """
@@ -505,7 +501,7 @@ class PyMata:
         @param address: i2c device address
         @return: raw data read from device
         """
-        if self._command_handler.i2c_map.has_key(address):
+        if address in self._command_handler.i2c_map:
             return self._command_handler.i2c_map[address]
 
     def pin_state_query(self, pin):
@@ -572,6 +568,10 @@ class PyMata:
             elif self._command_handler.digital_response_table[self._command_handler.RESPONSE_TABLE_MODE] \
                     == self.SERVO:
                 self.analog_write(pin, 0)
+            elif self._command_handler.digital_response_table[self._command_handler.RESPONSE_TABLE_MODE] \
+                    == self.TONE:
+                data = [self.TONE_NO_TONE, pin]
+                self._command_handler.send_sysex(self._command_handler.TONE_PLAY, data)
             else:
                 self.digital_write(pin, 0)
         self._command_handler.system_reset()
@@ -647,7 +647,6 @@ class PyMata:
         data = [interval & 0x7f, interval >> 7]
         self._command_handler.send_sysex(self._command_handler.SAMPLING_INTERVAL, data)
 
-
     def servo_config(self, pin, min_pulse=544, max_pulse=2400):
         """
         Configure a pin as a servo pin. Set pulse min, max in ms.
@@ -681,9 +680,9 @@ class PyMata:
             print "sonar_config: maximum number of devices assigned - ignoring request"
             return
         else:
-           self._data_lock.acquire(True)
-           self._command_handler.active_sonar_map[trigger_pin] = self.IGNORE
-           self._data_lock.release()
+            self._data_lock.acquire(True)
+            self._command_handler.active_sonar_map[trigger_pin] = self.IGNORE
+            self._data_lock.release()
 
         self._command_handler.send_sysex(self._command_handler.SONAR_CONFIG, data)
 

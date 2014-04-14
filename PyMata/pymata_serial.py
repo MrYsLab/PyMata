@@ -37,7 +37,6 @@ class PyMataSerial(threading.Thread):
     timeout = 1
     command_deque = None
 
-
     def __init__(self, port_id, command_deque):
         """
         Constructor:
@@ -50,7 +49,6 @@ class PyMataSerial(threading.Thread):
         self.daemon = True
         self.arduino = serial.Serial(self.port_id, self.baud_rate,
                                      timeout=int(self.timeout))
-
 
     def open(self):
         """

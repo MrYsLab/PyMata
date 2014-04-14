@@ -57,16 +57,16 @@ class PyMataCommandHandler(threading.Thread):
     # from this client
     ENCODER_CONFIG = 0x20  # create and enable encoder object
     TONE_PLAY = 0x5F  # play a tone at a specified frequency and duration
-    SONAR_CONFIG = 0x60 # configure pins to control a Ping type sonar distance device
+    SONAR_CONFIG = 0x60  # configure pins to control a Ping type sonar distance device
 
     # messages from firmata
-    ENCODER_DATA = 0x21 # current encoder position data
-    SONAR_DATA = 0x61 # distance data returned
+    ENCODER_DATA = 0x21  # current encoder position data
+    SONAR_DATA = 0x61  # distance data returned
 
     # standard Firmata sysex commands
 
-    SERVO_CONFIG = 0x70     # set servo pin and max and min angles
-    STRING_DATA = 0x71  #  a string message with 14-bits per char
+    SERVO_CONFIG = 0x70  # set servo pin and max and min angles
+    STRING_DATA = 0x71  # a string message with 14-bits per char
     I2C_REQUEST = 0x76  # send an I2C read/write request
     I2C_REPLY = 0x77    # a reply to an I2C read request
     I2C_CONFIG = 0x78   # config I2C settings such as delay times and power pins
@@ -81,24 +81,22 @@ class PyMataCommandHandler(threading.Thread):
     ANALOG_MAPPING_QUERY = 0x69  # ask for mapping of analog to pin numbers
     ANALOG_MAPPING_RESPONSE = 0x6A  # reply with analog mapping data
 
-
     # reserved values
     SYSEX_NON_REALTIME = 0x7E  # MIDI Reserved for non-realtime messages
     SYSEX_REALTIME = 0x7F  # MIDI Reserved for realtime messages
 
-
     # pin modes
-    INPUT = 0x00 # pin set as input
-    OUTPUT = 0x01 # pin set as output
+    INPUT = 0x00  # pin set as input
+    OUTPUT = 0x01  # pin set as output
     ANALOG = 0x02  # analog pin in analogInput mode
     PWM = 0x03  # digital pin in PWM output mode
     SERVO = 0x04  # digital pin in Servo output mode
     I2C = 0x06  # pin included in I2C setup
-    ONEWIRE = 0x07 # possible future feature
-    STEPPER = 0x08 # possible future feature
+    ONEWIRE = 0x07  # possible future feature
+    STEPPER = 0x08  # possible future feature
     TONE = 0x09  # Any pin in TONE mode
     ENCODER = 0x0a
-    SONAR = 0x0b # Any pin in SONAR mode
+    SONAR = 0x0b  # Any pin in SONAR mode
     IGNORE = 0x7f
 
     # the following pin modes are not part of or defined by Firmata
@@ -108,8 +106,6 @@ class PyMataCommandHandler(threading.Thread):
 
     # The response tables hold response information for all pins
     # Each table is a table of entries for each pin, which consists of the pin mode, and its last value from firmata
-
-
 
     # This is a table that stores analog pin modes and data
     # each entry represents ia mode (INPUT or OUTPUT), and its last current value
@@ -144,7 +140,6 @@ class PyMataCommandHandler(threading.Thread):
     DIGITAL_LATCHED_DATA = 2
     DIGITAL_TIME_STAMP = 3
 
-
     #latch states
     LATCH_IGNORE = 0  # this pin will be ignored for latching
     LATCH_ARMED = 1  # When the next pin value change is received for this pin, if it matches the latch criteria
@@ -158,7 +153,6 @@ class PyMataCommandHandler(threading.Thread):
     ANALOG_LATCH_LT = 3  # less than for analog
     ANALOG_LATCH_GTE = 4  # greater than or equal to for analog
     ANALOG_LATCH_LTE = 5  # less than or equal to for analog
-
 
     # These values are indexes into the response table entries
     RESPONSE_TABLE_MODE = 0
@@ -312,7 +306,6 @@ class PyMataCommandHandler(threading.Thread):
         self.digital_latch_table[pin] = [self.LATCH_ARMED, threshold_type, 0, 0]
         self.data_lock.release()
 
-
     def get_analog_latch_data(self, pin):
         """
         This method reads the analog latch table for the specified pin and returns a list that contains:
@@ -333,7 +326,6 @@ class PyMataCommandHandler(threading.Thread):
         self.data_lock.release()
         return current_latch_data
 
-
     def get_digital_latch_data(self, pin):
         """
         This method reads the digital latch table for the specified pin and returns a list that contains:
@@ -352,7 +344,6 @@ class PyMataCommandHandler(threading.Thread):
             self.digital_latch_table[pin] = [0, 0, 0, 0]
         self.data_lock.release()
         return current_latch_data
-
 
     def report_firmware(self, data):
         """
@@ -412,7 +403,7 @@ class PyMataCommandHandler(threading.Thread):
                     updated_latch_entry[self.ANALOG_TIME_STAMP] = time.time()
                     self.analog_latch_table[pin] = updated_latch_entry
                 else:
-                    pass # haven't hit target
+                    pass  # haven't hit target
             elif latching_entry[self.LATCHED_THRESHOLD_TYPE] == self.ANALOG_LATCH_GTE:
                 if value >= latching_entry[self.ANALOG_LATCH_DATA_TARGET]:
                     updated_latch_entry = latching_entry
@@ -422,7 +413,7 @@ class PyMataCommandHandler(threading.Thread):
                     updated_latch_entry[self.ANALOG_TIME_STAMP] = time.time()
                     self.analog_latch_table[pin] = updated_latch_entry
                 else:
-                    pass # haven't hit target:
+                    pass  # haven't hit target:
             elif latching_entry[self.LATCHED_THRESHOLD_TYPE] == self.ANALOG_LATCH_LT:
                 if value < latching_entry[self.ANALOG_LATCH_DATA_TARGET]:
                     updated_latch_entry = latching_entry
@@ -432,7 +423,7 @@ class PyMataCommandHandler(threading.Thread):
                     updated_latch_entry[self.ANALOG_TIME_STAMP] = time.time()
                     self.analog_latch_table[pin] = updated_latch_entry
                 else:
-                    pass # haven't hit target:
+                    pass  # haven't hit target:
             elif latching_entry[self.LATCHED_THRESHOLD_TYPE] == self.ANALOG_LATCH_LTE:
                 if value <= latching_entry[self.ANALOG_LATCH_DATA_TARGET]:
                     updated_latch_entry = latching_entry
@@ -442,7 +433,7 @@ class PyMataCommandHandler(threading.Thread):
                     updated_latch_entry[self.ANALOG_TIME_STAMP] = time.time()
                     self.analog_latch_table[pin] = updated_latch_entry
                 else:
-                    pass # haven't hit target:
+                    pass  # haven't hit target:
             else:
                 pass
         self.data_lock.release()
@@ -543,7 +534,6 @@ class PyMataCommandHandler(threading.Thread):
         self.data_lock.release()
         return data
 
-
     def send_sysex(self, sysex_command, sysex_data=None):
         """
         This method will send a Sysex command to Firmata with any accompanying data
@@ -610,9 +600,6 @@ class PyMataCommandHandler(threading.Thread):
 
         self.data_lock.release()
 
-        time.sleep(2)
-
-
     #noinspection PyMethodMayBeStatic
     # keeps pycharm happy
     def _string_data(self, data):
@@ -669,7 +656,6 @@ class PyMataCommandHandler(threading.Thread):
         """
         self.analog_mapping_query_results = data
 
-
     def run(self):
         """
         This method starts the thread that continuously runs to receive and interpret
@@ -677,7 +663,6 @@ class PyMataCommandHandler(threading.Thread):
 
         It also checks the deque for messages to be sent to Firmata.
         """
-
         # To add a command to the command dispatch table, append here.
         self.command_dispatch.update({self.REPORT_VERSION: [self.report_version, 2]})
         self.command_dispatch.update({self.REPORT_FIRMWARE: [self.report_firmware, 1]})
