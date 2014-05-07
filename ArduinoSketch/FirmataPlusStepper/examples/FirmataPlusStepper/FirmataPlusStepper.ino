@@ -15,7 +15,7 @@
  Copyright (C) 2010-2011 Paul Stoffregen.  All rights reserved.
  Copyright (C) 2009 Shigeru Kobayashi.  All rights reserved.
  Copyright (C) 2009-2011 Jeff Hoefs.  All rights reserved.
- Copyright (C) 2013 Alan Yorinks. All rights reserved.
+ Copyright (C) 2013-2014 Alan Yorinks. All rights reserved.
 
 
  This library is free software; you can redistribute it and/or
@@ -36,6 +36,7 @@
 #include <Wire.h>
 #include <Firmata.h>
 #include <NewPing.h>
+#include <Stepper.h>
 
 // move the following defines to Firmata.h?
 #define I2C_WRITE B00000000
@@ -50,18 +51,19 @@
 
 #define REGISTER_NOT_SPECIFIED -1
 
-#define TONE_TONE 0
-#define TONE_NO_TONE 1
-
 #define MAX_SONARS     6          // Maximum Number of sensors. - front, back, left, right, up, down
 #define SONAR_MAX_DISTANCE 200    // Maximum distance (in cm) to ping.  
 
 #define INTER_PING_INTERVAL 40 // 40 ms.
 
-// encoder configuration specifiers
-# define ENCODER_IRQ_ATTACH  0
-# define ENCODER_IRQ_DETACH 1
-# define ENCODER_COUNTER_CLEAR 2
+#define MAX_NUM_STEPPERS    4  // maximum number of stepper motors
+
+// SYSEX command sub specifiers
+#define TONE_TONE 0
+#define TONE_NO_TONE 1
+
+#define STEPPER_CONFIGURE 0
+#define STEPPER_STEP 1
 
 
 /*==============================================================================
@@ -100,6 +102,8 @@ boolean isI2CEnabled = false;
 signed char queryIndex = -1;
 unsigned int i2cReadDelayTime = 0;  // default delay time between i2c read request and Wire.requestFrom()
 
+
+// Servos
 Servo servos[MAX_SERVOS];
 
 // Ping variables
@@ -111,24 +115,24 @@ int numActiveSonars = 0 ; // number of sonars attached
 uint8_t sonarPinNumbers[MAX_SONARS] ;
 int nextSonar = 0 ; // index into sonars[] for next device
 
+// array to hold up to 6 instances of sonar devices
 NewPing *sonars[MAX_SONARS] ;
 
 uint8_t sonarTriggerPin;
 uint8_t sonarEchoPin ;
-uint8_t currentSonar = 0;            // Keeps track of which sensor is active.        // array to hold up to 6 instances of sonar devices
-uint8_t pingInterval = 33 ;          // Milliseconds between sensor pings (29ms is about the min to avoid cross-sensor echo).
+uint8_t currentSonar = 0;            // Keeps track of which sensor is active.        
+
+uint8_t pingInterval = 33 ;  // Milliseconds between sensor pings (29ms is about the min to avoid 
+                             // cross- sensor echo).
 byte sonarMSB, sonarLSB ;
 
-// encoder counter variables
-uint8_t encoderPin1 = IGNORE ;
-uint8_t encoderPin2 = IGNORE ;
-uint8_t encoderIRQ1 = IGNORE ;
-uint8_t encoderIRQ2 = IGNORE ;
-byte encoder1MSB, encoder1LSB ;
-byte encoder2MSB, encoder2LSB ;
 
-volatile int encoder1Counter = 0 ;
-volatile int encoder2Counter = 0 ;
+// Stepper Motor
+
+// Array of pointers to stepper motors
+Stepper *steppers[MAX_NUM_STEPPERS] ;
+
+
 
 /*==============================================================================
  * FUNCTIONS
@@ -298,10 +302,12 @@ void setPinModeCallback(byte pin, int mode)
     case SONAR:
       pinConfig[pin] = SONAR ;
       break ;
-    case ENCODER:
-      pinConfig[pin] = ENCODER ;
+    case STEPPER:
+      pinConfig[pin] = STEPPER ;
+      break ;
     default:
       Firmata.sendString("Unknown pin mode"); // TODO: put error msgs in EEPROM
+      break ;
   }
   // TODO: save status to EEPROM here, if changed
 }
@@ -580,70 +586,7 @@ void sysexCallback(byte command, byte argc, byte *argv)
       break;
 
 
-    case ENCODER_CONFIG:
-      byte  irq, epin ;
-
-      // get irq identifier
-      irq = argv[1] ;
-      // switch on encoder command
-      switch (argv[0])
-      {
-        case ENCODER_IRQ_ATTACH:
-          {
-            epin = argv[2] ;
-            // find first open encoder slot
-            if ( encoderPin1 == IGNORE )
-            {
-              encoderPin1 = epin ;
-              encoderIRQ1 = irq ;
-              encoder1Counter = 0 ;
-              attachInterrupt(irq, encoder1Count, CHANGE) ;
-            }
-            else if ( encoderPin2 == IGNORE )
-            {
-              encoderPin2 = epin ;
-              encoderIRQ2 = irq ;
-              encoder2Counter = 0 ;
-              attachInterrupt(irq, encoder2Count, CHANGE) ;
-            }
-            else
-              Firmata.sendString("Encoder_IRQ_Attach: all slots taken") ;
-            break ;
-          }
-        case ENCODER_IRQ_DETACH:
-          {
-            detachInterrupt( irq ) ;
-            if ( irq == encoderIRQ1)
-            {
-              encoderIRQ1 = IGNORE ;
-              encoderPin1 = IGNORE ;
-            }
-            if ( irq == encoderIRQ2)
-            {
-              encoderIRQ2 = IGNORE ;
-              encoderPin2 = IGNORE ;
-            }
-            else
-              Firmata.sendString("Encoder Detach: unknown pin or irq") ;
-            break ;
-
-          }
-        case ENCODER_COUNTER_CLEAR:
-          {
-            encoder1Counter = 0 ;
-            encoder2Counter = 0 ;
-            break ;
-          }
-        default:
-          Firmata.sendString("Unknown Encoder_Config command") ;
-          break ;
-      }
-
-
-      // break ;
-
     case TONE_DATA:
-
       byte toneCommand, pin;
       int frequency, duration;
 
@@ -664,8 +607,10 @@ void sysexCallback(byte command, byte argc, byte *argv)
       // arg0 = trigger pin
       // arg1 = echo pin
       // arg2 = ping interval in milliseconds if 0, then set to 33
-      // arg3 = measurment type SONAR_INCH or SONAR_CM
+      // arg3 = maxdistance lsb
+      // arg4 = maxdistance msb
     case SONAR_CONFIG :
+      int max_distance ;
       if ( numActiveSonars < MAX_SONARS)
       {
         sonarTriggerPin = argv[0] ;
@@ -677,24 +622,83 @@ void sysexCallback(byte command, byte argc, byte *argv)
         else {
           pingInterval = 33 ;
         }
-        /*
-                if ( argv[3] <= SONAR_INCH) {
-                  sonarMeasureType = argv[3] ;
-                }
-                else {
-                  sonarMeasureType = SONAR_INCH ;
-                }
-        */
+        max_distance = argv[3] + (argv[4] << 7 ) ;
         sonarPinNumbers[numActiveSonars] = sonarTriggerPin ;
 
         setPinModeCallback(sonarTriggerPin, SONAR);
         setPinModeCallback(sonarEchoPin, SONAR);
-        sonars[numActiveSonars] = new NewPing(sonarTriggerPin, sonarEchoPin, pingInterval) ;
+        sonars[numActiveSonars] = new NewPing(sonarTriggerPin, sonarEchoPin, max_distance) ;
         numActiveSonars++ ;
       }
       else {
         Firmata.sendString("PING_CONFIG Error: Exceeded number of supported ping devices");
       }
+      break ;
+
+    case STEPPER_DATA:
+      int motorID = -1 ;
+      // determine if this a STEPPER_CONFIGURE command or STEPPER_OPERATE command
+      if (argv[0] == STEPPER_CONFIGURE)
+      {
+        int motorID = argv[1] ;
+
+        if ( motorID < 0 || motorID > 3)
+        {
+          Firmata.sendString("STEPPER CONFIG Error: MOTOR ID is from 0-3");
+        }
+        if ( steppers[motorID] != NULL )
+        {
+          Firmata.sendString("STEPPER CONFIG Error: MOTOR ALREADY ASSIGNED");
+        }
+        else
+        {
+
+          int numSteps = argv[2] + (argv[3] << 7);
+          int pin1 = argv[4] ;
+          int pin2 = argv[5] ;
+          if ( argc == 6 )
+          {
+            // two pin motor
+            steppers[motorID] = new Stepper(numSteps, pin1, pin2) ;
+          }
+          else if (argc == 8 ) // 4 wire motor
+          {
+            int pin3 = argv[6] ;
+            int pin4 = argv[7] ;
+            steppers[motorID] =  new Stepper(numSteps, pin1, pin2, pin3, pin4) ;
+          }
+          else
+          {
+            Firmata.sendString("STEPPER CONFIG Error: Wrong Number of arguments");
+            printData("argc = ", argc) ;
+          }
+        }
+      }
+      else if ( argv[0] == STEPPER_STEP )
+      {
+        int motorID = argv[1] ;
+        long speed = (long)argv[2] | ((long)argv[3] << 7) | ((long)argv[4] << 14);
+        int numSteps = argv[5] + (argv[6] << 7);
+        int direction = argv[7] ;
+        if (steppers[motorID] != NULL )
+        {
+          steppers[motorID]->setSpeed(speed) ;
+          if (direction == 0 )
+          {
+            numSteps *= -1 ;
+          }
+          steppers[motorID]->step(numSteps) ;
+        }
+        else
+        {
+          Firmata.sendString("STEPPER OPERATE Error: MOTOR NOT CONFIGURED");
+        }
+      }
+      else
+      {
+        Firmata.sendString("STEPPER CONFIG Error: UNKNOWN STEPPER COMMAND");
+      }
+      break ;
   }
 }
 
@@ -766,22 +770,12 @@ void systemResetCallback()
   }
   numActiveSonars = 0 ;
 
-  // detach any interrupts that were attached
-  if ( encoderIRQ1 != IGNORE )
-    detachInterrupt(encoderIRQ1) ;
-  if ( encoderIRQ2 != IGNORE)
-    detachInterrupt(encoderIRQ1) ;
-
-  encoderPin1 = IGNORE ;
-  encoderPin2 = IGNORE ;
-  encoderIRQ1 = IGNORE ;
-  encoderIRQ2 = IGNORE ;
-
-  encoder1Counter = 0 ;
-  encoder2Counter = 0 ;
-
   // by default, do not report any analog inputs
   analogInputsToReport = 0;
+
+  // clear out array of steppers
+  for ( int i = 0 ; i < MAX_NUM_STEPPERS ; i++)
+    steppers[i] = NULL ;
 
   /* send digital inputs to set the initial state on the host computer,
    * since once in the loop(), this firmware will only send on change */
@@ -875,23 +869,7 @@ void loop()
         Firmata.write(END_SYSEX);
       }
     }
-    if ( (encoderPin1 != IGNORE ) || (encoderPin2 != IGNORE))
-    {
-      encoder1LSB = encoder1Counter & 0x7f ;
-      encoder1MSB = encoder1Counter >> 7 & 0x7f ;
 
-      encoder2LSB = encoder2Counter & 0x7f ;
-      encoder2MSB = encoder2Counter >> 7 & 0x7f ;
-      Firmata.write(START_SYSEX) ;
-      Firmata.write(ENCODER_DATA) ;
-      Firmata.write(encoderPin1) ;
-      Firmata.write(encoder1LSB) ;
-      Firmata.write(encoder1MSB) ;
-      Firmata.write(encoderPin2) ;
-      Firmata.write(encoder2LSB) ;
-      Firmata.write(encoder2MSB) ;
-      Firmata.write(END_SYSEX);
-    }
 
     /* ANALOGREAD - do all analogReads() at the configured sampling interval */
     for (pin = 0; pin < TOTAL_PINS; pin++) {
@@ -913,7 +891,7 @@ void loop()
 
 
 
-void printData(char * id, unsigned long data)
+void printData(char * id,  long data)
 {
   char myArray[64] ;
 
@@ -923,13 +901,5 @@ void printData(char * id, unsigned long data)
   Firmata.sendString(myArray);
 }
 
-void encoder1Count()
-{
-  encoder1Counter++ ;
-}
 
-void encoder2Count()
-{
-  encoder2Counter++ ;
-}
 

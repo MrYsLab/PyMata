@@ -47,11 +47,12 @@
 #define ENCODER_CONFIG          0x20 // create and enable encoder object
 #define ENCODER_DATA            0x21 // current encoder data
 #define TONE_DATA               0x5F // request a tone be played
-#define SONAR_CONFIG            0x60
-#define SONAR_DATA              0x61 // Data request for new ping (HC-SR04 sensor)
+#define SONAR_CONFIG            0x60 // configure a sonar distance sensor for operation
+#define SONAR_DATA              0x61 // Data returned from sonar distance sensor
+#define STEPPER_DATA            0x72 // stepper motor command
 
 
-/* standard commands */
+/* StandardFirmata commands */
 #define SERVO_CONFIG            0x70 // set max angle, minPulse, maxPulse, freq
 #define STRING_DATA             0x71 // a string message with 14-bits per char
 #define SHIFT_DATA              0x75 // a bitstream to/from a shift register

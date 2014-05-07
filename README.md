@@ -1,6 +1,11 @@
 PyMata
 ======
 
+Latest Version: 1.57 April 26, 2014
+-----------------------------------
+See Version History below for details.
+
+
 What is PyMata ?
 --------------
 
@@ -13,15 +18,17 @@ Fully commented example applications are provided to help accelerate your develo
 
 Before using PyMata, PySerial needs to be installed. PySerial installation instructions may be found at http://pyserial.sourceforge.net/.
 
-Two enhanced versions of the StandardFirmata sketch are included:
+Two enhanced versions of the Arduino StandardFirmata sketch are included:
 
-For support of the HC-SRO4 Sonar distance sensor, an Arduino sketch called FirmataPlus is included. This sketch adds Sonar and Tone support to the StandardFirmata command set.
+For support of stepper motors, the HC-SRO4 Sonar distance sensor, and Piezo devices, an Arduino sketch called FirmataPlusStepper is included.
+FirmataPlusStepper replaces the FirmataPlus and adds the stepper motor support.
 
 1. It requires the NewPing library available here: https://code.google.com/p/arduino-new-ping/
 
-   Please read the instructions on https://code.google.com/p/arduino-new-ping/wiki/HELP_Error_Vector_7_When_Compiling to make sure you do not have compilation errors with this library.
+   Please read the instructions on https://code.google.com/p/arduino-new-ping/wiki/HELP_Error_Vector_7_When_Compiling to make sure you do not have compilation errors when compiling this sketch.
 
-2. The "NotSoStandard" Firmata sketch supports the CodeShield on the UNO board. It adds tone generation and rotary encoder support functionality. NOTE: currently, rotary encoder support is not available for the Arduino Leonardo. To install the libraries in Arduino for rotary encoder support, please visit these links:
+
+2. The "NotSoStandard" Firmata sketch supports the CodeShield for the UNO board. It adds tone generation and rotary encoder support functionality. NOTE: currently, rotary encoder support is not available for the Arduino Leonardo. To install the libraries in Arduino for rotary encoder support, please visit these links:
 
 http://code.google.com/p/adaencoder/
 
@@ -43,7 +50,7 @@ pymata_software_data_latch - demo program that illustrates the use of the data l
 pymata_ping_config_and_read - a demo program for the Mega 2650 that configures and monitors 4 HC-SR04 modules while simultaneously controlling 8 leds. This program can be easily modified to work on a board with less pins.
 
 
-When Importing Standard PyMata, Use This Import Line
+Sample "import" statement when using PyMata
 ---------------------------
 from PyMata.pymata import PyMata
 
@@ -53,15 +60,33 @@ from PyMata.pymata import PyMata
 VERSION HISTORY
 ---------------
 
+Version 1.57 April 26, 2014
+------------
+This is a new feature and code improvement release.
+
+### New Features
+Stepper support was added both to PyMata and to FirmataPlus. FirmataPlus was renamed to FirmataPlusStepper.
+
+### Code Improvements
+1. "Pythonic" code improvements were made as suggested by Alan Broun of [Dawn Robotics](http://www.dawnrobotics.co.uk/):
+    * Obtaining and releasing of thread lock using the "with" statement.
+    * Improved thread cleanup.
+
+2. Added a maximum distance parameter to sonar_config() for more flexibility.
+
+
+
 Version 1.56 April 14, 2014
 ------------
 This is a bug fix release that affects the behavior of the reset command and provides some code cleanup.
 Items changed:
-    1. All digital pins that have been initialized for Tone are sent TONE_NO_TONE to make sure that all active sounds
-       are terminated upon receipt of a reset command. The TONE_NO_TONE is sent to the Arduino before the reset
-       command is sent.
+
+    1. When a reset is received, all digital pins that have been initialized for Tone are set to TONE_NO_TONE, 
+       to ensure that all active sounds are terminated.
+       
     2. A 2 second delay that was invoked at the end of reset processing was removed. This provides better support for
        s2a_fm ( https://github.com/MrYsLab/s2a_fm ).
+       
     3. White space was adjusted in all files and a deprecated has_key() was replaced with the "key in" construct.
 
 Version 1.55

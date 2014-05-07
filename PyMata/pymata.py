@@ -70,6 +70,10 @@ class PyMata:
     TONE_TONE = 0  # play a tone
     TONE_NO_TONE = 1  # turn off tone
 
+    # Stepper Motor Sub commands
+    STEPPER_CONFIGURE = 0
+    STEPPER_STEP = 1
+
     # pin modes - these will map to the command handler values so as to have just one set of data
     INPUT = None
     OUTPUT = None
@@ -82,6 +86,7 @@ class PyMata:
     IGNORE = None
     ENCODER = None
     DIGITAL = None
+    STEPPER = None
 
    # each byte represents a digital port and its value contains the current port settings
     digital_output_port_pins = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -90,14 +95,14 @@ class PyMata:
     #noinspection PyPep8Naming
     def __init__(self, port_id='/dev/ttyACM0'):
         """
-        The constructor instantiates the entire interface. It starts the operational threads for the serial
+        The "constructor" instantiates the entire interface. It starts the operational threads for the serial
         interface as well as for the command handler.
         @param port_id: Communications port specifier (COM3, /dev/ttyACM0, etc)
         """
         # Currently only serial communication over USB is supported, but in the future
         # wifi and other transport mechanism support is anticipated
 
-        print 'PyMata version 1.56  Copyright(C) 2013-14 Alan Yorinks    All rights reserved.'
+        print 'PyMata version 1.57  Copyright(C) 2013-14 Alan Yorinks    All rights reserved.'
 
         # Instantiate the serial support class
         self._arduino = PyMataSerial(port_id, self._command_deque)
@@ -127,6 +132,7 @@ class PyMata:
         self.ENCODER = self._command_handler.ENCODER
         self.DIGITAL = self._command_handler.DIGITAL
         self.SONAR = self._command_handler.SONAR
+        self.STEPPER = self._command_handler.STEPPER
 
         # Data latch state constants to be used when accessing data returned from get_latch_data methods.
         # The get_latch data methods return [pin_number, latch_state, latched_data, time_stamp]
@@ -173,9 +179,11 @@ class PyMata:
         if not self._command_handler.auto_discover_board():
             # board was not found so shutdown
             print "Board Auto Discovery Failed!, Shutting Down"
-            self._arduino.close()
+            self._command_handler.stop()
+            self._arduino.stop()
+            self._command_handler.join()
+            self._arduino.join()
             time.sleep(2)
-            sys.exit(0)
 
     def analog_mapping_query(self):
         """
@@ -190,9 +198,8 @@ class PyMata:
         @param pin: Selected pin
         @return: The last value entered into the analog response table.
         """
-        self._data_lock.acquire(True)
-        data = self._command_handler.analog_response_table[pin][self._command_handler.RESPONSE_TABLE_PIN_DATA_VALUE]
-        self._data_lock.release()
+        with self._data_lock:
+            data = self._command_handler.analog_response_table[pin][self._command_handler.RESPONSE_TABLE_PIN_DATA_VALUE]
         return data
 
     def analog_write(self, pin, value):
@@ -234,9 +241,9 @@ class PyMata:
         @param pin: Selected pin
         @return: The last value entered into the digital response table.
         """
-        self._data_lock.acquire(True)
-        data = self._command_handler.digital_response_table[pin][self._command_handler.RESPONSE_TABLE_PIN_DATA_VALUE]
-        self._data_lock.release()
+        with self._data_lock:
+            data = \
+                self._command_handler.digital_response_table[pin][self._command_handler.RESPONSE_TABLE_PIN_DATA_VALUE]
         return data
 
     def digital_write(self, pin, value):
@@ -656,23 +663,28 @@ class PyMata:
         @return: No return value
         """
         self.set_pin_mode(pin, self.SERVO, self.OUTPUT)
-        command = [self._command_handler.SERVO_CONFIG, pin, min_pulse & 0x7f, min_pulse >> 7, max_pulse & 0x7f,
+        command = [pin, min_pulse & 0x7f, min_pulse >> 7, max_pulse & 0x7f,
                    max_pulse >> 7]
 
-        self._command_handler.send_command(command)
+        self._command_handler.send_sysex(self._command_handler.SERVO_CONFIG, command)
 
-    def sonar_config(self, trigger_pin, echo_pin, ping_interval=50):
+    def sonar_config(self, trigger_pin, echo_pin, ping_interval=50, max_distance=200):
         """
-        Configure the pins, and ping interval for an HC-SR04 type device.
+        Configure the pins,ping interval and maximum distance for an HC-SR04 type device.
         Single pin configuration may be used. To do so, set both the trigger and echo pins to the same value.
         Up to a maximum of 6 SONAR devices is supported
         If the maximum is exceeded a message is sent to the console and the request is ignored.
         NOTE: data is measured in centimeters
-        :param trigger_pin: The pin number of for the trigger (transmitter).
-        :param echo_pin: The pin number for the received echo.
-        :param ping_interval: Minimum interval between pings. Lowest number to use is 33 ms.Max is 127
+        @param trigger_pin: The pin number of for the trigger (transmitter).
+        @param echo_pin: The pin number for the received echo.
+        @param ping_interval: Minimum interval between pings. Lowest number to use is 33 ms.Max is 127
+        @param max_distance: Maximum distance in cm. Max is 200.
         """
-        data = [trigger_pin, echo_pin, ping_interval]
+        if max_distance > 200:
+            max_distance = 200
+        max_distance_lsb = max_distance & 0x7f
+        max_distance_msb = max_distance >> 7
+        data = [trigger_pin, echo_pin, ping_interval, max_distance_lsb, max_distance_msb]
         self.set_pin_mode(trigger_pin, self.SONAR, self.INPUT)
         self.set_pin_mode(echo_pin, self.SONAR, self.INPUT)
         # update the ping data map for this pin
@@ -680,18 +692,35 @@ class PyMata:
             print "sonar_config: maximum number of devices assigned - ignoring request"
             return
         else:
-            self._data_lock.acquire(True)
-            self._command_handler.active_sonar_map[trigger_pin] = self.IGNORE
-            self._data_lock.release()
-
+            with self._data_lock:
+                self._command_handler.active_sonar_map[trigger_pin] = self.IGNORE
         self._command_handler.send_sysex(self._command_handler.SONAR_CONFIG, data)
 
+    def stepper_config(self, stepper_id, steps_per_revolution, stepper_pins, ):
 
+        """
+        Configure stepper motor prior to operation.
+        @param stepper_id: Up to 4 steppers are supported. Values 0-3
+        @param steps_per_revolution: number of steps per motor revolution
+        @param stepper_pins: a list of control pin numbers - either 4 or 2
+        """
+        data = [self.STEPPER_CONFIGURE, stepper_id, steps_per_revolution & 0x7f, steps_per_revolution >> 7]
+        for pin in range(len(stepper_pins)):
+            data.append(stepper_pins[pin])
+        self._command_handler.send_sysex(self._command_handler.STEPPER_DATA, data)
 
+    def stepper_step(self, stepper_id, motor_speed, number_of_steps):
+        """
+        @param stepper_id: Up to 4 steppers are supported. Values 0-3
+        @param motor_speed: 21 bits of data to set motor speed
+        @param number_of_steps: 14 bits for number of steps - positive is forward, negative is reverse
 
-
-
-
-
-
-
+        """
+        if number_of_steps > 0:
+            direction = 1
+        else:
+            direction = 0
+        abs_number_of_steps = abs(number_of_steps)
+        data = [self.STEPPER_STEP, stepper_id, motor_speed & 0x7f, (motor_speed >> 7) & 0x7f, motor_speed >> 14,
+                abs_number_of_steps & 0x7f, abs_number_of_steps >> 7, direction]
+        self._command_handler.send_sysex(self._command_handler.STEPPER_DATA, data)

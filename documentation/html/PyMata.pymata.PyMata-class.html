@@ -88,7 +88,7 @@
         <tr>
           <td><span class="summary-sig"><a href="PyMata.pymata.PyMata-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">port_id</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">/dev/ttyACM0</code><code class="variable-quote">'</code></span>)</span><br />
-      The constructor instantiates the entire interface.</td>
+      The &quot;constructor&quot; instantiates the entire interface.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.__init__">source&nbsp;code</a></span>
             
@@ -835,10 +835,51 @@
           <td><span class="summary-sig"><a href="PyMata.pymata.PyMata-class.html#sonar_config" class="summary-sig-name">sonar_config</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">trigger_pin</span>,
         <span class="summary-sig-arg">echo_pin</span>,
-        <span class="summary-sig-arg">ping_interval</span>=<span class="summary-sig-default">50</span>)</span><br />
-      Configure the pins, and ping interval for an HC-SR04 type device.</td>
+        <span class="summary-sig-arg">ping_interval</span>=<span class="summary-sig-default">50</span>,
+        <span class="summary-sig-arg">max_distance</span>=<span class="summary-sig-default">200</span>)</span><br />
+      Configure the pins,ping interval and maximum distance for an HC-SR04 
+      type device.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.sonar_config">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="PyMata.pymata.PyMata-class.html#stepper_config" class="summary-sig-name">stepper_config</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">stepper_id</span>,
+        <span class="summary-sig-arg">steps_per_revolution</span>,
+        <span class="summary-sig-arg">stepper_pins</span>)</span><br />
+      Configure stepper motor prior to operation.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.stepper_config">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="PyMata.pymata.PyMata-class.html#stepper_step" class="summary-sig-name">stepper_step</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">stepper_id</span>,
+        <span class="summary-sig-arg">motor_speed</span>,
+        <span class="summary-sig-arg">number_of_steps</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.stepper_step">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -973,6 +1014,20 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="STEPPER_CONFIGURE"></a><span class="summary-name">STEPPER_CONFIGURE</span> = <code title="0">0</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="STEPPER_STEP"></a><span class="summary-name">STEPPER_STEP</span> = <code title="1">1</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="INPUT"></a><span class="summary-name">INPUT</span> = <code title="None">None</code>
     </td>
   </tr>
@@ -1050,6 +1105,13 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="STEPPER"></a><span class="summary-name">STEPPER</span> = <code title="None">None</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="PyMata.pymata.PyMata-class.html#digital_output_port_pins" class="summary-name">digital_output_port_pins</a> = <code title="[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]"><code class="variable-group">[</code>0<code class="variable-op">, </code>0<code class="variable-op">, </code>0<code class="variable-op">, </code>0<code class="variable-op">, </code>0<code class="variable-op">, </code>0<code class="variable-op">, </code>0<code class="variable-op">, </code>0<code class="variable-op">, </code>0<code class="variable-op">, </code>0<code class="variable-op">, </code>0<code class="variable-op">, </code>0<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
@@ -1088,9 +1150,9 @@
     </td>
   </tr></table>
   
-  <p>The constructor instantiates the entire interface. It starts the 
-  operational threads for the serial interface as well as for the command 
-  handler.</p>
+  <p>The &quot;constructor&quot; instantiates the entire interface. It 
+  starts the operational threads for the serial interface as well as for 
+  the command handler.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -2129,23 +2191,86 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">sonar_config</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">trigger_pin</span>,
         <span class="sig-arg">echo_pin</span>,
-        <span class="sig-arg">ping_interval</span>=<span class="sig-default">50</span>)</span>
+        <span class="sig-arg">ping_interval</span>=<span class="sig-default">50</span>,
+        <span class="sig-arg">max_distance</span>=<span class="sig-default">200</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.sonar_config">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Configure the pins, and ping interval for an HC-SR04 type device. 
-  Single pin configuration may be used. To do so, set both the trigger and 
-  echo pins to the same value. Up to a maximum of 6 SONAR devices is 
-  supported If the maximum is exceeded a message is sent to the console and
-  the request is ignored. NOTE: data is measured in centimeters :param 
-  trigger_pin: The pin number of for the trigger (transmitter). :param 
-  echo_pin: The pin number for the received echo. :param ping_interval: 
-  Minimum interval between pings. Lowest number to use is 33 ms.Max is 
-  127</p>
+  <p>Configure the pins,ping interval and maximum distance for an HC-SR04 
+  type device. Single pin configuration may be used. To do so, set both the
+  trigger and echo pins to the same value. Up to a maximum of 6 SONAR 
+  devices is supported If the maximum is exceeded a message is sent to the 
+  console and the request is ignored. NOTE: data is measured in 
+  centimeters</p>
   <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>trigger_pin</code></strong> - The pin number of for the trigger (transmitter).</li>
+        <li><strong class="pname"><code>echo_pin</code></strong> - The pin number for the received echo.</li>
+        <li><strong class="pname"><code>ping_interval</code></strong> - Minimum interval between pings. Lowest number to use is 33 ms.Max
+          is 127</li>
+        <li><strong class="pname"><code>max_distance</code></strong> - Maximum distance in cm. Max is 200.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="stepper_config"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">stepper_config</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">stepper_id</span>,
+        <span class="sig-arg">steps_per_revolution</span>,
+        <span class="sig-arg">stepper_pins</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.stepper_config">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Configure stepper motor prior to operation.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>stepper_id</code></strong> - Up to 4 steppers are supported. Values 0-3</li>
+        <li><strong class="pname"><code>steps_per_revolution</code></strong> - number of steps per motor revolution</li>
+        <li><strong class="pname"><code>stepper_pins</code></strong> - a list of control pin numbers - either 4 or 2</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="stepper_step"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">stepper_step</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">stepper_id</span>,
+        <span class="sig-arg">motor_speed</span>,
+        <span class="sig-arg">number_of_steps</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.stepper_step">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>stepper_id</code></strong> - Up to 4 steppers are supported. Values 0-3</li>
+        <li><strong class="pname"><code>motor_speed</code></strong> - 21 bits of data to set motor speed</li>
+        <li><strong class="pname"><code>number_of_steps</code></strong> - 14 bits for number of steps - positive is forward, negative is 
+          reverse</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2213,7 +2338,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Dec 29 17:11:31 2013
+    Generated by Epydoc 3.0.1 on Sat Apr 26 19:23:09 2014
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
