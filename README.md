@@ -5,7 +5,7 @@ Latest Version: 1.57 May 25, 2014
 -----------------------------------
 See Version History below for details.
 
-Want to extend PyMata? See [Our Instructables Article](http://http://www.instructables.com/id/Going-Beyond-StandardFirmata-Adding-New-Device-Sup/)
+Want to extend PyMata? See [Our Instructables Article](http://www.instructables.com/id/Going-Beyond-StandardFirmata-Adding-New-Device-Sup/)
 
 What is PyMata ?
 --------------
