@@ -1,39 +1,33 @@
 PyMata
 ======
 
-Latest Version: 1.57 April 26, 2014
+Latest Version: 1.57 May 25, 2014
 -----------------------------------
 See Version History below for details.
 
+Want to extend PyMata? See [Our Instructables Article](documentation/Instructables -Adding-New-Device-Support.pdf)
 
 What is PyMata ?
 --------------
 
 Harness the raw power of Standard Firmata without having to master the complexities of Standard Firmata's communication protocol. The PyMata class library is an easy to use, high performance abstraction layer for Standard Firmata. A fully documented, straight forward API is provided so that you can quickly code your application.
 
-Epydoc generated API documentation is provided in html format. The source code is fully commented to help make extending PyMata a straight forward task.
+Epydoc generated API documentation is provided in html format. The source code is fully commented to help make extending PyMata a straight forward task. 
+
+Want to know how to extend PyMata, then read our Instructables article
 
 
 Fully commented example applications are provided to help accelerate your development efforts.
 
-Before using PyMata, PySerial needs to be installed. PySerial installation instructions may be found at http://pyserial.sourceforge.net/.
 
-Two enhanced versions of the Arduino StandardFirmata sketch are included:
+An illustrated installation guide is provided in the documentation directory.
 
-For support of stepper motors, the HC-SRO4 Sonar distance sensor, and Piezo devices, an Arduino sketch called FirmataPlusStepper is included.
-FirmataPlusStepper replaces the FirmataPlus and adds the stepper motor support.
+Also, in the documentation directory is a copy of our Instructable on how to extend PyMata.
 
-1. It requires the NewPing library available here: https://code.google.com/p/arduino-new-ping/
+An enhanced version of the Arduino StandardFirmata sketch called FirmataPlus is included.
 
-   Please read the instructions on https://code.google.com/p/arduino-new-ping/wiki/HELP_Error_Vector_7_When_Compiling to make sure you do not have compilation errors when compiling this sketch.
-
-
-2. The "NotSoStandard" Firmata sketch supports the CodeShield for the UNO board. It adds tone generation and rotary encoder support functionality. NOTE: currently, rotary encoder support is not available for the Arduino Leonardo. To install the libraries in Arduino for rotary encoder support, please visit these links:
-
-http://code.google.com/p/adaencoder/
-
-http://code.google.com/p/oopinchangeint/
-
+FirmataPlus support:  stepper motors, the HC-SRO4 Sonar distance sensor, and Piezo devices, and rotary encoders.
+All libraries to compile FirmataPlus are included (see the installation guide).
 
 
 Included Examples
@@ -60,12 +54,12 @@ from PyMata.pymata import PyMata
 VERSION HISTORY
 ---------------
 
-Version 1.57 April 26, 2014
+Version 1.57 May 25, 2014
 ------------
 This is a new feature and code improvement release.
 
 ### New Features
-Stepper support was added both to PyMata and to FirmataPlus. FirmataPlus was renamed to FirmataPlusStepper.
+Stepper support was added both to PyMata and to FirmataPlus. Rotary encoder support for UNO was added back in.
 
 ### Code Improvements
 1. "Pythonic" code improvements were made as suggested by Alan Broun of [Dawn Robotics](http://www.dawnrobotics.co.uk/):

@@ -1,4 +1,6 @@
-__author__ = 'Copyright (c) 2014 Alan Yorinks All rights reserved.'
+#!/usr/bin/python
+
+__author__ = 'Copyright (c) 2013 Alan Yorinks All rights reserved.'
 
 """
 Copyright (c) 2013 Alan Yorinks All rights reserved.
@@ -21,37 +23,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 This file demonstrates how to use some of the basic PyMata operations
 """
 
-
-from PyMata.pymata import PyMata
 import time
+from PyMata.pymata import PyMata
 
-# Create an instance of PyMata.
+
+# digital pin 13 is connected to an LED
+BOARD_LED = 13 
+
+#  Creat a PyMata instance using the Arduino COM Port as the input parameter
 firmata = PyMata("/dev/ttyACM0")
 
-# send the arduino a firmata reset
-firmata.reset()
+#  set digital pin 13 to be an output port
+firmata.set_pin_mode(BOARD_LED, firmata.OUTPUT, firmata.DIGITAL)
 
-# configure the stepper to use pins 9.10,11,12 and specify 512 steps per revolution
-firmata.stepper_config( 512, [12, 11, 10, 9])
+time.sleep(5)
+print "Blinking LED 13 10 times"
 
-# allow time for config to complete
-time.sleep(.5)
+#  blink for 10 times
+for x in range(10):
+    print x+1
+    firmata.digital_write(BOARD_LED, 1)
+    #  wait a half second between toggles.
+    time.sleep(.5)
+    firmata.digital_write(BOARD_LED, 0)
 
-# ask Arduino to return the stepper library version number to PyMata
-firmata.stepper_request_library_version()
-
-# allow time for command and reply to go across the serial link
-time.sleep(.5)
-
-print "Stepper Library Version",
-print firmata.get_stepper_version()
-
-# move motor #0 500 steps forward at a speed of 20
-firmata.stepper_step(20, 500)
-
-# move motor #0 500 steps reverse at a speed of 20
-firmata.stepper_step(20, -500)
-
-# close firmata
+# close PyMata when we are done
 firmata.close()
-

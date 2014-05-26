@@ -543,6 +543,25 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="PyMata.pymata.PyMata-class.html#get_stepper_version" class="summary-sig-name">get_stepper_version</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">timeout</span>=<span class="summary-sig-default">20</span>)</span><br />
+      Returns:
+      the stepper version number if it was set.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.get_stepper_version">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="PyMata.pymata.PyMata-class.html#i2c_config" class="summary-sig-name">i2c_config</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">read_delay_time</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">pin_type</span>=<span class="summary-sig-default">None</span>,
@@ -855,7 +874,6 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="PyMata.pymata.PyMata-class.html#stepper_config" class="summary-sig-name">stepper_config</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">stepper_id</span>,
         <span class="summary-sig-arg">steps_per_revolution</span>,
         <span class="summary-sig-arg">stepper_pins</span>)</span><br />
       Configure stepper motor prior to operation.</td>
@@ -875,11 +893,28 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="PyMata.pymata.PyMata-class.html#stepper_step" class="summary-sig-name">stepper_step</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">stepper_id</span>,
         <span class="summary-sig-arg">motor_speed</span>,
-        <span class="summary-sig-arg">number_of_steps</span>)</span></td>
+        <span class="summary-sig-arg">number_of_steps</span>)</span><br />
+      Move a stepper motor for the number of steps at the specified speed</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.stepper_step">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="PyMata.pymata.PyMata-class.html#stepper_request_library_version" class="summary-sig-name">stepper_request_library_version</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Request the stepper library version from the Arduino.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.stepper_request_library_version">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -933,11 +968,25 @@
         <a name="REPORTING_DISABLE"></a><span class="summary-name">REPORTING_DISABLE</span> = <code title="0">0</code>
     </td>
   </tr>
-<tr class="private">
+<tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="_command_deque"></a><span class="summary-name">_command_deque</span> = <code title="deque([])">deque([])</code>
+        <a name="command_deque"></a><span class="summary-name">command_deque</span> = <code title="deque([])">deque([])</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="arduino"></a><span class="summary-name">arduino</span> = <code title="None">None</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="data_lock"></a><span class="summary-name">data_lock</span> = <code title="threading.Lock()">threading.Lock()</code>
     </td>
   </tr>
 <tr class="private">
@@ -947,18 +996,95 @@
         <a name="_command_handler"></a><span class="summary-name">_command_handler</span> = <code title="None">None</code>
     </td>
   </tr>
-<tr class="private">
+<tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="_arduino"></a><span class="summary-name">_arduino</span> = <code title="None">None</code>
+        <a name="INPUT"></a><span class="summary-name">INPUT</span> = <code title="0">0</code>
     </td>
   </tr>
-<tr class="private">
+<tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="_data_lock"></a><span class="summary-name">_data_lock</span> = <code title="threading.Lock()">threading.Lock()</code>
+        <a name="OUTPUT"></a><span class="summary-name">OUTPUT</span> = <code title="1">1</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="ANALOG"></a><span class="summary-name">ANALOG</span> = <code title="2">2</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="PWM"></a><span class="summary-name">PWM</span> = <code title="3">3</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="SERVO"></a><span class="summary-name">SERVO</span> = <code title="4">4</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="I2C"></a><span class="summary-name">I2C</span> = <code title="6">6</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="ONEWIRE"></a><span class="summary-name">ONEWIRE</span> = <code title="7">7</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="STEPPER"></a><span class="summary-name">STEPPER</span> = <code title="8">8</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="TONE"></a><span class="summary-name">TONE</span> = <code title="9">9</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="ENCODER"></a><span class="summary-name">ENCODER</span> = <code title="10">10</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="SONAR"></a><span class="summary-name">SONAR</span> = <code title="11">11</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="IGNORE"></a><span class="summary-name">IGNORE</span> = <code title="127">127</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="DIGITAL"></a><span class="summary-name">DIGITAL</span> = <code title="32">32</code>
     </td>
   </tr>
 <tr>
@@ -1028,84 +1154,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="INPUT"></a><span class="summary-name">INPUT</span> = <code title="None">None</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="OUTPUT"></a><span class="summary-name">OUTPUT</span> = <code title="None">None</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="ANALOG"></a><span class="summary-name">ANALOG</span> = <code title="None">None</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="PWM"></a><span class="summary-name">PWM</span> = <code title="None">None</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="SERVO"></a><span class="summary-name">SERVO</span> = <code title="None">None</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="I2C"></a><span class="summary-name">I2C</span> = <code title="None">None</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="TONE"></a><span class="summary-name">TONE</span> = <code title="None">None</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="SONAR"></a><span class="summary-name">SONAR</span> = <code title="None">None</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="IGNORE"></a><span class="summary-name">IGNORE</span> = <code title="None">None</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="ENCODER"></a><span class="summary-name">ENCODER</span> = <code title="None">None</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="DIGITAL"></a><span class="summary-name">DIGITAL</span> = <code title="None">None</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="STEPPER"></a><span class="summary-name">STEPPER</span> = <code title="None">None</code>
+        <a name="STEPPER_LIBRARY_VERSION"></a><span class="summary-name">STEPPER_LIBRARY_VERSION</span> = <code title="2">2</code>
     </td>
   </tr>
 <tr>
@@ -1760,6 +1809,32 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="get_stepper_version"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_stepper_version</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">timeout</span>=<span class="sig-default">20</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.get_stepper_version">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>timeout</code></strong> - specify a time to allow arduino to process and return a version</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>the stepper version number if it was set.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="i2c_config"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2225,7 +2300,6 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">stepper_config</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">stepper_id</span>,
         <span class="sig-arg">steps_per_revolution</span>,
         <span class="sig-arg">stepper_pins</span>)</span>
   </h3>
@@ -2238,7 +2312,6 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>stepper_id</code></strong> - Up to 4 steppers are supported. Values 0-3</li>
         <li><strong class="pname"><code>steps_per_revolution</code></strong> - number of steps per motor revolution</li>
         <li><strong class="pname"><code>stepper_pins</code></strong> - a list of control pin numbers - either 4 or 2</li>
     </ul></dd>
@@ -2253,7 +2326,6 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">stepper_step</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">stepper_id</span>,
         <span class="sig-arg">motor_speed</span>,
         <span class="sig-arg">number_of_steps</span>)</span>
   </h3>
@@ -2262,15 +2334,35 @@
     </td>
   </tr></table>
   
-  
+  <p>Move a stepper motor for the number of steps at the specified 
+  speed</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>stepper_id</code></strong> - Up to 4 steppers are supported. Values 0-3</li>
         <li><strong class="pname"><code>motor_speed</code></strong> - 21 bits of data to set motor speed</li>
-        <li><strong class="pname"><code>number_of_steps</code></strong> - 14 bits for number of steps - positive is forward, negative is 
-          reverse</li>
+        <li><strong class="pname"><code>number_of_steps</code></strong> - 14 bits for number of steps &amp; direction positive is forward, 
+          negative is reverse</li>
     </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="stepper_request_library_version"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">stepper_request_library_version</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.stepper_request_library_version">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Request the stepper library version from the Arduino. To retrieve the 
+  version after this command is called, call get_stepper_version</p>
+  <dl class="fields">
   </dl>
 </td></tr></table>
 </div>
@@ -2338,7 +2430,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Apr 26 19:23:09 2014
+    Generated by Epydoc 3.0.1 on Sun May 25 14:23:15 2014
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -11,9 +11,9 @@ version 3 of the License, or (at your option) any later version.
 This library is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Lesser General Public License for more details.
+General Public License for more details.
 
-You should have received a copy of the GNU Lesser General Public
+You should have received a copy of the GNU General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 """
@@ -47,17 +47,35 @@ class PyMata:
 
     # Commands and data received from Firmata via the serial interface are placed into the command deque.
     # The pymata_command_handler class removes and processes this information.
-    _command_deque = deque()
+    command_deque = deque()
+
+    # This is the instance reference to the communications port object
+    arduino = None
+
+    # This is  a thread lock to assure data integrity when reading or writing to the data response tables
+    # (defined in the CommandHandler class). It shared by the pymata class and the pymata_command_handler class.
+    data_lock = threading.Lock()
 
     # This is the instance reference to the _command_handler
     _command_handler = None
 
-    # This is the instance reference to the communications port object
-    _arduino = None
+    # pin modes
+    INPUT = 0x00  # pin set as input
+    OUTPUT = 0x01  # pin set as output
+    ANALOG = 0x02  # analog pin in analogInput mode
+    PWM = 0x03  # digital pin in PWM output mode
+    SERVO = 0x04  # digital pin in Servo output mode
+    I2C = 0x06  # pin included in I2C setup
+    ONEWIRE = 0x07  # possible future feature
+    STEPPER = 0x08  # any pin in stepper mode
+    TONE = 0x09  # Any pin in TONE mode
+    ENCODER = 0x0a
+    SONAR = 0x0b  # Any pin in SONAR mode
+    IGNORE = 0x7f
 
-    # This is  a thread lock to assure data integrity when reading or writing to the data response tables
-    # (defined in the CommandHandler class). It shared by the pymata class and the pymata_command_handler class.
-    _data_lock = threading.Lock()
+    # the following pin modes are not part of or defined by Firmata
+    # but used by PyMata
+    DIGITAL = 0x20
 
     # I2C command operation modes
     I2C_WRITE = 0B00000000
@@ -70,23 +88,10 @@ class PyMata:
     TONE_TONE = 0  # play a tone
     TONE_NO_TONE = 1  # turn off tone
 
-    # Stepper Motor Sub commands
-    STEPPER_CONFIGURE = 0
-    STEPPER_STEP = 1
-
-    # pin modes - these will map to the command handler values so as to have just one set of data
-    INPUT = None
-    OUTPUT = None
-    ANALOG = None
-    PWM = None
-    SERVO = None
-    I2C = None
-    TONE = None
-    SONAR = None
-    IGNORE = None
-    ENCODER = None
-    DIGITAL = None
-    STEPPER = None
+    # Stepper Motor Sub-commands
+    STEPPER_CONFIGURE = 0  # configure a stepper motor for operation
+    STEPPER_STEP = 1  # command a motor to move at the provided speed
+    STEPPER_LIBRARY_VERSION = 2  # used to get stepper library version number
 
    # each byte represents a digital port and its value contains the current port settings
     digital_output_port_pins = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -105,34 +110,21 @@ class PyMata:
         print 'PyMata version 1.57  Copyright(C) 2013-14 Alan Yorinks    All rights reserved.'
 
         # Instantiate the serial support class
-        self._arduino = PyMataSerial(port_id, self._command_deque)
+        self.transport = PyMataSerial(port_id, self.command_deque)
 
         # Attempt opening communications with the Arduino micro-controller
-        self._arduino.open()
+        self.transport.open()
         time.sleep(1)
 
         # Start the data receive thread
-        self._arduino.start()
+        self.transport.start()
 
         # Instantiate the command handler
-        self._command_handler = PyMataCommandHandler(self._arduino, self._command_deque, self._data_lock)
+        self._command_handler = PyMataCommandHandler(self)
 
         ########################################################################
         # constants defined locally from values contained in the command handler
         ########################################################################
-
-        # pin modes
-        self.INPUT = self._command_handler.INPUT
-        self.OUTPUT = self._command_handler.OUTPUT
-        self.PWM = self._command_handler.PWM
-        self.SERVO = self._command_handler.SERVO
-        self.I2C = self._command_handler.I2C
-        self.TONE = self._command_handler.TONE
-        self.IGNORE = self._command_handler.IGNORE
-        self.ENCODER = self._command_handler.ENCODER
-        self.DIGITAL = self._command_handler.DIGITAL
-        self.SONAR = self._command_handler.SONAR
-        self.STEPPER = self._command_handler.STEPPER
 
         # Data latch state constants to be used when accessing data returned from get_latch_data methods.
         # The get_latch data methods return [pin_number, latch_state, latched_data, time_stamp]
@@ -180,9 +172,9 @@ class PyMata:
             # board was not found so shutdown
             print "Board Auto Discovery Failed!, Shutting Down"
             self._command_handler.stop()
-            self._arduino.stop()
+            self.transport.stop()
             self._command_handler.join()
-            self._arduino.join()
+            self.transport.join()
             time.sleep(2)
 
     def analog_mapping_query(self):
@@ -198,7 +190,7 @@ class PyMata:
         @param pin: Selected pin
         @return: The last value entered into the analog response table.
         """
-        with self._data_lock:
+        with self.data_lock:
             data = self._command_handler.analog_response_table[pin][self._command_handler.RESPONSE_TABLE_PIN_DATA_VALUE]
         return data
 
@@ -230,7 +222,7 @@ class PyMata:
         This method will close the transport (serial port) and exit
         @return: No return value, but sys.exit(0) is called.
         """
-        self._arduino.close()
+        self.transport.close()
         print "PyMata close(): Calling sys.exit(0): Hope to see you soon!"
         sys.exit(0)
 
@@ -241,7 +233,7 @@ class PyMata:
         @param pin: Selected pin
         @return: The last value entered into the digital response table.
         """
-        with self._data_lock:
+        with self.data_lock:
             data = \
                 self._command_handler.digital_response_table[pin][self._command_handler.RESPONSE_TABLE_PIN_DATA_VALUE]
         return data
@@ -425,7 +417,7 @@ class PyMata:
 
         @return:
         """
-        return [1, 5]
+        return [1, 57]
 
     # noinspection PyMethodMayBeStatic
     def get_sonar_data(self):
@@ -438,6 +430,25 @@ class PyMata:
         @return: active_sonar_map
         """
         return self._command_handler.active_sonar_map
+
+    def get_stepper_version(self, timeout=20):
+        """
+        @param timeout: specify a time to allow arduino to process and return a version
+        @return: the stepper version number if it was set.
+        """
+        # get current time
+        start_time = time.time()
+
+        # wait for up to 20 seconds for a successful capability query to occur
+
+        while self._command_handler.stepper_library_version <= 0:
+            if time.time() - start_time > timeout:
+                print "Stepper Library Version Request timed-out. " \
+                      "Did you send a stepper_request_library_version command?"
+                return
+            else:
+                pass
+        return self._command_handler.stepper_library_version
 
     def i2c_config(self, read_delay_time=0, pin_type=None, clk_pin=0, data_pin=0):
         """
@@ -553,7 +564,8 @@ class PyMata:
         This method will query firmata for the report version.
         Retrieve the report version via a call to get_firmata_version()
         """
-        self._command_handler.send_sysex(self._command_handler.REPORT_VERSION, None)
+        command = [self._command_handler.REPORT_VERSION]
+        self._command_handler.send_command(command)
 
     def refresh_report_firmware(self):
         """
@@ -692,35 +704,42 @@ class PyMata:
             print "sonar_config: maximum number of devices assigned - ignoring request"
             return
         else:
-            with self._data_lock:
+            with self.data_lock:
                 self._command_handler.active_sonar_map[trigger_pin] = self.IGNORE
         self._command_handler.send_sysex(self._command_handler.SONAR_CONFIG, data)
 
-    def stepper_config(self, stepper_id, steps_per_revolution, stepper_pins, ):
-
+    def stepper_config(self, steps_per_revolution, stepper_pins):
         """
         Configure stepper motor prior to operation.
-        @param stepper_id: Up to 4 steppers are supported. Values 0-3
         @param steps_per_revolution: number of steps per motor revolution
         @param stepper_pins: a list of control pin numbers - either 4 or 2
         """
-        data = [self.STEPPER_CONFIGURE, stepper_id, steps_per_revolution & 0x7f, steps_per_revolution >> 7]
+        data = [self.STEPPER_CONFIGURE,  steps_per_revolution & 0x7f, steps_per_revolution >> 7]
         for pin in range(len(stepper_pins)):
             data.append(stepper_pins[pin])
         self._command_handler.send_sysex(self._command_handler.STEPPER_DATA, data)
 
-    def stepper_step(self, stepper_id, motor_speed, number_of_steps):
+    def stepper_step(self, motor_speed, number_of_steps):
         """
-        @param stepper_id: Up to 4 steppers are supported. Values 0-3
+        Move a stepper motor for the number of steps at the specified speed
         @param motor_speed: 21 bits of data to set motor speed
-        @param number_of_steps: 14 bits for number of steps - positive is forward, negative is reverse
-
+        @param number_of_steps: 14 bits for number of steps & direction
+                                positive is forward, negative is reverse
         """
         if number_of_steps > 0:
             direction = 1
         else:
             direction = 0
         abs_number_of_steps = abs(number_of_steps)
-        data = [self.STEPPER_STEP, stepper_id, motor_speed & 0x7f, (motor_speed >> 7) & 0x7f, motor_speed >> 14,
+        data = [self.STEPPER_STEP, motor_speed & 0x7f, (motor_speed >> 7) & 0x7f, motor_speed >> 14,
                 abs_number_of_steps & 0x7f, abs_number_of_steps >> 7, direction]
+        self._command_handler.send_sysex(self._command_handler.STEPPER_DATA, data)
+
+    def stepper_request_library_version(self):
+        """
+        Request the stepper library version from the Arduino.
+        To retrieve the version after this command is called, call
+        get_stepper_version
+        """
+        data = [self.STEPPER_LIBRARY_VERSION]
         self._command_handler.send_sysex(self._command_handler.STEPPER_DATA, data)

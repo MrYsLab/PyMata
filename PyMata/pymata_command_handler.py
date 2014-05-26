@@ -11,9 +11,9 @@ version 3 of the License, or (at your option) any later version.
 This library is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Lesser General Public License for more details.
+General Public License for more details.
 
-You should have received a copy of the GNU Lesser General Public
+You should have received a copy of the GNU General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 """
@@ -54,16 +54,13 @@ class PyMataCommandHandler(threading.Thread):
     REPORT_VERSION = 0xF9  # report protocol version
 
     # user defined SYSEX commands
-    # from this client
     ENCODER_CONFIG = 0x20  # create and enable encoder object
     TONE_PLAY = 0x5F  # play a tone at a specified frequency and duration
     SONAR_CONFIG = 0x60  # configure pins to control a Ping type sonar distance device
 
-    # messages from firmata
     ENCODER_DATA = 0x21  # current encoder position data
     SONAR_DATA = 0x61  # distance data returned
 
-    # Firmata sysex commands
     SERVO_CONFIG = 0x70  # set servo pin and max and min angles
     STRING_DATA = 0x71  # a string message with 14-bits per char
     STEPPER_DATA = 0x72  # Stepper motor command
@@ -84,25 +81,6 @@ class PyMataCommandHandler(threading.Thread):
     # reserved values
     SYSEX_NON_REALTIME = 0x7E  # MIDI Reserved for non-realtime messages
     SYSEX_REALTIME = 0x7F  # MIDI Reserved for realtime messages
-
-    # pin modes
-    INPUT = 0x00  # pin set as input
-    OUTPUT = 0x01  # pin set as output
-    ANALOG = 0x02  # analog pin in analogInput mode
-    PWM = 0x03  # digital pin in PWM output mode
-    SERVO = 0x04  # digital pin in Servo output mode
-    I2C = 0x06  # pin included in I2C setup
-    ONEWIRE = 0x07  # possible future feature
-    STEPPER = 0x08  # any pin in stepper mode
-    TONE = 0x09  # Any pin in TONE mode
-    ENCODER = 0x0a
-    SONAR = 0x0b  # Any pin in SONAR mode
-    IGNORE = 0x7f
-
-    # the following pin modes are not part of or defined by Firmata
-    # but used by PyFirmata
-
-    DIGITAL = 0x20
 
     # The response tables hold response information for all pins
     # Each table is a table of entries for each pin, which consists of the pin mode, and its last value from firmata
@@ -195,13 +173,17 @@ class PyMataCommandHandler(threading.Thread):
     # the active_sonar_map maps the sonar trigger pin number (the key) to the current data value returned
     active_sonar_map = {}
 
-    def __init__(self, transport, command_deque, data_lock):
+    # the stepper library version number.
+    stepper_library_version = 0
+
+    def __init__(self, pymata):
         """
         constructor for CommandHandler class
-        @param transport: A reference to the communications port designator.
-        @param command_deque:  A reference to a command deque.
-        @param data_lock: A reference to a thread lock.
+        @param pymata: A reference to the pymata instance.
         """
+
+        # reference pointer to pymata
+        self.pymata = pymata
 
         # this list contains the results of the last pin query
         self.last_pin_query_results = []
@@ -211,10 +193,6 @@ class PyMataCommandHandler(threading.Thread):
 
         # this stores the results of an analog mapping query
         self.analog_mapping_query_results = []
-
-        self.data_lock = data_lock
-        self.transport = transport
-        self.command_deque = command_deque
 
         self.total_pins_discovered = 0
 
@@ -254,7 +232,7 @@ class PyMataCommandHandler(threading.Thread):
         for pin in self.analog_mapping_query_results:
             self.total_pins_discovered += 1
             # non analog pins will be marked as IGNORE
-            if pin != self.IGNORE:
+            if pin != self.pymata.IGNORE:
                 self.number_of_analog_pins_discovered += 1
 
         print 'Total Number of Pins Detected = %d' % self.total_pins_discovered
@@ -263,11 +241,11 @@ class PyMataCommandHandler(threading.Thread):
         # response table initialization
         # for each pin set the mode to input and the last read data value to zero
         for pin in range(0, self.total_pins_discovered):
-            response_entry = [self.INPUT, 0]
+            response_entry = [self.pymata.INPUT, 0]
             self.digital_response_table.append(response_entry)
 
         for pin in range(0, self.number_of_analog_pins_discovered):
-            response_entry = [self.INPUT, 0]
+            response_entry = [self.pymata.INPUT, 0]
             self.analog_response_table.append(response_entry)
 
         # set up latching tables
@@ -300,7 +278,7 @@ class PyMataCommandHandler(threading.Thread):
         @param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE
         @param threshold_value: numerical value
         """
-        with self.data_lock:
+        with self.pymata.data_lock:
             self.analog_latch_table[pin] = [self.LATCH_ARMED, threshold_type, threshold_value, 0, 0]
 
     def set_digital_latch(self, pin, threshold_type):
@@ -309,7 +287,7 @@ class PyMataCommandHandler(threading.Thread):
         @param pin: digital pin number
         @param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW
         """
-        with self.data_lock:
+        with self.pymata.data_lock:
             self.digital_latch_table[pin] = [self.LATCH_ARMED, threshold_type, 0, 0]
 
     def get_analog_latch_data(self, pin):
@@ -320,7 +298,7 @@ class PyMataCommandHandler(threading.Thread):
         @param pin:  pin number
         @return: [latch_state, latched_data, and time_stamp]
         """
-        with self.data_lock:
+        with self.pymata.data_lock:
             pin_data = self.analog_latch_table[pin]
             current_latch_data = [pin,
                                   pin_data[self.LATCH_STATE],
@@ -339,7 +317,7 @@ class PyMataCommandHandler(threading.Thread):
         @param pin:  pin number
         @return: [latch_state, latched_data, and time_stamp]
         """
-        with self.data_lock:
+        with self.pymata.data_lock:
             pin_data = self.digital_latch_table[pin]
             current_latch_data = [pin,
                                   pin_data[self.LATCH_STATE],
@@ -384,7 +362,7 @@ class PyMataCommandHandler(threading.Thread):
         @param data: Message data from Firmata
         @return: No return value.
         """
-        with self.data_lock:
+        with self.pymata.data_lock:
             # convert MSB and LSB into an integer
             self.analog_response_table[data[self.RESPONSE_TABLE_MODE]][self.RESPONSE_TABLE_PIN_DATA_VALUE] \
                 = (data[self.MSB] << 7) + data[self.LSB]
@@ -456,7 +434,7 @@ class PyMataCommandHandler(threading.Thread):
         pin = port * 8
         for pin in range(pin, pin + 8):
             # shift through all the bit positions and set the digital response table
-            with self.data_lock:
+            with self.pymata.data_lock:
                 self.digital_response_table[pin][self.RESPONSE_TABLE_PIN_DATA_VALUE] = port_data & 0x01
                 # determine if the latch data table needs to be updated for each pin
                 latching_entry = self.digital_latch_table[pin]
@@ -496,7 +474,7 @@ class PyMataCommandHandler(threading.Thread):
         # set value so that it shows positive and negative values
         if val > 8192:
             val -= 16384
-        with self.data_lock:
+        with self.pymata.data_lock:
             self.digital_response_table[data[self.RESPONSE_TABLE_MODE]][self.RESPONSE_TABLE_PIN_DATA_VALUE] = val
 
     def sonar_data(self, data):
@@ -508,7 +486,7 @@ class PyMataCommandHandler(threading.Thread):
         """
         val = int((data[self.MSB] << 7) + data[self.LSB])
         pin_number = data[0]
-        with self.data_lock:
+        with self.pymata.data_lock:
             self.active_sonar_map[pin_number] = val
             # also write it into the digital response table
             self.digital_response_table[data[self.RESPONSE_TABLE_MODE]][self.RESPONSE_TABLE_PIN_DATA_VALUE] = val
@@ -518,7 +496,7 @@ class PyMataCommandHandler(threading.Thread):
         This method returns the entire analog response table to the caller
         @return: The analog response table.
         """
-        with self.data_lock:
+        with self.pymata.data_lock:
             data = self.analog_response_table
         return data
 
@@ -527,7 +505,7 @@ class PyMataCommandHandler(threading.Thread):
         This method returns the entire digital response table to the caller
         @return: The digital response table.
         """
-        with self.data_lock:
+        with self.pymata.data_lock:
             data = self.digital_response_table
         return data
 
@@ -551,7 +529,7 @@ class PyMataCommandHandler(threading.Thread):
         sysex_message += chr(self.END_SYSEX)
 
         for data in sysex_message:
-            self.transport.write(data)
+            self.pymata.transport.write(data)
 
     def send_command(self, command):
         """
@@ -564,7 +542,7 @@ class PyMataCommandHandler(threading.Thread):
             send_message += chr(i)
 
         for data in send_message:
-            self.transport.write(data)
+            self.pymata.transport.write(data)
 
     def system_reset(self):
         """
@@ -573,11 +551,11 @@ class PyMataCommandHandler(threading.Thread):
         @return: No return value
         """
         data = chr(self.SYSTEM_RESET)
-        self.transport.write(data)
+        self.pymata.transport.write(data)
 
         # response table re-initialization
         # for each pin set the mode to input and the last read data value to zero
-        with self.data_lock:
+        with self.pymata.data_lock:
             # remove all old entries from existing tables
             for _ in range(len(self.digital_response_table)):
                 self.digital_response_table.pop()
@@ -587,11 +565,11 @@ class PyMataCommandHandler(threading.Thread):
 
             # reinitialize tables
             for pin in range(0, self.total_pins_discovered):
-                response_entry = [self.INPUT, 0]
+                response_entry = [self.pymata.INPUT, 0]
                 self.digital_response_table.append(response_entry)
 
             for pin in range(0, self.number_of_analog_pins_discovered):
-                response_entry = [self.INPUT, 0]
+                response_entry = [self.pymata.INPUT, 0]
                 self.analog_response_table.append(response_entry)
 
     #noinspection PyMethodMayBeStatic
@@ -650,11 +628,16 @@ class PyMataCommandHandler(threading.Thread):
         """
         self.analog_mapping_query_results = data
 
+    def stepper_version_response(self, data):
+        """
+        This method handles a stepper library version message sent from the Arduino
+        """
+        self.stepper_library_version = (data[0] & 0x7f) + (data[1] << 7)
+
     def run(self):
         """
         This method starts the thread that continuously runs to receive and interpret
         messages coming from Firmata. This must be the last method in this file
-
         It also checks the deque for messages to be sent to Firmata.
         """
         # To add a command to the command dispatch table, append here.
@@ -669,11 +652,12 @@ class PyMataCommandHandler(threading.Thread):
         self.command_dispatch.update({self.CAPABILITY_RESPONSE: [self.capability_response, 2]})
         self.command_dispatch.update({self.PIN_STATE_RESPONSE: [self.pin_state_response, 2]})
         self.command_dispatch.update({self.ANALOG_MAPPING_RESPONSE: [self.analog_mapping_response, 2]})
+        self.command_dispatch.update({self.STEPPER_DATA: [self.stepper_version_response, 2]})
 
         while not self.is_stopped():
-            if len(self.command_deque):
+            if len(self.pymata.command_deque):
                 # get next byte from the deque and process it
-                data = self.command_deque.popleft()
+                data = self.pymata.command_deque.popleft()
 
                 # this list will be populated with the received data for the command
                 command_data = []
@@ -682,9 +666,9 @@ class PyMataCommandHandler(threading.Thread):
                 if data == self.START_SYSEX:
                     # next char is the actual sysex command
                     # wait until we can get data from the deque
-                    while len(self.command_deque) == 0:
+                    while len(self.pymata.command_deque) == 0:
                         pass
-                    sysex_command = self.command_deque.popleft()
+                    sysex_command = self.pymata.command_deque.popleft()
                     # retrieve the associated command_dispatch entry for this command
                     dispatch_entry = self.command_dispatch.get(sysex_command)
 
@@ -695,9 +679,9 @@ class PyMataCommandHandler(threading.Thread):
                     end_of_sysex = False
                     while not end_of_sysex:
                         # wait for more data to arrive
-                        while len(self.command_deque) == 0:
+                        while len(self.pymata.command_deque) == 0:
                             pass
-                        data = self.command_deque.popleft()
+                        data = self.pymata.command_deque.popleft()
                         if data != self.END_SYSEX:
                             command_data.append(data)
                         else:
@@ -737,9 +721,9 @@ class PyMataCommandHandler(threading.Thread):
                     #look at the number of args that the selected method requires
                     # now get that number of bytes to pass to the called method
                     for i in range(num_args):
-                        while len(self.command_deque) == 0:
+                        while len(self.pymata.command_deque) == 0:
                             pass
-                        data = self.command_deque.popleft()
+                        data = self.pymata.command_deque.popleft()
                         command_data.append(data)
                         #go execute the command with the argument list
                     method(command_data)
