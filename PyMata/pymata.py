@@ -107,14 +107,19 @@ class PyMata:
         # Currently only serial communication over USB is supported, but in the future
         # wifi and other transport mechanism support is anticipated
 
-        print 'PyMata version 1.57  Copyright(C) 2013-14 Alan Yorinks    All rights reserved.'
+        print 'PyMata version 1.58  Copyright(C) 2013-14 Alan Yorinks    All rights reserved.'
 
         # Instantiate the serial support class
         self.transport = PyMataSerial(port_id, self.command_deque)
 
+        # wait for HC-06 Bluetooth slave to initialize in case it is being used.
+        time.sleep(5)
+
         # Attempt opening communications with the Arduino micro-controller
         self.transport.open()
-        time.sleep(1)
+
+        # additional wait for HC-06 if it is being used
+        time.sleep(2)
 
         # Start the data receive thread
         self.transport.start()

@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 import threading
 import serial
+import time
 
 
 class PyMataSerial(threading.Thread):
@@ -49,6 +50,7 @@ class PyMataSerial(threading.Thread):
         self.daemon = True
         self.arduino = serial.Serial(self.port_id, self.baud_rate,
                                      timeout=int(self.timeout))
+        #self.arduino.writeTimeout = 2
                                      
         self.stop_event = threading.Event()
 
@@ -71,7 +73,9 @@ class PyMataSerial(threading.Thread):
             # in case the port is already open, let's close it and then
             #reopen it
             self.arduino.close()
+            time.sleep(1)
             self.arduino.open()
+            time.sleep(1)
             return self.arduino
 
         except Exception:

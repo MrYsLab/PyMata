@@ -1,7 +1,7 @@
 PyMata
 ======
 
-Latest Version: 1.57 May 25, 2014
+Latest Version: 1.58 June 17, 2014
 -----------------------------------
 See Version History below for details.
 
@@ -53,6 +53,15 @@ from PyMata.pymata import PyMata
 
 VERSION HISTORY
 ---------------
+
+Version 1.58 Jun 17, 2014
+-------------------------
+Added some additional wait times to allow serial open to connect to an HC-06 BlueTooth module.
+
+NOTE: BlueTooth Support On Leonardo requires the FirmataPlusLBT Arduino Sketch to be loaded on the Leonardo.
+      USB Serial Support On Leonardo requires either FirmataPlus or Standard Firmata.
+      All other boards should use FirmataPlus for both USB Serial and BlueTooth.
+
 
 Version 1.57 May 25, 2014
 ------------
