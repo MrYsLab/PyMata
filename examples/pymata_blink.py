@@ -46,6 +46,7 @@ for x in range(10):
     #  wait a half second between toggles.
     time.sleep(.5)
     firmata.digital_write(BOARD_LED, 0)
+    time.sleep(.5)
 
 # close PyMata when we are done
 firmata.close()
