@@ -1,3 +1,5 @@
+PyMata 2.0 is a work in progress. Do not use this repo at this time, since it is likely to frequently change and the code may be temporarily broken
+
 PyMata
 ======
 
