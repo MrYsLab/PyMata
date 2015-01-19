@@ -1,7 +1,7 @@
 __author__ = 'Copyright (c) 2013 Alan Yorinks All rights reserved.'
 
 """
-Copyright (c) 2013-14 Alan Yorinks All rights reserved.
+Copyright (c) 2013-15 Alan Yorinks All rights reserved.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU  General Public
@@ -23,8 +23,10 @@ import threading
 import sys
 import time
 
-from pymata_serial import PyMataSerial
-from pymata_command_handler import PyMataCommandHandler
+
+
+from .pymata_serial import PyMataSerial
+from .pymata_command_handler import PyMataCommandHandler
 
 # For report data formats refer to http://firmata.org/wiki/Protocol
 
@@ -72,6 +74,7 @@ class PyMata:
     ENCODER = 0x0a
     SONAR = 0x0b  # Any pin in SONAR mode
     IGNORE = 0x7f
+    LATCH_MODE = 0xE0 # this value is or'ed with pin modes for latched data callback
 
     # the following pin modes are not part of or defined by Firmata
     # but used by PyMata
@@ -98,28 +101,36 @@ class PyMata:
                                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
 
     #noinspection PyPep8Naming
-    def __init__(self, port_id='/dev/ttyACM0'):
+    def __init__(self, port_id='/dev/ttyACM0', bluetooth = True):
         """
         The "constructor" instantiates the entire interface. It starts the operational threads for the serial
         interface as well as for the command handler.
         @param port_id: Communications port specifier (COM3, /dev/ttyACM0, etc)
+        @param bluetooth: Sets start up delays for bluetooth connectivity. Set to False for faster start up.
         """
         # Currently only serial communication over USB is supported, but in the future
         # wifi and other transport mechanism support is anticipated
 
-        print 'PyMata version 1.58  Copyright(C) 2013-14 Alan Yorinks    All rights reserved.'
+        print("\nPython Version %s" % sys.version)
+        print('\nPyMata version 2.01    Copyright(C) 2013-15 Alan Yorinks    All rights reserved.')
+
 
         # Instantiate the serial support class
         self.transport = PyMataSerial(port_id, self.command_deque)
 
         # wait for HC-06 Bluetooth slave to initialize in case it is being used.
-        time.sleep(5)
+        if bluetooth:
+            time.sleep(5)
 
         # Attempt opening communications with the Arduino micro-controller
         self.transport.open()
 
         # additional wait for HC-06 if it is being used
-        time.sleep(2)
+        if bluetooth:
+            time.sleep(2)
+        else:
+            # necessary to support Arduino Mega
+            time.sleep(1)
 
         # Start the data receive thread
         self.transport.start()
@@ -169,13 +180,13 @@ class PyMata:
         # Command handler should now be prepared to receive replies from the Arduino, so go ahead
         # detect the Arduino board
 
-        print 'Please wait while Arduino is being detected. This can take up to 30 seconds ...'
+        print('Please wait while Arduino is being detected. This can take up to 30 seconds ...')
 
         # perform board auto discovery
 
         if not self._command_handler.auto_discover_board():
             # board was not found so shutdown
-            print "Board Auto Discovery Failed!, Shutting Down"
+            print("Board Auto Discovery Failed!, Shutting Down")
             self._command_handler.stop()
             self.transport.stop()
             self._command_handler.join()
@@ -227,8 +238,10 @@ class PyMata:
         This method will close the transport (serial port) and exit
         @return: No return value, but sys.exit(0) is called.
         """
+        self._command_handler.stop()
+        self.transport.stop()
         self.transport.close()
-        print "PyMata close(): Calling sys.exit(0): Hope to see you soon!"
+        print("PyMata close(): Calling sys.exit(0): Hope to see you soon!")
         sys.exit(0)
 
     def digital_read(self, pin):
@@ -254,7 +267,7 @@ class PyMata:
         # pin's port number
         #
         #
-        port = pin / 8
+        port = pin // 8
 
         calculated_command = self._command_handler.DIGITAL_MESSAGE + port
         mask = 1 << (pin % 8)
@@ -287,7 +300,7 @@ class PyMata:
         @param pin: Pin and all pins for this port
         @return: No return value
         """
-        port = pin / 8
+        port = pin // 8
         command = [self._command_handler.REPORT_DIGITAL + port, self.REPORTING_DISABLE]
         self._command_handler.send_command(command)
 
@@ -307,26 +320,36 @@ class PyMata:
         @param pin: Pin and all pins for this port
         @return: No return value
         """
-        port = pin / 8
+        port = pin // 8
         command = [self._command_handler.REPORT_DIGITAL + port, self.REPORTING_ENABLE]
         self._command_handler.send_command(command)
 
-    def encoder_config(self, pin_a, pin_b):
+    def encoder_config(self, pin_a, pin_b, cb = None):
         """
         This command enables the rotary encoder (2 pin + ground) and will
         enable encoder reporting.
 
         NOTE: This command is not currently part of standard arduino firmata, but is provided for legacy
         support of CodeShield on an Arduino UNO.
+
+        Encoder data is retrieved by performing a digital_read from pin a (encoder pin 1)
+
         @param pin_a: Encoder pin 1.
         @param pin_b: Encoder pin 2.
+        @param cb: callback function to report encoder changes
         @return: No return value
         """
         data = [pin_a, pin_b]
         self._command_handler.digital_response_table[pin_a][self._command_handler.RESPONSE_TABLE_MODE] \
             = self.ENCODER
+        self._command_handler.digital_response_table[pin_a][self._command_handler.RESPONSE_TABLE_CALLBACK] = cb
+        self.enable_digital_reporting(pin_a)
+
         self._command_handler.digital_response_table[pin_b][self._command_handler.RESPONSE_TABLE_MODE] \
             = self.ENCODER
+        self._command_handler.digital_response_table[pin_b][self._command_handler.RESPONSE_TABLE_CALLBACK] = cb
+        self.enable_digital_reporting(pin_b)
+
         self._command_handler.send_sysex(self._command_handler.ENCODER_CONFIG, data)
 
     def extended_analog(self, pin, data):
@@ -448,8 +471,8 @@ class PyMata:
 
         while self._command_handler.stepper_library_version <= 0:
             if time.time() - start_time > timeout:
-                print "Stepper Library Version Request timed-out. " \
-                      "Did you send a stepper_request_library_version command?"
+                print("Stepper Library Version Request timed-out. " \
+                      "Did you send a stepper_request_library_version command?")
                 return
             else:
                 pass
@@ -486,18 +509,25 @@ class PyMata:
                 self._command_handler.analog_response_table[data_pin][self._command_handler.RESPONSE_TABLE_MODE] \
                     = self.I2C
 
-    def i2c_read(self, address, register, number_of_bytes, read_type):
+    def i2c_read(self, address, register, number_of_bytes, read_type, cb = None):
         """
         This method requests the read of an i2c device. Results are retrieved by a call to
-        i2c_get_read_data()
+        i2c_get_read_data().
+        If a callback method is provided, when data is received from the device it will be sent to the callback method
         @param address: i2c device address
         @param register: register number (can be set to zero)
         @param number_of_bytes: number of bytes expected to be returned
         @param read_type: I2C_READ  or I2C_READ_CONTINUOUSLY
+        @param cb: Optional callback function to report i2c data as result of read command
         """
         data = [address, read_type, register & 0x7f, register >> 7,
                 number_of_bytes & 0x7f, number_of_bytes >> 7]
+
+        # add or update entry in i2c_map for reply
+        self._command_handler.i2c_map[address] = [cb, None]
+
         self._command_handler.send_sysex(self._command_handler.I2C_REQUEST, data)
+
 
     def i2c_write(self, address, *args):
         """
@@ -518,14 +548,15 @@ class PyMata:
         data = [address, self.I2C_STOP_READING]
         self._command_handler.send_sysex(self._command_handler.I2C_REQUEST, data)
 
-    def i2c_get_read_data(self, address):
+    def i2c_get_read_data(self, address ):
         """
         This method retrieves the i2c read data as the result of an i2c_read() command.
         @param address: i2c device address
         @return: raw data read from device
         """
         if address in self._command_handler.i2c_map:
-            return self._command_handler.i2c_map[address]
+            map_entry = self._command_handler.i2c_map[address]
+            return map_entry[1]
 
     def pin_state_query(self, pin):
         """
@@ -600,42 +631,49 @@ class PyMata:
                 self.digital_write(pin, 0)
         self._command_handler.system_reset()
 
-    def set_analog_latch(self, pin, threshold_type, threshold_value):
+    def set_analog_latch(self, pin, threshold_type, threshold_value, cb = None):
         """
         This method "arms" an analog pin for its data to be latched and saved in the latching table
+        If a callback method is provided, when latching criteria is achieved, the callback function is called
+        with latching data notification. In that case, the latching table is not updated.
         @param pin: Analog pin number (value following an 'A' designator, i.e. A5 = 5
         @param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE
         @param threshold_value: numerical value - between 0 and 1023
+        @param cb: callback method
         @return: True if successful, False if parameter data is invalid
         """
         if self.ANALOG_LATCH_GT <= threshold_type <= self.ANALOG_LATCH_LTE:
             if 0 <= threshold_value <= 1023:
-                self._command_handler.set_analog_latch(pin, threshold_type, threshold_value)
+                self._command_handler.set_analog_latch(pin, threshold_type, threshold_value, cb)
                 return True
         else:
             return False
 
-    def set_digital_latch(self, pin, threshold_type):
+    def set_digital_latch(self, pin, threshold_type, cb = None):
         """
         This method "arms" a digital pin for its data to be latched and saved in the latching table
+        If a callback method is provided, when latching criteria is achieved, the callback function is called
+        with latching data notification. In that case, the latching table is not updated.
         @param pin: Digital pin number
         @param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW
+        @param cb: callback function
         @return: True if successful, False if parameter data is invalid
         """
         if 0 <= threshold_type <= 1:
-            self._command_handler.set_digital_latch(pin, threshold_type)
+            self._command_handler.set_digital_latch(pin, threshold_type, cb)
             return True
         else:
             return False
 
-    def set_pin_mode(self, pin, mode, pin_type):
+    def set_pin_mode(self, pin, mode, pin_type, cb=None):
         """
         This method sets a pin to the desired pin mode for the pin_type.
         It automatically enables data reporting.
         NOTE: DO NOT CALL THIS METHOD FOR I2C. See i2c_config().
         @param pin: Pin number (for analog use the analog number, for example A4: use 4)
-        @param mode: INPUT, OUTPUT, PWM, SERVO, ENCODER or TONE
+        @param mode: INPUT, OUTPUT, PWM
         @param pin_type: ANALOG or DIGITAL
+        @param cb: This is an optional callback function to report data changes to the user
         @return: No return value
         """
         command = [self._command_handler.SET_PIN_MODE, pin, mode]
@@ -648,16 +686,20 @@ class PyMata:
 
                 self._command_handler.analog_response_table[pin][self._command_handler.RESPONSE_TABLE_MODE] = \
                     self.INPUT
+                self._command_handler.analog_response_table[pin][self._command_handler.RESPONSE_TABLE_CALLBACK] = cb
                 self.enable_analog_reporting(pin)
             # if not analog it has to be digital
             else:
                 self._command_handler.digital_response_table[pin][self._command_handler.RESPONSE_TABLE_MODE] = \
                     self.INPUT
+                self._command_handler.digital_response_table[pin][self._command_handler.RESPONSE_TABLE_CALLBACK] = cb
+
                 self.enable_digital_reporting(pin)
 
         else:  # must be output - so set the tables accordingly
             if pin_type == self.ANALOG:
                 self._command_handler.analog_response_table[pin][self._command_handler.RESPONSE_TABLE_MODE] = mode
+
             else:
                 self._command_handler.digital_response_table[pin][self._command_handler.RESPONSE_TABLE_MODE] = mode
 
@@ -685,7 +727,7 @@ class PyMata:
 
         self._command_handler.send_sysex(self._command_handler.SERVO_CONFIG, command)
 
-    def sonar_config(self, trigger_pin, echo_pin, ping_interval=50, max_distance=200):
+    def sonar_config(self, trigger_pin, echo_pin, cb = None,  ping_interval=50, max_distance=200 ):
         """
         Configure the pins,ping interval and maximum distance for an HC-SR04 type device.
         Single pin configuration may be used. To do so, set both the trigger and echo pins to the same value.
@@ -696,6 +738,7 @@ class PyMata:
         @param echo_pin: The pin number for the received echo.
         @param ping_interval: Minimum interval between pings. Lowest number to use is 33 ms.Max is 127
         @param max_distance: Maximum distance in cm. Max is 200.
+        @param cb: optional callback function to report sonar data changes
         """
         if max_distance > 200:
             max_distance = 200
@@ -706,11 +749,12 @@ class PyMata:
         self.set_pin_mode(echo_pin, self.SONAR, self.INPUT)
         # update the ping data map for this pin
         if len(self._command_handler.active_sonar_map) > 6:
-            print "sonar_config: maximum number of devices assigned - ignoring request"
+            print("sonar_config: maximum number of devices assigned - ignoring request")
             return
         else:
             with self.data_lock:
-                self._command_handler.active_sonar_map[trigger_pin] = self.IGNORE
+                #self._command_handler.active_sonar_map[trigger_pin] = self.IGNORE
+                self._command_handler.active_sonar_map[trigger_pin] = [cb,[self.IGNORE]]
         self._command_handler.send_sysex(self._command_handler.SONAR_CONFIG, data)
 
     def stepper_config(self, steps_per_revolution, stepper_pins):

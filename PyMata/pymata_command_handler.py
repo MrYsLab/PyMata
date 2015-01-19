@@ -1,7 +1,7 @@
 __author__ = 'Copyright (c) 2013 Alan Yorinks All rights reserved.'
 
 """
-Copyright (c) 2013-14 Alan Yorinks All rights reserved.
+Copyright (c) 2013-15 Alan Yorinks All rights reserved.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU  General Public
@@ -114,9 +114,11 @@ class PyMataCommandHandler(threading.Thread):
     ANALOG_LATCH_DATA_TARGET = 2
     ANALOG_LATCHED_DATA = 3
     ANALOG_TIME_STAMP = 4
+    ANALOG_LATCH_CALLBACK = 5
 
     DIGITAL_LATCHED_DATA = 2
     DIGITAL_TIME_STAMP = 3
+    DIGITAL_LATCH_CALLBACK = 4
 
     #latch states
     LATCH_IGNORE = 0  # this pin will be ignored for latching
@@ -135,6 +137,7 @@ class PyMataCommandHandler(threading.Thread):
     # These values are indexes into the response table entries
     RESPONSE_TABLE_MODE = 0
     RESPONSE_TABLE_PIN_DATA_VALUE = 1
+    RESPONSE_TABLE_CALLBACK = 2
 
     # These values are the index into the data passed by _arduino and used to reassemble integer values
     MSB = 2
@@ -167,10 +170,17 @@ class PyMataCommandHandler(threading.Thread):
     # total number of analog pins for the discovered board
     number_of_analog_pins_discovered = 0
 
-    # map of i2c addresses and associated data that has been read for that address
+    # The i2c_map will contain keys of i2c device addresses, and an associated list.
+    # The associated list will contain 2 elements:
+    #   1. A callback reference. This reference will be set to None if no callback was registered.
+    #   2. Data returned from a an i2c read request.
+
     i2c_map = {}
 
     # the active_sonar_map maps the sonar trigger pin number (the key) to the current data value returned
+    # if a callback was specified, it is stored in the map as well.
+    # an entry in the map consists of:
+    #   pin: [callback,[current_data_returned]]
     active_sonar_map = {}
 
     # the stepper library version number.
@@ -226,8 +236,8 @@ class PyMataCommandHandler(threading.Thread):
                 # keep sending out a capability query until there is a response
             self.send_sysex(self.ANALOG_MAPPING_QUERY, None)
             time.sleep(.1)
-
-        print "Board initialized in %d seconds" % (time.time() - start_time)
+            #time.sleep(3)
+        print("Board initialized in %d seconds" % (time.time() - start_time))
 
         for pin in self.analog_mapping_query_results:
             self.total_pins_discovered += 1
@@ -235,26 +245,26 @@ class PyMataCommandHandler(threading.Thread):
             if pin != self.pymata.IGNORE:
                 self.number_of_analog_pins_discovered += 1
 
-        print 'Total Number of Pins Detected = %d' % self.total_pins_discovered
-        print 'Total Number of Analog Pins Detected = %d' % self.number_of_analog_pins_discovered
+        print('Total Number of Pins Detected = %d' % self.total_pins_discovered)
+        print('Total Number of Analog Pins Detected = %d' % self.number_of_analog_pins_discovered)
 
         # response table initialization
         # for each pin set the mode to input and the last read data value to zero
         for pin in range(0, self.total_pins_discovered):
-            response_entry = [self.pymata.INPUT, 0]
+            response_entry = [self.pymata.INPUT, 0, None]
             self.digital_response_table.append(response_entry)
 
         for pin in range(0, self.number_of_analog_pins_discovered):
-            response_entry = [self.pymata.INPUT, 0]
+            response_entry = [self.pymata.INPUT, 0, None]
             self.analog_response_table.append(response_entry)
 
         # set up latching tables
         for pin in range(0, self.total_pins_discovered):
-            digital_latch_table_entry = [0, 0, 0, 0]
+            digital_latch_table_entry = [0, 0, 0, 0, None]
             self.digital_latch_table.append(digital_latch_table_entry)
 
         for pin in range(0, self.number_of_analog_pins_discovered):
-            analog_latch_table_entry = [0, 0, 0, 0, 0]
+            analog_latch_table_entry = [0, 0, 0, 0, 0, None]
             self.analog_latch_table.append(analog_latch_table_entry)
 
         return True
@@ -271,24 +281,26 @@ class PyMataCommandHandler(threading.Thread):
         self.firmata_version.append(data[0])  # add major
         self.firmata_version.append(data[1])  # add minor
 
-    def set_analog_latch(self, pin, threshold_type, threshold_value):
+    def set_analog_latch(self, pin, threshold_type, threshold_value, cb):
         """
         This method "arms" a pin to allow data latching for the pin.
         @param pin: Analog pin number (value following an 'A' designator, i.e. A5 = 5
         @param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE
         @param threshold_value: numerical value
+        @param cb: User provided callback function
         """
         with self.pymata.data_lock:
-            self.analog_latch_table[pin] = [self.LATCH_ARMED, threshold_type, threshold_value, 0, 0]
+            self.analog_latch_table[pin] = [self.LATCH_ARMED, threshold_type, threshold_value, 0, 0, cb]
 
-    def set_digital_latch(self, pin, threshold_type):
+    def set_digital_latch(self, pin, threshold_type, cb):
         """
         This method "arms" a pin to allow data latching for the pin.
         @param pin: digital pin number
         @param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW
+        @param cb: User provided callback function
         """
         with self.pymata.data_lock:
-            self.digital_latch_table[pin] = [self.LATCH_ARMED, threshold_type, 0, 0]
+            self.digital_latch_table[pin] = [self.LATCH_ARMED, threshold_type, 0, 0, cb]
 
     def get_analog_latch_data(self, pin):
         """
@@ -303,10 +315,11 @@ class PyMataCommandHandler(threading.Thread):
             current_latch_data = [pin,
                                   pin_data[self.LATCH_STATE],
                                   pin_data[self.ANALOG_LATCHED_DATA],
-                                  pin_data[self.ANALOG_TIME_STAMP]]
+                                  pin_data[self.ANALOG_TIME_STAMP],
+                                  pin_data[self.ANALOG_LATCH_CALLBACK]]
             # if this is latched data, clear the latch table entry for this pin
             if pin_data[self.LATCH_STATE] == self.LATCH_LATCHED:
-                self.analog_latch_table[pin] = [0, 0, 0, 0, 0]
+                self.analog_latch_table[pin] = [0, 0, 0, 0, 0, None]
         return current_latch_data
 
     def get_digital_latch_data(self, pin):
@@ -322,9 +335,10 @@ class PyMataCommandHandler(threading.Thread):
             current_latch_data = [pin,
                                   pin_data[self.LATCH_STATE],
                                   pin_data[self.DIGITAL_LATCHED_DATA],
-                                  pin_data[self.DIGITAL_TIME_STAMP]]
+                                  pin_data[self.DIGITAL_TIME_STAMP],
+                                  pin_data[self.DIGITAL_LATCH_CALLBACK]]
             if pin_data[self.LATCH_STATE] == self.LATCH_LATCHED:
-                self.digital_latch_table[pin] = [0, 0, 0, 0]
+                self.digital_latch_table[pin] = [0, 0, 0, 0, None]
         return current_latch_data
 
     def report_firmware(self, data):
@@ -354,22 +368,35 @@ class PyMataCommandHandler(threading.Thread):
         # add filename to tuple
         self.firmata_firmware.append("".join(file_name))
 
+
     def analog_message(self, data):
         """
         This method handles the incoming analog data message.
         It stores the data value for the pin in the analog response table.
-        It checks to see if the
+        If a callback function was associated with this pin, the callback function is invoked.
+        This method also checks to see if latching was requested for the pin. If the latch criteria was met,
+        the latching table is updated. If a latching callback function was provided by the user, a latching
+        notification callback message is sent to the user in place of updating the latching table.
         @param data: Message data from Firmata
         @return: No return value.
         """
         with self.pymata.data_lock:
-            # convert MSB and LSB into an integer
+            # hold on to the previous value
+            previous_value = self.analog_response_table[data[self.RESPONSE_TABLE_MODE]][self.RESPONSE_TABLE_PIN_DATA_VALUE]
             self.analog_response_table[data[self.RESPONSE_TABLE_MODE]][self.RESPONSE_TABLE_PIN_DATA_VALUE] \
                 = (data[self.MSB] << 7) + data[self.LSB]
-
             pin = data[0]
             pin_response_data_data = self.analog_response_table[pin]
             value = pin_response_data_data[self.RESPONSE_TABLE_PIN_DATA_VALUE]
+            # check to see if there is a callback function attached to this pin
+            callback = self.analog_response_table[data[self.RESPONSE_TABLE_MODE]][self.RESPONSE_TABLE_CALLBACK]
+            # send the pin mode, pin number, and current data value
+            if callback != None:
+                if value != previous_value:
+                    # has the value changed since the last report
+                    callback([self.pymata.ANALOG, pin, value])
+
+
             # check if data is to be latched
             # get the analog latching table entry for this pin
             latching_entry = self.analog_latch_table[pin]
@@ -377,42 +404,62 @@ class PyMataCommandHandler(threading.Thread):
                 # Has the latching criteria been met
                 if latching_entry[self.LATCHED_THRESHOLD_TYPE] == self.ANALOG_LATCH_GT:
                     if value > latching_entry[self.ANALOG_LATCH_DATA_TARGET]:
-                        updated_latch_entry = latching_entry
-                        updated_latch_entry[self.LATCH_STATE] = self.LATCH_LATCHED
-                        updated_latch_entry[self.ANALOG_LATCHED_DATA] = value
-                        # time stamp it
-                        updated_latch_entry[self.ANALOG_TIME_STAMP] = time.time()
-                        self.analog_latch_table[pin] = updated_latch_entry
+                        if latching_entry[self.ANALOG_LATCH_CALLBACK] != None:
+                            latching_entry[self.ANALOG_LATCH_CALLBACK]([self.pymata.ANALOG | self.pymata.LATCH_MODE,
+                                                                        pin, value,time.time() ])
+                            self.analog_latch_table[pin] = [0, 0, 0, 0, 0, None]
+                        else:
+                            updated_latch_entry = latching_entry
+                            updated_latch_entry[self.LATCH_STATE] = self.LATCH_LATCHED
+                            updated_latch_entry[self.ANALOG_LATCHED_DATA] = value
+                            # time stamp it
+                            updated_latch_entry[self.ANALOG_TIME_STAMP] = time.time()
+                            self.analog_latch_table[pin] = updated_latch_entry
                     else:
                         pass  # haven't hit target
                 elif latching_entry[self.LATCHED_THRESHOLD_TYPE] == self.ANALOG_LATCH_GTE:
                     if value >= latching_entry[self.ANALOG_LATCH_DATA_TARGET]:
-                        updated_latch_entry = latching_entry
-                        updated_latch_entry[self.LATCH_STATE] = self.LATCH_LATCHED
-                        updated_latch_entry[self.ANALOG_LATCHED_DATA] = value
-                        # time stamp it
-                        updated_latch_entry[self.ANALOG_TIME_STAMP] = time.time()
-                        self.analog_latch_table[pin] = updated_latch_entry
+                        if latching_entry[self.ANALOG_LATCH_CALLBACK] != None:
+                            latching_entry[self.ANALOG_LATCH_CALLBACK]([self.pymata.ANALOG | self.pymata.LATCH_MODE,
+                                                                        pin, value,time.time() ])
+                            self.analog_latch_table[pin] = [0, 0, 0, 0, 0, None]
+                        else:
+                            updated_latch_entry = latching_entry
+                            updated_latch_entry[self.LATCH_STATE] = self.LATCH_LATCHED
+                            updated_latch_entry[self.ANALOG_LATCHED_DATA] = value
+                            # time stamp it
+                            updated_latch_entry[self.ANALOG_TIME_STAMP] = time.time()
+                            self.analog_latch_table[pin] = updated_latch_entry
                     else:
                         pass  # haven't hit target:
                 elif latching_entry[self.LATCHED_THRESHOLD_TYPE] == self.ANALOG_LATCH_LT:
                     if value < latching_entry[self.ANALOG_LATCH_DATA_TARGET]:
-                        updated_latch_entry = latching_entry
-                        updated_latch_entry[self.LATCH_STATE] = self.LATCH_LATCHED
-                        updated_latch_entry[self.ANALOG_LATCHED_DATA] = value
-                        # time stamp it
-                        updated_latch_entry[self.ANALOG_TIME_STAMP] = time.time()
-                        self.analog_latch_table[pin] = updated_latch_entry
+                        if latching_entry[self.ANALOG_LATCH_CALLBACK] != None:
+                            latching_entry[self.ANALOG_LATCH_CALLBACK]([self.pymata.ANALOG | self.pymata.LATCH_MODE,
+                                                                        pin, value,time.time() ])
+                            self.analog_latch_table[pin] = [0, 0, 0, 0, 0, None]
+                        else:
+                            updated_latch_entry = latching_entry
+                            updated_latch_entry[self.LATCH_STATE] = self.LATCH_LATCHED
+                            updated_latch_entry[self.ANALOG_LATCHED_DATA] = value
+                            # time stamp it
+                            updated_latch_entry[self.ANALOG_TIME_STAMP] = time.time()
+                            self.analog_latch_table[pin] = updated_latch_entry
                     else:
                         pass  # haven't hit target:
                 elif latching_entry[self.LATCHED_THRESHOLD_TYPE] == self.ANALOG_LATCH_LTE:
                     if value <= latching_entry[self.ANALOG_LATCH_DATA_TARGET]:
-                        updated_latch_entry = latching_entry
-                        updated_latch_entry[self.LATCH_STATE] = self.LATCH_LATCHED
-                        updated_latch_entry[self.ANALOG_LATCHED_DATA] = value
-                        # time stamp it
-                        updated_latch_entry[self.ANALOG_TIME_STAMP] = time.time()
-                        self.analog_latch_table[pin] = updated_latch_entry
+                        if latching_entry[self.ANALOG_LATCH_CALLBACK] != None:
+                            latching_entry[self.ANALOG_LATCH_CALLBACK]([self.pymata.ANALOG | self.pymata.LATCH_MODE,
+                                                                        pin, value,time.time() ])
+                            self.analog_latch_table[pin] = [0, 0, 0, 0, 0, None]
+                        else:
+                            updated_latch_entry = latching_entry
+                            updated_latch_entry[self.LATCH_STATE] = self.LATCH_LATCHED
+                            updated_latch_entry[self.ANALOG_LATCHED_DATA] = value
+                            # time stamp it
+                            updated_latch_entry[self.ANALOG_TIME_STAMP] = time.time()
+                            self.analog_latch_table[pin] = updated_latch_entry
                     else:
                         pass  # haven't hit target:
                 else:
@@ -435,26 +482,45 @@ class PyMataCommandHandler(threading.Thread):
         for pin in range(pin, pin + 8):
             # shift through all the bit positions and set the digital response table
             with self.pymata.data_lock:
+                # look at the previously stored value for this pin
+                prev_data = self.digital_response_table[pin][self.RESPONSE_TABLE_PIN_DATA_VALUE]
+                # get the current value
                 self.digital_response_table[pin][self.RESPONSE_TABLE_PIN_DATA_VALUE] = port_data & 0x01
+                # if the values differ and callback is enabled for the pin, then send out the callback
+                if prev_data != port_data & 0x01:
+                    callback = self.digital_response_table[pin][self.RESPONSE_TABLE_CALLBACK]
+                    if callback != None:
+                        callback([self.pymata.DIGITAL, pin,self.digital_response_table[pin][self.RESPONSE_TABLE_PIN_DATA_VALUE]])
+
                 # determine if the latch data table needs to be updated for each pin
                 latching_entry = self.digital_latch_table[pin]
                 if latching_entry[self.LATCH_STATE] == self.LATCH_ARMED:
                     if latching_entry[self.LATCHED_THRESHOLD_TYPE] == self.DIGITAL_LATCH_LOW:
                         if (port_data & 0x01) == 0:
-                            updated_latch_entry = latching_entry
-                            updated_latch_entry[self.LATCH_STATE] = self.LATCH_LATCHED
-                            updated_latch_entry[self.DIGITAL_LATCHED_DATA] = self.DIGITAL_LATCH_LOW
-                            # time stamp it
-                            updated_latch_entry[self.DIGITAL_TIME_STAMP] = time.time()
+                            if latching_entry[self.DIGITAL_LATCH_CALLBACK] != None:
+                                latching_entry[self.DIGITAL_LATCH_CALLBACK]([self.pymata.OUTPUT | self.pymata.LATCH_MODE,
+                                                                        pin, 0,time.time() ])
+                                self.digital_latch_table[pin] = [0, 0, 0, 0, None]
+                            else:
+                                updated_latch_entry = latching_entry
+                                updated_latch_entry[self.LATCH_STATE] = self.LATCH_LATCHED
+                                updated_latch_entry[self.DIGITAL_LATCHED_DATA] = self.DIGITAL_LATCH_LOW
+                                # time stamp it
+                                updated_latch_entry[self.DIGITAL_TIME_STAMP] = time.time()
                         else:
                             pass
                     elif latching_entry[self.LATCHED_THRESHOLD_TYPE] == self.DIGITAL_LATCH_HIGH:
                         if port_data & 0x01:
-                            updated_latch_entry = latching_entry
-                            updated_latch_entry[self.LATCH_STATE] = self.LATCH_LATCHED
-                            updated_latch_entry[self.DIGITAL_LATCHED_DATA] = self.DIGITAL_LATCH_HIGH
-                            # time stamp it
-                            updated_latch_entry[self.DIGITAL_TIME_STAMP] = time.time()
+                            if latching_entry[self.DIGITAL_LATCH_CALLBACK] != None:
+                                latching_entry[self.DIGITAL_LATCH_CALLBACK]([self.pymata.OUTPUT | self.pymata.LATCH_MODE,
+                                                                        pin, 1,time.time() ])
+                                self.digital_latch_table[pin] = [0, 0, 0, 0, None]
+                            else:
+                                updated_latch_entry = latching_entry
+                                updated_latch_entry[self.LATCH_STATE] = self.LATCH_LATCHED
+                                updated_latch_entry[self.DIGITAL_LATCHED_DATA] = self.DIGITAL_LATCH_HIGH
+                                # time stamp it
+                                updated_latch_entry[self.DIGITAL_TIME_STAMP] = time.time()
                         else:
                             pass
                 else:
@@ -466,16 +532,22 @@ class PyMataCommandHandler(threading.Thread):
     def encoder_data(self, data):
         """
         This method handles the incoming encoder data message and stores
-        the data in the response table.
+        the data in the digital response table.
         @param data: Message data from Firmata
         @return: No return value.
         """
+        prev_val = self.digital_response_table[data[self.RESPONSE_TABLE_MODE]][self.RESPONSE_TABLE_PIN_DATA_VALUE]
         val = int((data[self.MSB] << 7) + data[self.LSB])
         # set value so that it shows positive and negative values
         if val > 8192:
             val -= 16384
+        pin = data[0]
         with self.pymata.data_lock:
             self.digital_response_table[data[self.RESPONSE_TABLE_MODE]][self.RESPONSE_TABLE_PIN_DATA_VALUE] = val
+            if prev_val != val:
+                callback = self.digital_response_table[pin][self.RESPONSE_TABLE_CALLBACK]
+                if callback != None:
+                    callback([self.pymata.ENCODER, pin, self.digital_response_table[pin][self.RESPONSE_TABLE_PIN_DATA_VALUE]])
 
     def sonar_data(self, data):
         """
@@ -487,10 +559,17 @@ class PyMataCommandHandler(threading.Thread):
         val = int((data[self.MSB] << 7) + data[self.LSB])
         pin_number = data[0]
         with self.pymata.data_lock:
-            self.active_sonar_map[pin_number] = val
+            sonar_pin_entry = self.active_sonar_map[pin_number]
             # also write it into the digital response table
             self.digital_response_table[data[self.RESPONSE_TABLE_MODE]][self.RESPONSE_TABLE_PIN_DATA_VALUE] = val
-
+            # send data through callback if there is a callback function for the pin
+            if sonar_pin_entry[0] != None:
+                # check if value changed since last reading
+                if sonar_pin_entry[1] != val:
+                    self.active_sonar_map[pin_number][0]([self.pymata.SONAR, pin_number, val])
+            # update the data in the table with latest value
+            sonar_pin_entry[1] = val
+            self.active_sonar_map[pin_number] = sonar_pin_entry
     def get_analog_response_table(self):
         """
         This method returns the entire analog response table to the caller
@@ -540,6 +619,7 @@ class PyMataCommandHandler(threading.Thread):
         send_message = ""
         for i in command:
             send_message += chr(i)
+            #send_message += bytes(i)
 
         for data in send_message:
             self.pymata.transport.write(data)
@@ -582,27 +662,39 @@ class PyMataCommandHandler(threading.Thread):
         @param data: Message data from Firmata
         @return: No return value.s
         """
-        print "_string_data:"
+        print("_string_data:")
         string_to_print = []
         for i in data[::2]:
             string_to_print.append(chr(i))
-        print string_to_print
+        print(string_to_print)
 
     def i2c_reply(self, data):
         """
         This method receives replies to i2c_read requests. It stores the data for each i2c device
         address in a dictionary called i2c_map. The data is retrieved via a call to i2c_get_read_data()
         in pymata.py
+        It a callback was specified in pymata.i2c_read, the raw data is sent through the callback
         @param data: raw data returned from i2c device
         """
+
         reply_data = []
         address = (data[0] & 0x7f) + (data[1] << 7)
         register = data[2] & 0x7f + data[3] << 7
         reply_data.append(register)
-        for i in xrange(4, len(data), 2):
+        for i in range(4, len(data), 2):
             data_item = (data[i] & 0x7f) + (data[i + 1] << 7)
             reply_data.append(data_item)
-        self.i2c_map[address] = reply_data
+        # retrieve the data entry for this address from the i2c map
+        if address in self.i2c_map:
+            i2c_data = self.i2c_map.get(address, None)
+
+        i2c_data[1] = reply_data
+        self.i2c_map[address] = i2c_data
+        # is there a call back for this entry?
+        # if yes, return a list of bytes through the callback
+        if i2c_data[0] != None:
+            i2c_data[0]([self.pymata.I2C, address, reply_data])
+
 
     def capability_response(self, data):
         """
@@ -693,6 +785,7 @@ class PyMataCommandHandler(threading.Thread):
                     continue
 
                 #is this a command byte in the range of 0x80-0xff - these are the non-sysex messages
+
                 elif 0x80 <= data <= 0xff:
                     # look up the method for the command in the command dispatch table
                     # for the digital reporting the command value is modified with port number

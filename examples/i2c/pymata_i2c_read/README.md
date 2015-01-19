@@ -1,0 +1,1 @@
+SDA and SCL in these demos are configured for an Arduino Leonardo.

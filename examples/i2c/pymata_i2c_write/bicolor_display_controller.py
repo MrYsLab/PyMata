@@ -65,7 +65,7 @@ class BiColorDisplayController:
     #
     # To output yellow the red and green information for the rows will be set high.
     #
-    display_buffer = [[0 for x in xrange(8)] for x in xrange(8)]
+    display_buffer = [[0 for x in range(8)] for x in range(8)]
 
 
     def __init__(self, address, blink_rate, brightness):
@@ -138,10 +138,10 @@ class BiColorDisplayController:
         @param suppress_write: if true, just sets the internal data structure, else writes out the pixel to the display
         """
         if (row < 0) or (row >= 8):
-            print "set_pixel(): ROW out of range"
+            print("set_pixel(): ROW out of range")
             return
         if (column < 0) or (column >= 8):
-            print "set_pixel(): COLUMN out of range"
+            print("set_pixel(): COLUMN out of range")
             return
 
         self.display_buffer[row][column] = color
@@ -177,11 +177,11 @@ class BiColorDisplayController:
         @param shape: pattern to display
         @param color: color for the pattern
         """
-        for row in xrange(0, 8):
+        for row in range(0, 8):
             data = shape[row]
             # shift data into buffer
             bit_mask = 0x80
-            for column in xrange(0, 8):
+            for column in range(0, 8):
                 if data & bit_mask:
                     self.set_pixel(row, column, color, True)
                 bit_mask >>= 1
@@ -194,8 +194,8 @@ class BiColorDisplayController:
         green = 0
         red = 0
 
-        for row in xrange(0, 8):
-            for col in xrange(0, 8):
+        for row in range(0, 8):
+            for col in range(0, 8):
                 if self.display_buffer[row][col] == self.LED_GREEN:
                     green |= 1 << col
                 elif self.display_buffer[row][col] == self.LED_RED:

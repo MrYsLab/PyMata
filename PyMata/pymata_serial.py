@@ -1,9 +1,8 @@
 __author__ = 'Copyright (c) 2013 Alan Yorinks All rights reserved.'
 """
-Created on Tue Sep  3 07:12:01 2013
 
 @author: Alan Yorinks
-Copyright (c) 2013-14 Alan Yorinks All rights reserved.
+Copyright (c) 2013-15 Alan Yorinks All rights reserved.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU  General Public
@@ -23,6 +22,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 import threading
 import serial
 import time
+import sys
+from sys import platform
 
 
 class PyMataSerial(threading.Thread):
@@ -50,9 +51,14 @@ class PyMataSerial(threading.Thread):
         self.daemon = True
         self.arduino = serial.Serial(self.port_id, self.baud_rate,
                                      timeout=int(self.timeout))
-        #self.arduino.writeTimeout = 2
-                                     
+
         self.stop_event = threading.Event()
+
+
+        # without this, running python 3.4 is extremely sluggish
+        if sys.platform == 'linux':
+            self.arduino.nonblocking()
+
 
     def stop(self):
         self.stop_event.set()
@@ -66,7 +72,7 @@ class PyMataSerial(threading.Thread):
         returns a reference to this instance
         """
         # open a serial port
-        print '\nOpening Arduino Serial port %s ' % self.port_id
+        print('\nOpening Arduino Serial port %s ' % self.port_id)
 
         try:
 
@@ -97,7 +103,10 @@ class PyMataSerial(threading.Thread):
             write the data to the serial port
             return: None
         """
-        self.arduino.write(data)
+        if sys.version_info[0] < 3:
+            self.arduino.write(data)
+        else:
+            self.arduino.write(bytes([ord(data)]))
 
     def run(self):
         """
