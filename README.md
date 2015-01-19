@@ -6,7 +6,7 @@ the complete StandardFirmata protocol.
 
 ###Major features
 * Python 2.7+ and Python 3.4+ compatibility through a shared code set.
-* Easy to use and intuitive API. You can view the [PyMata API Documentation here](#https://raw.github.com/MrYsLab/PyMata/master/documentation/html/PyMata.pymata.PyMata-class.html)
+* Easy to use and intuitive API. You can view the [PyMata API Documentation here](https://github.com/MrYsLab/PyMata/master/documentation/html/PyMata.pymata.PyMata-class.html)
 * Optional callbacks provide asynchronous notification of data updates.
 * Polling methods and callbacks are available simultaneously and can be used in a mixed polled/callback environment.
 
