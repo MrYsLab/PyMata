@@ -87,7 +87,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="PyMata.pymata.PyMata-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">port_id</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">/dev/ttyACM0</code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">port_id</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">/dev/ttyACM0</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">bluetooth</span>=<span class="summary-sig-default">True</span>)</span><br />
       The &quot;constructor&quot; instantiates the entire interface.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.__init__">source&nbsp;code</a></span>
@@ -303,7 +304,8 @@
         <tr>
           <td><span class="summary-sig"><a href="PyMata.pymata.PyMata-class.html#encoder_config" class="summary-sig-name">encoder_config</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">pin_a</span>,
-        <span class="summary-sig-arg">pin_b</span>)</span><br />
+        <span class="summary-sig-arg">pin_b</span>,
+        <span class="summary-sig-arg">cb</span>=<span class="summary-sig-default">None</span>)</span><br />
       This command enables the rotary encoder (2 pin + ground) and will 
       enable encoder reporting.</td>
           <td align="right" valign="top">
@@ -588,7 +590,8 @@
         <span class="summary-sig-arg">address</span>,
         <span class="summary-sig-arg">register</span>,
         <span class="summary-sig-arg">number_of_bytes</span>,
-        <span class="summary-sig-arg">read_type</span>)</span><br />
+        <span class="summary-sig-arg">read_type</span>,
+        <span class="summary-sig-arg">cb</span>=<span class="summary-sig-default">None</span>)</span><br />
       This method requests the read of an i2c device.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.i2c_read">source&nbsp;code</a></span>
@@ -755,9 +758,12 @@
           <td><span class="summary-sig"><a href="PyMata.pymata.PyMata-class.html#set_analog_latch" class="summary-sig-name">set_analog_latch</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">pin</span>,
         <span class="summary-sig-arg">threshold_type</span>,
-        <span class="summary-sig-arg">threshold_value</span>)</span><br />
+        <span class="summary-sig-arg">threshold_value</span>,
+        <span class="summary-sig-arg">cb</span>=<span class="summary-sig-default">None</span>)</span><br />
       This method &quot;arms&quot; an analog pin for its data to be latched
-      and saved in the latching table</td>
+      and saved in the latching table If a callback method is provided, 
+      when latching criteria is achieved, the callback function is called 
+      with latching data notification.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.set_analog_latch">source&nbsp;code</a></span>
             
@@ -775,9 +781,12 @@
         <tr>
           <td><span class="summary-sig"><a href="PyMata.pymata.PyMata-class.html#set_digital_latch" class="summary-sig-name">set_digital_latch</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">pin</span>,
-        <span class="summary-sig-arg">threshold_type</span>)</span><br />
+        <span class="summary-sig-arg">threshold_type</span>,
+        <span class="summary-sig-arg">cb</span>=<span class="summary-sig-default">None</span>)</span><br />
       This method &quot;arms&quot; a digital pin for its data to be latched
-      and saved in the latching table</td>
+      and saved in the latching table If a callback method is provided, 
+      when latching criteria is achieved, the callback function is called 
+      with latching data notification.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.set_digital_latch">source&nbsp;code</a></span>
             
@@ -796,7 +805,8 @@
           <td><span class="summary-sig"><a href="PyMata.pymata.PyMata-class.html#set_pin_mode" class="summary-sig-name">set_pin_mode</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">pin</span>,
         <span class="summary-sig-arg">mode</span>,
-        <span class="summary-sig-arg">pin_type</span>)</span><br />
+        <span class="summary-sig-arg">pin_type</span>,
+        <span class="summary-sig-arg">cb</span>=<span class="summary-sig-default">None</span>)</span><br />
       This method sets a pin to the desired pin mode for the pin_type.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.set_pin_mode">source&nbsp;code</a></span>
@@ -854,6 +864,7 @@
           <td><span class="summary-sig"><a href="PyMata.pymata.PyMata-class.html#sonar_config" class="summary-sig-name">sonar_config</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">trigger_pin</span>,
         <span class="summary-sig-arg">echo_pin</span>,
+        <span class="summary-sig-arg">cb</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">ping_interval</span>=<span class="summary-sig-default">50</span>,
         <span class="summary-sig-arg">max_distance</span>=<span class="summary-sig-default">200</span>)</span><br />
       Configure the pins,ping interval and maximum distance for an HC-SR04 
@@ -1084,6 +1095,13 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="LATCH_MODE"></a><span class="summary-name">LATCH_MODE</span> = <code title="224">224</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="DIGITAL"></a><span class="summary-name">DIGITAL</span> = <code title="32">32</code>
     </td>
   </tr>
@@ -1191,7 +1209,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">port_id</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">/dev/ttyACM0</code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">port_id</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">/dev/ttyACM0</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">bluetooth</span>=<span class="sig-default">True</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -1206,6 +1225,8 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>port_id</code></strong> - Communications port specifier (COM3, /dev/ttyACM0, etc)</li>
+        <li><strong class="pname"><code>bluetooth</code></strong> - Sets start up delays for bluetooth connectivity. Set to False for
+          faster start up.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1501,7 +1522,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">encoder_config</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">pin_a</span>,
-        <span class="sig-arg">pin_b</span>)</span>
+        <span class="sig-arg">pin_b</span>,
+        <span class="sig-arg">cb</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.encoder_config">source&nbsp;code</a></span>&nbsp;
@@ -1512,11 +1534,14 @@
   enable encoder reporting.</p>
   <p>NOTE: This command is not currently part of standard arduino firmata, 
   but is provided for legacy support of CodeShield on an Arduino UNO.</p>
+  <p>Encoder data is retrieved by performing a digital_read from pin a 
+  (encoder pin 1)</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>pin_a</code></strong> - Encoder pin 1.</li>
         <li><strong class="pname"><code>pin_b</code></strong> - Encoder pin 2.</li>
+        <li><strong class="pname"><code>cb</code></strong> - callback function to report encoder changes</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>No return value</dd>
@@ -1884,7 +1909,8 @@
         <span class="sig-arg">address</span>,
         <span class="sig-arg">register</span>,
         <span class="sig-arg">number_of_bytes</span>,
-        <span class="sig-arg">read_type</span>)</span>
+        <span class="sig-arg">read_type</span>,
+        <span class="sig-arg">cb</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.i2c_read">source&nbsp;code</a></span>&nbsp;
@@ -1892,7 +1918,9 @@
   </tr></table>
   
   <p>This method requests the read of an i2c device. Results are retrieved 
-  by a call to i2c_get_read_data()</p>
+  by a call to i2c_get_read_data(). If a callback method is provided, when 
+  data is received from the device it will be sent to the callback 
+  method</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1900,6 +1928,8 @@
         <li><strong class="pname"><code>register</code></strong> - register number (can be set to zero)</li>
         <li><strong class="pname"><code>number_of_bytes</code></strong> - number of bytes expected to be returned</li>
         <li><strong class="pname"><code>read_type</code></strong> - I2C_READ  or I2C_READ_CONTINUOUSLY</li>
+        <li><strong class="pname"><code>cb</code></strong> - Optional callback function to report i2c data as result of read 
+          command</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2115,7 +2145,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">set_analog_latch</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">pin</span>,
         <span class="sig-arg">threshold_type</span>,
-        <span class="sig-arg">threshold_value</span>)</span>
+        <span class="sig-arg">threshold_value</span>,
+        <span class="sig-arg">cb</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.set_analog_latch">source&nbsp;code</a></span>&nbsp;
@@ -2123,7 +2154,10 @@
   </tr></table>
   
   <p>This method &quot;arms&quot; an analog pin for its data to be latched 
-  and saved in the latching table</p>
+  and saved in the latching table If a callback method is provided, when 
+  latching criteria is achieved, the callback function is called with 
+  latching data notification. In that case, the latching table is not 
+  updated.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -2131,6 +2165,7 @@
         <li><strong class="pname"><code>threshold_type</code></strong> - ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | 
           ANALOG_LATCH_LTE</li>
         <li><strong class="pname"><code>threshold_value</code></strong> - numerical value - between 0 and 1023</li>
+        <li><strong class="pname"><code>cb</code></strong> - callback method</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>True if successful, False if parameter data is invalid</dd>
@@ -2146,7 +2181,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">set_digital_latch</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">pin</span>,
-        <span class="sig-arg">threshold_type</span>)</span>
+        <span class="sig-arg">threshold_type</span>,
+        <span class="sig-arg">cb</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.set_digital_latch">source&nbsp;code</a></span>&nbsp;
@@ -2154,12 +2190,16 @@
   </tr></table>
   
   <p>This method &quot;arms&quot; a digital pin for its data to be latched 
-  and saved in the latching table</p>
+  and saved in the latching table If a callback method is provided, when 
+  latching criteria is achieved, the callback function is called with 
+  latching data notification. In that case, the latching table is not 
+  updated.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>pin</code></strong> - Digital pin number</li>
         <li><strong class="pname"><code>threshold_type</code></strong> - DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW</li>
+        <li><strong class="pname"><code>cb</code></strong> - callback function</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>True if successful, False if parameter data is invalid</dd>
@@ -2176,7 +2216,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">set_pin_mode</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">pin</span>,
         <span class="sig-arg">mode</span>,
-        <span class="sig-arg">pin_type</span>)</span>
+        <span class="sig-arg">pin_type</span>,
+        <span class="sig-arg">cb</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="PyMata.pymata-pysrc.html#PyMata.set_pin_mode">source&nbsp;code</a></span>&nbsp;
@@ -2191,8 +2232,10 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>pin</code></strong> - Pin number (for analog use the analog number, for example A4: use
           4)</li>
-        <li><strong class="pname"><code>mode</code></strong> - INPUT, OUTPUT, PWM, SERVO, ENCODER or TONE</li>
+        <li><strong class="pname"><code>mode</code></strong> - INPUT, OUTPUT, PWM</li>
         <li><strong class="pname"><code>pin_type</code></strong> - ANALOG or DIGITAL</li>
+        <li><strong class="pname"><code>cb</code></strong> - This is an optional callback function to report data changes to 
+          the user</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>No return value</dd>
@@ -2266,6 +2309,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">sonar_config</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">trigger_pin</span>,
         <span class="sig-arg">echo_pin</span>,
+        <span class="sig-arg">cb</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">ping_interval</span>=<span class="sig-default">50</span>,
         <span class="sig-arg">max_distance</span>=<span class="sig-default">200</span>)</span>
   </h3>
@@ -2288,6 +2332,7 @@
         <li><strong class="pname"><code>ping_interval</code></strong> - Minimum interval between pings. Lowest number to use is 33 ms.Max
           is 127</li>
         <li><strong class="pname"><code>max_distance</code></strong> - Maximum distance in cm. Max is 200.</li>
+        <li><strong class="pname"><code>cb</code></strong> - optional callback function to report sonar data changes</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2430,7 +2475,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun May 25 14:23:15 2014
+    Generated by Epydoc 3.0.1 on Mon Jan 19 18:03:05 2015
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

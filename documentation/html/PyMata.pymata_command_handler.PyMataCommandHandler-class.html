@@ -192,7 +192,8 @@ threading._Verbose --+
           <td><span class="summary-sig"><a href="PyMata.pymata_command_handler.PyMataCommandHandler-class.html#set_analog_latch" class="summary-sig-name">set_analog_latch</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">pin</span>,
         <span class="summary-sig-arg">threshold_type</span>,
-        <span class="summary-sig-arg">threshold_value</span>)</span><br />
+        <span class="summary-sig-arg">threshold_value</span>,
+        <span class="summary-sig-arg">cb</span>)</span><br />
       This method &quot;arms&quot; a pin to allow data latching for the 
       pin.</td>
           <td align="right" valign="top">
@@ -212,7 +213,8 @@ threading._Verbose --+
         <tr>
           <td><span class="summary-sig"><a href="PyMata.pymata_command_handler.PyMataCommandHandler-class.html#set_digital_latch" class="summary-sig-name">set_digital_latch</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">pin</span>,
-        <span class="summary-sig-arg">threshold_type</span>)</span><br />
+        <span class="summary-sig-arg">threshold_type</span>,
+        <span class="summary-sig-arg">cb</span>)</span><br />
       This method &quot;arms&quot; a pin to allow data latching for the 
       pin.</td>
           <td align="right" valign="top">
@@ -329,7 +331,7 @@ threading._Verbose --+
           <td><span class="summary-sig"><a href="PyMata.pymata_command_handler.PyMataCommandHandler-class.html#encoder_data" class="summary-sig-name">encoder_data</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">data</span>)</span><br />
       This method handles the incoming encoder data message and stores the 
-      data in the response table.</td>
+      data in the digital response table.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="PyMata.pymata_command_handler-pysrc.html#PyMataCommandHandler.encoder_data">source&nbsp;code</a></span>
             
@@ -925,6 +927,13 @@ threading._Verbose --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="ANALOG_LATCH_CALLBACK"></a><span class="summary-name">ANALOG_LATCH_CALLBACK</span> = <code title="5">5</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="DIGITAL_LATCHED_DATA"></a><span class="summary-name">DIGITAL_LATCHED_DATA</span> = <code title="2">2</code>
     </td>
   </tr>
@@ -933,6 +942,13 @@ threading._Verbose --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="DIGITAL_TIME_STAMP"></a><span class="summary-name">DIGITAL_TIME_STAMP</span> = <code title="3">3</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="DIGITAL_LATCH_CALLBACK"></a><span class="summary-name">DIGITAL_LATCH_CALLBACK</span> = <code title="4">4</code>
     </td>
   </tr>
 <tr>
@@ -1010,6 +1026,13 @@ threading._Verbose --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="RESPONSE_TABLE_PIN_DATA_VALUE"></a><span class="summary-name">RESPONSE_TABLE_PIN_DATA_VALUE</span> = <code title="1">1</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="RESPONSE_TABLE_CALLBACK"></a><span class="summary-name">RESPONSE_TABLE_CALLBACK</span> = <code title="2">2</code>
     </td>
   </tr>
 <tr>
@@ -1238,7 +1261,8 @@ threading._Verbose --+
   <h3 class="epydoc"><span class="sig"><span class="sig-name">set_analog_latch</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">pin</span>,
         <span class="sig-arg">threshold_type</span>,
-        <span class="sig-arg">threshold_value</span>)</span>
+        <span class="sig-arg">threshold_value</span>,
+        <span class="sig-arg">cb</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="PyMata.pymata_command_handler-pysrc.html#PyMataCommandHandler.set_analog_latch">source&nbsp;code</a></span>&nbsp;
@@ -1254,6 +1278,7 @@ threading._Verbose --+
         <li><strong class="pname"><code>threshold_type</code></strong> - ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | 
           ANALOG_LATCH_LTE</li>
         <li><strong class="pname"><code>threshold_value</code></strong> - numerical value</li>
+        <li><strong class="pname"><code>cb</code></strong> - User provided callback function</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1267,7 +1292,8 @@ threading._Verbose --+
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">set_digital_latch</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">pin</span>,
-        <span class="sig-arg">threshold_type</span>)</span>
+        <span class="sig-arg">threshold_type</span>,
+        <span class="sig-arg">cb</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="PyMata.pymata_command_handler-pysrc.html#PyMataCommandHandler.set_digital_latch">source&nbsp;code</a></span>&nbsp;
@@ -1281,6 +1307,7 @@ threading._Verbose --+
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>pin</code></strong> - digital pin number</li>
         <li><strong class="pname"><code>threshold_type</code></strong> - DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW</li>
+        <li><strong class="pname"><code>cb</code></strong> - User provided callback function</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1389,8 +1416,13 @@ threading._Verbose --+
   </tr></table>
   
   <p>This method handles the incoming analog data message. It stores the 
-  data value for the pin in the analog response table. It checks to see if 
-  the</p>
+  data value for the pin in the analog response table. If a callback 
+  function was associated with this pin, the callback function is invoked. 
+  This method also checks to see if latching was requested for the pin. If 
+  the latch criteria was met, the latching table is updated. If a latching 
+  callback function was provided by the user, a latching notification 
+  callback message is sent to the user in place of updating the latching 
+  table.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1445,7 +1477,7 @@ threading._Verbose --+
   </tr></table>
   
   <p>This method handles the incoming encoder data message and stores the 
-  data in the response table.</p>
+  data in the digital response table.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1644,7 +1676,9 @@ threading._Verbose --+
   
   <p>This method receives replies to i2c_read requests. It stores the data 
   for each i2c device address in a dictionary called i2c_map. The data is 
-  retrieved via a call to i2c_get_read_data() in pymata.py</p>
+  retrieved via a call to i2c_get_read_data() in pymata.py It a callback 
+  was specified in pymata.i2c_read, the raw data is sent through the 
+  callback</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -1783,7 +1817,7 @@ threading._Verbose --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun May 25 14:23:15 2014
+    Generated by Epydoc 3.0.1 on Mon Jan 19 18:03:05 2015
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
