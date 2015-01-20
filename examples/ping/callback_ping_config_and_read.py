@@ -35,14 +35,7 @@ firmata = PyMata("/dev/ttyACM0")
 firmata.sonar_config(12,12, cb_ping)
 
 time.sleep(10)
-
-# create a forever loop that will sequentially turn on all LEDS,
-# then print out the sonar data for the 4 PING devices
-# then sequentially turns off all LEDS and print PING data again
-
-#while 1:
-#    print(firmata.get_sonar_data())
-#    time.sleep(.2)
+firmata.close()
 
 
 
