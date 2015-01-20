@@ -35,7 +35,7 @@ the complete StandardFirmata protocol.
 | Analog| ANALOG MODE|Pin Number|Data Value|Not Applicable
 | Digital|DIGITAL MODE|Pin Number|Data Value|Not Applicable
 |I2C|I2C MODE|I2C Device Address|Data Value|Not Applicable
-|Pin 1|Pin 2|Distance in Centimeters|Not Applicable
+|Sonar|Trigger Pin|Distance in Centimeters|Not Applicable
 | Encoder|Encoder MODE|Pin Number|Data Value|Not Applicable
 | Latched Analog| LATCHED ANALOG MODE|Pin Number|Data Value|Time Stamp
 | Latched Digital|LATCHED DIGITAL MODE|Pin Number|Data Value|Time Stamp
