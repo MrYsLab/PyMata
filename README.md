@@ -23,6 +23,7 @@ the complete StandardFirmata protocol.
 * Analog input pins.
 * Encoder changes.
 * I2C read data changes.
+* SONAR (HC-SR04) distance changes.
 * Analog latch condition achieved.
 * Digital latch condition achieved.
 
@@ -34,6 +35,7 @@ the complete StandardFirmata protocol.
 | Analog| ANALOG MODE|Pin Number|Data Value|Not Applicable
 | Digital|DIGITAL MODE|Pin Number|Data Value|Not Applicable
 |I2C|I2C MODE|I2C Device Address|Data Value|Not Applicable
+|SONAR|Pin 1|Pin 2|Distance in Centimeters
 | Encoder|Encoder MODE|Pin Number|Data Value|Not Applicable
 | Latched Analog| LATCHED ANALOG MODE|Pin Number|Data Value|Time Stamp
 | Latched Digital|LATCHED DIGITAL MODE|Pin Number|Data Value|Time Stamp
@@ -51,11 +53,3 @@ Python 3.4 for Linux appears to run slower than Python 2.7.
 [See This Article For a Discussion On The Subject](http://www.reddit.com/r/Python/comments/272bao/python_34_slow_compared_to_27_whats_your_mileage/)
 
 There is no performance issues between Python 2.7 and Python 3.4 when running Windows.
-
-
-
-
-
-
-
-
