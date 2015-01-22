@@ -22,14 +22,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 # import the API class
 import time
+import sys
+import signal
 
 from PyMata.pymata import PyMata
 
-# instantiate PyMata
-firmata = PyMata("/dev/ttyACM0")
+
+firmata = None
+
+# create a PyMata instance
+board = PyMata("/dev/ttyACM0")
+
+
+def signal_handler(sig, frame):
+    print('You pressed Ctrl+C!!!!')
+    if firmata is not None:
+        firmata.reset()
+    sys.exit(0)
+
+
+signal.signal(signal.SIGINT, signal_handler)
 
 # configure 4 pins for 4 SONAR modules
-firmata.sonar_config(12,12)
+firmata.sonar_config(12, 12)
 
 time.sleep(1)
 
@@ -40,7 +55,7 @@ time.sleep(1)
 while 1:
     data = firmata.get_sonar_data()
     print(str(data[2]) + ' centimeters')
-    #firmata.get_sonar_data()
+    # firmata.get_sonar_data()
     #print(firmata.get_sonar_data())
     time.sleep(.2)
 

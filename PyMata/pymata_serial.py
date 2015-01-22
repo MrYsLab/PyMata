@@ -20,10 +20,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
 import threading
-import serial
 import time
 import sys
-from sys import platform
+
+import serial
 
 
 class PyMataSerial(threading.Thread):
@@ -50,15 +50,14 @@ class PyMataSerial(threading.Thread):
         threading.Thread.__init__(self)
         self.daemon = True
         self.arduino = serial.Serial(self.port_id, self.baud_rate,
-                                     timeout=int(self.timeout))
+                                     timeout=int(self.timeout), writeTimeout=0)
 
         self.stop_event = threading.Event()
 
-
         # without this, running python 3.4 is extremely sluggish
         if sys.platform == 'linux':
+            # noinspection PyUnresolvedReferences
             self.arduino.nonblocking()
-
 
     def stop(self):
         self.stop_event.set()
@@ -77,7 +76,7 @@ class PyMataSerial(threading.Thread):
         try:
 
             # in case the port is already open, let's close it and then
-            #reopen it
+            # reopen it
             self.arduino.close()
             time.sleep(1)
             self.arduino.open()

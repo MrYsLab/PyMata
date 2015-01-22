@@ -24,24 +24,36 @@ This file demonstrates how to use some of the basic PyMata operations
 """
 
 import time
+import sys
+import signal
+
 from PyMata.pymata import PyMata
 
-
 # digital pin 13 is connected to an LED
-BOARD_LED = 13 
+BOARD_LED = 13
 
-#  Create a PyMata instance using the Arduino COM Port as the input parameter
+# create a PyMata instance
 firmata = PyMata("/dev/ttyACM0")
 
-#  set digital pin 13 to be an output port
+
+def signal_handler(sig, frame):
+    print('You pressed Ctrl+C!!!!')
+    if firmata is not None:
+        firmata.reset()
+    sys.exit(0)
+
+
+signal.signal(signal.SIGINT, signal_handler)
+
+# set digital pin 13 to be an output port
 firmata.set_pin_mode(BOARD_LED, firmata.OUTPUT, firmata.DIGITAL)
 
 time.sleep(5)
-print ("Blinking LED on pin 13")
+print("Blinking LED on pin 13")
 
 #  blink for 10 times
 for x in range(10):
-    print (x+1)
+    print(x + 1)
     firmata.digital_write(BOARD_LED, 1)
     #  wait a half second between toggles.
     time.sleep(.5)

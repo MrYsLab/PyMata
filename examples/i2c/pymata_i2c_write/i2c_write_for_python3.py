@@ -27,9 +27,8 @@ It utilizes the bi_color_display_controller which, in turn, utilizes PyFirmata f
 """
 
 
-#from  examples.i2c.pymata_i2c_write.bicolor_display_controller import BiColorDisplayController
+# from  examples.i2c.pymata_i2c_write.bicolor_display_controller import BiColorDisplayController
 import time
-import sys
 
 from examples.i2c.pymata_i2c_write.bicolor_display_controller import BiColorDisplayController
 

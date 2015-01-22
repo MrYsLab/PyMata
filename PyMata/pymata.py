@@ -23,14 +23,14 @@ import threading
 import sys
 import time
 
-
-
 from .pymata_serial import PyMataSerial
 from .pymata_command_handler import PyMataCommandHandler
+
 
 # For report data formats refer to http://firmata.org/wiki/Protocol
 
 
+# noinspection PyPep8
 class PyMata:
     """
     This class contains the complete set of API methods that permit control of an Arduino
@@ -74,7 +74,7 @@ class PyMata:
     ENCODER = 0x0a
     SONAR = 0x0b  # Any pin in SONAR mode
     IGNORE = 0x7f
-    LATCH_MODE = 0xE0 # this value is or'ed with pin modes for latched data callback
+    LATCH_MODE = 0xE0  # this value is or'ed with pin modes for latched data callback
 
     # the following pin modes are not part of or defined by Firmata
     # but used by PyMata
@@ -87,7 +87,7 @@ class PyMata:
     I2C_STOP_READING = 0B00011000
     I2C_READ_WRITE_MODE_MASK = 0B00011000
 
-    #  Tone commands
+    # Tone commands
     TONE_TONE = 0  # play a tone
     TONE_NO_TONE = 1  # turn off tone
 
@@ -96,12 +96,12 @@ class PyMata:
     STEPPER_STEP = 1  # command a motor to move at the provided speed
     STEPPER_LIBRARY_VERSION = 2  # used to get stepper library version number
 
-   # each byte represents a digital port and its value contains the current port settings
+    # each byte represents a digital port and its value contains the current port settings
     digital_output_port_pins = [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
 
-    #noinspection PyPep8Naming
-    def __init__(self, port_id='/dev/ttyACM0', bluetooth = True):
+    # noinspection PyPep8Naming
+    def __init__(self, port_id='/dev/ttyACM0', bluetooth=True):
         """
         The "constructor" instantiates the entire interface. It starts the operational threads for the serial
         interface as well as for the command handler.
@@ -111,87 +111,92 @@ class PyMata:
         # Currently only serial communication over USB is supported, but in the future
         # wifi and other transport mechanism support is anticipated
 
-        print("\nPython Version %s" % sys.version)
-        print('\nPyMata version 2.01    Copyright(C) 2013-15 Alan Yorinks    All rights reserved.')
+        try:
 
+            print("\nPython Version %s" % sys.version)
+            print('\nPyMata version 2.02    Copyright(C) 2013-15 Alan Yorinks    All rights reserved.')
 
-        # Instantiate the serial support class
-        self.transport = PyMataSerial(port_id, self.command_deque)
+            # Instantiate the serial support class
+            self.transport = PyMataSerial(port_id, self.command_deque)
 
-        # wait for HC-06 Bluetooth slave to initialize in case it is being used.
-        if bluetooth:
-            time.sleep(5)
+            # wait for HC-06 Bluetooth slave to initialize in case it is being used.
+            if bluetooth:
+                time.sleep(5)
 
-        # Attempt opening communications with the Arduino micro-controller
-        self.transport.open()
+            # Attempt opening communications with the Arduino micro-controller
+            self.transport.open()
 
-        # additional wait for HC-06 if it is being used
-        if bluetooth:
-            time.sleep(2)
-        else:
-            # necessary to support Arduino Mega
-            time.sleep(1)
+            # additional wait for HC-06 if it is being used
+            if bluetooth:
+                time.sleep(2)
+            else:
+                # necessary to support Arduino Mega
+                time.sleep(1)
 
-        # Start the data receive thread
-        self.transport.start()
+            # Start the data receive thread
+            self.transport.start()
 
-        # Instantiate the command handler
-        self._command_handler = PyMataCommandHandler(self)
+            # Instantiate the command handler
+            self._command_handler = PyMataCommandHandler(self)
+            self._command_handler.system_reset()
 
-        ########################################################################
-        # constants defined locally from values contained in the command handler
-        ########################################################################
+            ########################################################################
+            # constants defined locally from values contained in the command handler
+            ########################################################################
 
-        # Data latch state constants to be used when accessing data returned from get_latch_data methods.
-        # The get_latch data methods return [pin_number, latch_state, latched_data, time_stamp]
-        # These three constants define possible values for the second item in the list, latch_state
+            # Data latch state constants to be used when accessing data returned from get_latch_data methods.
+            # The get_latch data methods return [pin_number, latch_state, latched_data, time_stamp]
+            # These three constants define possible values for the second item in the list, latch_state
 
-        # this pin will be ignored for latching - table initialized with this value
-        self.LATCH_IGNORE = self._command_handler.LATCH_IGNORE
-        # When the next pin value change is received for this pin, if it matches the latch criteria
-        # the data will be latched.
-        self.LATCH_ARMED = self._command_handler.LATCH_ARMED
-        # Data has been latched. Read the data to re-arm the latch.
-        self.LATCH_LATCHED = self._command_handler.LATCH_LATCHED
+            # this pin will be ignored for latching - table initialized with this value
+            self.LATCH_IGNORE = self._command_handler.LATCH_IGNORE
+            # When the next pin value change is received for this pin, if it matches the latch criteria
+            # the data will be latched.
+            self.LATCH_ARMED = self._command_handler.LATCH_ARMED
+            # Data has been latched. Read the data to re-arm the latch.
+            self.LATCH_LATCHED = self._command_handler.LATCH_LATCHED
 
-        #
-        # These constants are used when setting a data latch.
-        # Latch threshold types
-        #
-        self.DIGITAL_LATCH_HIGH = self._command_handler.DIGITAL_LATCH_HIGH
-        self.DIGITAL_LATCH_LOW = self._command_handler.DIGITAL_LATCH_LOW
+            #
+            # These constants are used when setting a data latch.
+            # Latch threshold types
+            #
+            self.DIGITAL_LATCH_HIGH = self._command_handler.DIGITAL_LATCH_HIGH
+            self.DIGITAL_LATCH_LOW = self._command_handler.DIGITAL_LATCH_LOW
 
-        self.ANALOG_LATCH_GT = self._command_handler.ANALOG_LATCH_GT
-        self.ANALOG_LATCH_LT = self._command_handler.ANALOG_LATCH_LT
-        self.ANALOG_LATCH_GTE = self._command_handler.ANALOG_LATCH_GTE
-        self.ANALOG_LATCH_LTE = self._command_handler.ANALOG_LATCH_LTE
+            self.ANALOG_LATCH_GT = self._command_handler.ANALOG_LATCH_GT
+            self.ANALOG_LATCH_LT = self._command_handler.ANALOG_LATCH_LT
+            self.ANALOG_LATCH_GTE = self._command_handler.ANALOG_LATCH_GTE
+            self.ANALOG_LATCH_LTE = self._command_handler.ANALOG_LATCH_LTE
 
-        # constants to be used to parse the data returned from calling
-        # get_X_latch_data()
+            # constants to be used to parse the data returned from calling
+            # get_X_latch_data()
 
-        self.LATCH_PIN = 0
-        self.LATCH_STATE = 1
-        self.LATCHED_DATA = 2
-        self.LATCHED_TIME_STAMP = 3
+            self.LATCH_PIN = 0
+            self.LATCH_STATE = 1
+            self.LATCHED_DATA = 2
+            self.LATCHED_TIME_STAMP = 3
 
-        # Start the command processing thread
-        self._command_handler.start()
+            # Start the command processing thread
+            self._command_handler.start()
 
-        # Command handler should now be prepared to receive replies from the Arduino, so go ahead
-        # detect the Arduino board
+            # Command handler should now be prepared to receive replies from the Arduino, so go ahead
+            # detect the Arduino board
 
-        print('Please wait while Arduino is being detected. This can take up to 30 seconds ...')
+            print('Please wait while Arduino is being detected. This can take up to 30 seconds ...')
 
-        # perform board auto discovery
+            # perform board auto discovery
+            if not self._command_handler.auto_discover_board():
+                # board was not found so shutdown
+                print("Board Auto Discovery Failed!, Shutting Down")
+                self._command_handler.stop()
+                self.transport.stop()
+                self._command_handler.join()
+                self.transport.join()
+                time.sleep(2)
 
-        if not self._command_handler.auto_discover_board():
-            # board was not found so shutdown
-            print("Board Auto Discovery Failed!, Shutting Down")
-            self._command_handler.stop()
-            self.transport.stop()
-            self._command_handler.join()
-            self.transport.join()
-            time.sleep(2)
+        except KeyboardInterrupt:
+            print("Program Aborted Before PyMata Instantiated")
+            sys.exit()
 
     def analog_mapping_query(self):
         """
@@ -238,9 +243,12 @@ class PyMata:
         This method will close the transport (serial port) and exit
         @return: No return value, but sys.exit(0) is called.
         """
+
+        self._command_handler.system_reset()
         self._command_handler.stop()
         self.transport.stop()
         self.transport.close()
+
         print("PyMata close(): Calling sys.exit(0): Hope to see you soon!")
         sys.exit(0)
 
@@ -324,7 +332,7 @@ class PyMata:
         command = [self._command_handler.REPORT_DIGITAL + port, self.REPORTING_ENABLE]
         self._command_handler.send_command(command)
 
-    def encoder_config(self, pin_a, pin_b, cb = None):
+    def encoder_config(self, pin_a, pin_b, cb=None):
         """
         This command enables the rotary encoder (2 pin + ground) and will
         enable encoder reporting.
@@ -438,7 +446,7 @@ class PyMata:
         self._command_handler.last_pin_query_results = []
         return r_data
 
-    #noinspection PyMethodMayBeStatic
+    # noinspection PyMethodMayBeStatic
     def get_pymata_version(self):
         """
         Returns the PyMata version number in a list: [Major Number, Minor Number]
@@ -471,7 +479,7 @@ class PyMata:
 
         while self._command_handler.stepper_library_version <= 0:
             if time.time() - start_time > timeout:
-                print("Stepper Library Version Request timed-out. " \
+                print("Stepper Library Version Request timed-out. "
                       "Did you send a stepper_request_library_version command?")
                 return
             else:
@@ -509,7 +517,7 @@ class PyMata:
                 self._command_handler.analog_response_table[data_pin][self._command_handler.RESPONSE_TABLE_MODE] \
                     = self.I2C
 
-    def i2c_read(self, address, register, number_of_bytes, read_type, cb = None):
+    def i2c_read(self, address, register, number_of_bytes, read_type, cb=None):
         """
         This method requests the read of an i2c device. Results are retrieved by a call to
         i2c_get_read_data().
@@ -527,7 +535,6 @@ class PyMata:
         self._command_handler.i2c_map[address] = [cb, None]
 
         self._command_handler.send_sysex(self._command_handler.I2C_REQUEST, data)
-
 
     def i2c_write(self, address, *args):
         """
@@ -548,7 +555,7 @@ class PyMata:
         data = [address, self.I2C_STOP_READING]
         self._command_handler.send_sysex(self._command_handler.I2C_REQUEST, data)
 
-    def i2c_get_read_data(self, address ):
+    def i2c_get_read_data(self, address):
         """
         This method retrieves the i2c read data as the result of an i2c_read() command.
         @param address: i2c device address
@@ -631,7 +638,7 @@ class PyMata:
                 self.digital_write(pin, 0)
         self._command_handler.system_reset()
 
-    def set_analog_latch(self, pin, threshold_type, threshold_value, cb = None):
+    def set_analog_latch(self, pin, threshold_type, threshold_value, cb=None):
         """
         This method "arms" an analog pin for its data to be latched and saved in the latching table
         If a callback method is provided, when latching criteria is achieved, the callback function is called
@@ -649,7 +656,7 @@ class PyMata:
         else:
             return False
 
-    def set_digital_latch(self, pin, threshold_type, cb = None):
+    def set_digital_latch(self, pin, threshold_type, cb=None):
         """
         This method "arms" a digital pin for its data to be latched and saved in the latching table
         If a callback method is provided, when latching criteria is achieved, the callback function is called
@@ -678,7 +685,8 @@ class PyMata:
         """
         command = [self._command_handler.SET_PIN_MODE, pin, mode]
         self._command_handler.send_command(command)
-        #enable reporting for input pins
+
+        # enable reporting for input pins
         if mode == self.INPUT:
             if pin_type == self.ANALOG:
 
@@ -727,7 +735,7 @@ class PyMata:
 
         self._command_handler.send_sysex(self._command_handler.SERVO_CONFIG, command)
 
-    def sonar_config(self, trigger_pin, echo_pin, cb = None,  ping_interval=50, max_distance=200 ):
+    def sonar_config(self, trigger_pin, echo_pin, cb=None, ping_interval=50, max_distance=200):
         """
         Configure the pins,ping interval and maximum distance for an HC-SR04 type device.
         Single pin configuration may be used. To do so, set both the trigger and echo pins to the same value.
@@ -753,8 +761,9 @@ class PyMata:
             return
         else:
             with self.data_lock:
-                #self._command_handler.active_sonar_map[trigger_pin] = self.IGNORE
-                self._command_handler.active_sonar_map[trigger_pin] = [cb,[self.IGNORE]]
+
+                # self._command_handler.active_sonar_map[trigger_pin] = self.IGNORE
+                self._command_handler.active_sonar_map[trigger_pin] = [cb, [self.IGNORE]]
         self._command_handler.send_sysex(self._command_handler.SONAR_CONFIG, data)
 
     def stepper_config(self, steps_per_revolution, stepper_pins):
@@ -763,7 +772,7 @@ class PyMata:
         @param steps_per_revolution: number of steps per motor revolution
         @param stepper_pins: a list of control pin numbers - either 4 or 2
         """
-        data = [self.STEPPER_CONFIGURE,  steps_per_revolution & 0x7f, steps_per_revolution >> 7]
+        data = [self.STEPPER_CONFIGURE, steps_per_revolution & 0x7f, steps_per_revolution >> 7]
         for pin in range(len(stepper_pins)):
             data.append(stepper_pins[pin])
         self._command_handler.send_sysex(self._command_handler.STEPPER_DATA, data)
@@ -792,3 +801,5 @@ class PyMata:
         """
         data = [self.STEPPER_LIBRARY_VERSION]
         self._command_handler.send_sysex(self._command_handler.STEPPER_DATA, data)
+
+

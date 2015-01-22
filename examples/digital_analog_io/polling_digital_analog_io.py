@@ -24,14 +24,14 @@ This example illustrates using polling for digital input, analog input and analo
 A switch is used to turn an LED on and off, and a potentiometer sets the intensity of a second LED.
 When the potentiometer exceeds a raw value of 1000, the program is terminated.
 
-There are some major problems with PySerial 2.7 running on Python 3.4. Polling should only be used with PyThon 2.7
+There are some major problems with PySerial 2.7 running on Python 3.4. Polling should only be used with Python 2.7
 """
 
 import sys
 import time
+import signal
 
 from PyMata.pymata import PyMata
-
 
 # digital pins
 GREEN_LED = 6
@@ -47,6 +47,15 @@ count = 0
 board = PyMata("/dev/ttyACM0")
 
 
+def signal_handler(sig, frame):
+    print('You pressed Ctrl+C!!!!')
+    if board is not None:
+        board.reset()
+    sys.exit(0)
+
+
+signal.signal(signal.SIGINT, signal_handler)
+
 # set pin modes
 board.set_pin_mode(GREEN_LED, board.OUTPUT, board.DIGITAL)
 board.set_pin_mode(RED_LED, board.PWM, board.DIGITAL)
@@ -57,7 +66,7 @@ board.set_analog_latch(POTENTIOMETER, board.ANALOG_LATCH_GTE, 1000)
 
 # do nothing loop - program exits when latch data event occurs for potentiometer
 while 1:
-    count = count + 1
+    count += 1
     if count == 300:
         print('bye bye')
         board.close()

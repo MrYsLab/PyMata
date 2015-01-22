@@ -21,21 +21,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 # import the API class
 import time
+import sys
+import signal
 
 from PyMata.pymata import PyMata
+
 
 # ping callback function
 def cb_ping(data):
     print(str(data[2]) + ' centimeters')
 
-# instantiate PyMata
-firmata = PyMata("/dev/ttyACM0")
+# create a PyMata instance
+board = PyMata("/dev/ttyACM0")
+
+
+def signal_handler(sig, frame):
+    print('You pressed Ctrl+C!!!!')
+    if board is not None:
+        board.reset()
+    sys.exit(0)
+
+
+signal.signal(signal.SIGINT, signal_handler)
 
 # configure 4 pins for 4 SONAR modules
-firmata.sonar_config(12,12, cb_ping)
+board.sonar_config(12, 12, cb_ping)
 
 time.sleep(10)
-firmata.close()
+board.close()
 
 
 

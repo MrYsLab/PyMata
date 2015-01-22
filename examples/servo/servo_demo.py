@@ -24,16 +24,25 @@ This example illustrates manipulating a servo motor.
 """
 
 import time
+import sys
+import signal
 
 from PyMata.pymata import PyMata
 
 
 SERVO_MOTOR = 5  # servo attached to this pin
 
-# The PyMata constructor will print status to the console and will return
-# when PyMata is ready to accept commands or will exit if unsuccessful
+# create a PyMata instance
 board = PyMata("/dev/ttyACM0")
 
+
+def signal_handler(sig, frame):
+    print('You pressed Ctrl+C!!!!')
+    if board is not None:
+        board.reset()
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
 # control the servo - note that you don't need to set pin mode
 # configure the servo
 board.servo_config(SERVO_MOTOR)

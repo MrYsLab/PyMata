@@ -26,17 +26,29 @@ The code is based on a bildr article: http://bildr.org/2011/01/tmp102-arduino/
 
 # import the API class
 import time
+import sys
+import signal
 
 from PyMata.pymata import PyMata
 
-# The PyMata constructor will print status to the console and will return
-# when PyMata is ready to accept commands or will exit if unsuccessful
+
+# create a PyMata instance
 board = PyMata("/dev/ttyACM0")
+
+
+def signal_handler(sig, frame):
+    print('You pressed Ctrl+C!!!!')
+    if board is not None:
+        board.reset()
+    sys.exit(0)
+
+
+signal.signal(signal.SIGINT, signal_handler)
 
 # configure firmata for i2c on an UNO
 board.i2c_config(0, board.ANALOG, 4, 5)
 
-#configure the I2C pins. This code is for the Leonardo
+# configure the I2C pins. This code is for the Leonardo
 #board.i2c_config(0, board.DIGITAL, 3, 2)
 
 # read i2c device at address 0x48, with no register specified. Expect 2 bytes to be returned

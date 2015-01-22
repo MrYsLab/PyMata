@@ -26,9 +26,10 @@ The code is adapted from the Adafruit backpack library https://github.com/adafru
 It utilizes the bi_color_display_controller which, in turn, utilizes PyFirmata for I2C write control.
 """
 
-from  bicolor_display_controller import BiColorDisplayController
 import time
-import sys
+
+from bicolor_display_controller import BiColorDisplayController
+
 
 frown = [0x3C, 0x42, 0xA5, 0x91, 0x91, 0xA5, 0x42, 0x3C]
 neutral = [0x3C, 0x42, 0x95, 0x91, 0x91, 0x95, 0x42, 0x3C]

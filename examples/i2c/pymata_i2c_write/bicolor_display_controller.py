@@ -25,16 +25,15 @@ The code is adapted from the Adafruit backpack library https://github.com/adafru
 
 """
 
-
 from PyMata.pymata import PyMata
 
 
 class BiColorDisplayController:
     # display blink control values
 
-    board_address = 0 # i2c address
+    board_address = 0  # i2c address
     blink_rate = 0  # blink rate
-    brightness = 0 # brightness
+    brightness = 0  # brightness
 
     # blink rate defines
     HT16K33_BLINK_CMD = 0x80
@@ -67,7 +66,6 @@ class BiColorDisplayController:
     #
     display_buffer = [[0 for x in range(8)] for x in range(8)]
 
-
     def __init__(self, address, blink_rate, brightness):
 
         # create an instance of PyMata - we are using an Arduino UNO
@@ -77,7 +75,10 @@ class BiColorDisplayController:
         @param blink_rate: desired blink rate
         @param brightness: brightness level for the display
         """
-        self.firmata = PyMata("/dev/ttyACM0")
+        firmata = None
+
+        # create a PyMata instance
+        firmata = PyMata("/dev/ttyACM0")
 
         self.board_address = address
         self.blink_rate = blink_rate
@@ -101,10 +102,10 @@ class BiColorDisplayController:
         Set the user's desired blink rate (0 - 3)
         @param b: blink rate
         """
-        if (b > 3):
-            b = 0 # turn off if not sure
+        if b > 3:
+            b = 0  # turn off if not sure
         self.firmata.i2c_write(self.board_address,
-                                 (self.HT16K33_BLINK_CMD | self.HT16K33_BLINK_DISPLAYON | (b << 1)))
+                               (self.HT16K33_BLINK_CMD | self.HT16K33_BLINK_DISPLAYON | (b << 1)))
 
     def oscillator_set(self, osc_mode):
         """
@@ -122,7 +123,7 @@ class BiColorDisplayController:
             brightness = 15
         brightness |= 0xE0
         self.brightness = brightness
-        self.firmata.i2c_write(0x70,  brightness)
+        self.firmata.i2c_write(0x70, brightness)
 
     def set_pixel(self, row, column, color, suppress_write):
         # rows 0,2,4,6,8,10,12,14 are green
@@ -166,7 +167,7 @@ class BiColorDisplayController:
                 green &= ~(1 << col)
                 red &= ~(1 << col)
 
-        if suppress_write == False:
+        if not suppress_write:
             self.firmata.i2c_write(0x70, row * 2, 0, green)
             self.firmata.i2c_write(0x70, row * 2 + 1, 0, red)
 
@@ -210,14 +211,13 @@ class BiColorDisplayController:
             self.firmata.i2c_write(0x70, row * 2, 0, green)
             self.firmata.i2c_write(0x70, row * 2 + 1, 0, red)
 
-
     def clear_display_buffer(self):
         """
         Set all led's to off.
         """
         for row in range(0, 8):
-            self.firmata.i2c_write(0x70,  row * 2, 0, 0)
-            self.firmata.i2c_write(0x70,  (row * 2) + 1, 0, 0)
+            self.firmata.i2c_write(0x70, row * 2, 0, 0)
+            self.firmata.i2c_write(0x70, (row * 2) + 1, 0, 0)
 
             for column in range(0, 8):
                 self.display_buffer[row][column] = 0

@@ -28,6 +28,8 @@ When the potentiometer exceeds a raw value of 1000, the program is terminated.
 """
 
 import time
+import signal
+import sys
 
 from PyMata.pymata import PyMata
 
@@ -81,6 +83,15 @@ def cb_potentiometer_latch(data):
 # create a PyMata instance
 board = PyMata("/dev/ttyACM0")
 
+
+def signal_handler(sig, frame):
+    print('You pressed Ctrl+C!!!!')
+    if board is not None:
+        board.reset()
+    sys.exit(0)
+
+
+signal.signal(signal.SIGINT, signal_handler)
 
 # set pin modes
 board.set_pin_mode(GREEN_LED, board.OUTPUT, board.DIGITAL)

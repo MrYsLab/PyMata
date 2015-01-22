@@ -26,13 +26,26 @@ FirmataPlus is required to be loaded on the Arduino for this to work
 """
 
 import time
+import sys
+import signal
+
 from PyMata.pymata import PyMata
 
-BEEPER = 3 # pin that piezo device is attached to
 
-# The PyMata constructor will print status to the console and will return
-# when PyMata is ready to accept commands or will exit if unsuccessful
+BEEPER = 3  # pin that piezo device is attached to
+
+# create a PyMata instance
 board = PyMata("/dev/ttyACM0")
+
+
+def signal_handler(sig, frm):
+    print('You pressed Ctrl+C!!!!')
+    if board is not None:
+        board.reset()
+    sys.exit(0)
+
+
+signal.signal(signal.SIGINT, signal_handler)
 
 board.play_tone(BEEPER, board.TONE_TONE, 1000, 500)
 time.sleep(2)
@@ -41,7 +54,6 @@ time.sleep(2)
 board.play_tone(BEEPER, board.TONE_TONE, 1000, 0)
 time.sleep(3)
 board.play_tone(BEEPER, board.TONE_NO_TONE, 1000, 0)
-
 
 board.close()
 
