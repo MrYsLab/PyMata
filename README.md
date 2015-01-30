@@ -74,9 +74,10 @@ signal.signal(signal.SIGINT, signal_handler)
 
 
 ##Special Note For Linux Users Wishing to Use Python 3.4
-Python 3.4 for Linux appears to run slower than Python 2.7.
+Python 3.4 (CPython) for Linux appears to run slower than Python 2.7.
 We will be investigating further and monitoring for a solution.
 The problem has been reported to python.org and may be tracked here: [http://bugs.python.org/issue23324] (http://bugs.python.org/issue23324)
 
+A workaround is to use the [PyPy](http://doc.pypy.org/en/latest/release-pypy3-2.4.0.html) interpreter
 
 There are no performance issues between Python 2.7 and Python 3.4 when running Windows.
