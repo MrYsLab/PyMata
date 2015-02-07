@@ -5,7 +5,7 @@ the complete StandardFirmata protocol.
 
 
 ###Major features
-* __Implements the entire Firmata 2.4 protocol.__
+* __Implements the entire Firmata 2.3 protocol.__
 * __Python 2.7+ and Python 3.4+__ compatibility through a shared code set.
 * Easy to use and intuitive __API__. You can view the [PyMata API Documentation here](https://drive.google.com/uc?id=0B4Qt0LRbWv31eXFhd3Etb0VNclU&authuser=0) or view in the Documentation/html directory.
 * Custom support for __stepper motors, Sonar Ping Devices (HC-SRO4), Piezo devices and Rotary Encoders__.

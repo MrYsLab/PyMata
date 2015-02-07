@@ -56,7 +56,7 @@ class PyMata:
 
     # This is  a thread lock to assure data integrity when reading or writing to the data response tables
     # (defined in the CommandHandler class). It shared by the pymata class and the pymata_command_handler class.
-    data_lock = threading.Lock()
+    data_lock = threading.RLock()
 
     # This is the instance reference to the _command_handler
     _command_handler = None

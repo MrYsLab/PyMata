@@ -404,9 +404,9 @@ class PyMataCommandHandler(threading.Thread):
                 if latching_entry[self.LATCHED_THRESHOLD_TYPE] == self.ANALOG_LATCH_GT:
                     if value > latching_entry[self.ANALOG_LATCH_DATA_TARGET]:
                         if latching_entry[self.ANALOG_LATCH_CALLBACK] is not None:
+                            self.analog_latch_table[pin] = [0, 0, 0, 0, 0, None]
                             latching_entry[self.ANALOG_LATCH_CALLBACK]([self.pymata.ANALOG | self.pymata.LATCH_MODE,
                                                                         pin, value, time.time()])
-                            self.analog_latch_table[pin] = [0, 0, 0, 0, 0, None]
                         else:
                             updated_latch_entry = latching_entry
                             updated_latch_entry[self.LATCH_STATE] = self.LATCH_LATCHED
@@ -419,9 +419,9 @@ class PyMataCommandHandler(threading.Thread):
                 elif latching_entry[self.LATCHED_THRESHOLD_TYPE] == self.ANALOG_LATCH_GTE:
                     if value >= latching_entry[self.ANALOG_LATCH_DATA_TARGET]:
                         if latching_entry[self.ANALOG_LATCH_CALLBACK] is not None:
+                            self.analog_latch_table[pin] = [0, 0, 0, 0, 0, None]
                             latching_entry[self.ANALOG_LATCH_CALLBACK]([self.pymata.ANALOG | self.pymata.LATCH_MODE,
                                                                         pin, value, time.time()])
-                            self.analog_latch_table[pin] = [0, 0, 0, 0, 0, None]
                         else:
                             updated_latch_entry = latching_entry
                             updated_latch_entry[self.LATCH_STATE] = self.LATCH_LATCHED
@@ -498,10 +498,11 @@ class PyMataCommandHandler(threading.Thread):
                     if latching_entry[self.LATCHED_THRESHOLD_TYPE] == self.DIGITAL_LATCH_LOW:
                         if (port_data & 0x01) == 0:
                             if latching_entry[self.DIGITAL_LATCH_CALLBACK] is not None:
+                                self.digital_latch_table[pin] = [0, 0, 0, 0, None]
                                 latching_entry[self.DIGITAL_LATCH_CALLBACK](
                                     [self.pymata.OUTPUT | self.pymata.LATCH_MODE,
                                      pin, 0, time.time()])
-                                self.digital_latch_table[pin] = [0, 0, 0, 0, None]
+
                             else:
                                 updated_latch_entry = latching_entry
                                 updated_latch_entry[self.LATCH_STATE] = self.LATCH_LATCHED
@@ -513,10 +514,10 @@ class PyMataCommandHandler(threading.Thread):
                     elif latching_entry[self.LATCHED_THRESHOLD_TYPE] == self.DIGITAL_LATCH_HIGH:
                         if port_data & 0x01:
                             if latching_entry[self.DIGITAL_LATCH_CALLBACK] is not None:
+                                self.digital_latch_table[pin] = [0, 0, 0, 0, None]
                                 latching_entry[self.DIGITAL_LATCH_CALLBACK](
                                     [self.pymata.OUTPUT | self.pymata.LATCH_MODE,
                                      pin, 1, time.time()])
-                                self.digital_latch_table[pin] = [0, 0, 0, 0, None]
                             else:
                                 updated_latch_entry = latching_entry
                                 updated_latch_entry[self.LATCH_STATE] = self.LATCH_LATCHED
