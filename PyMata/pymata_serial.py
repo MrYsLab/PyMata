@@ -65,13 +65,14 @@ class PyMataSerial(threading.Thread):
     def is_stopped(self):
         return self.stop_event.is_set()
 
-    def open(self):
+    def open(self, verbose):
         """
         open the serial port using the configuration data
         returns a reference to this instance
         """
         # open a serial port
-        print('\nOpening Arduino Serial port %s ' % self.port_id)
+        if verbose:
+            print('\nOpening Arduino Serial port %s ' % self.port_id)
 
         try:
 
@@ -107,6 +108,7 @@ class PyMataSerial(threading.Thread):
         else:
             self.arduino.write(bytes([ord(data)]))
 
+    # noinspection PyExceptClausesOrder
     def run(self):
         """
         This method continually runs. If an incoming character is available on the serial port

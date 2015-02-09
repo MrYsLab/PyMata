@@ -83,7 +83,8 @@ class PyMataCommandHandler(threading.Thread):
     SYSEX_REALTIME = 0x7F  # MIDI Reserved for realtime messages
 
     # The response tables hold response information for all pins
-    # Each table is a table of entries for each pin, which consists of the pin mode, and its last value from firmata
+    # Each table is a table of entries for each pin, which consists of the pin mode, its last value from firmata
+    # and a callback function that the user attached to the pin
 
     # This is a table that stores analog pin modes and data
     # each entry represents ia mode (INPUT or OUTPUT), and its last current value
@@ -219,7 +220,7 @@ class PyMataCommandHandler(threading.Thread):
     def is_stopped(self):
         return self.stop_event.is_set()
 
-    def auto_discover_board(self):
+    def auto_discover_board(self, verbose):
         """
         This method will allow up to 30 seconds for discovery (communicating with) an Arduino board
         and then will determine a pin configuration table for the board.
@@ -236,8 +237,9 @@ class PyMataCommandHandler(threading.Thread):
                 # keep sending out a capability query until there is a response
             self.send_sysex(self.ANALOG_MAPPING_QUERY, None)
             time.sleep(.1)
-            #time.sleep(3)
-        print("Board initialized in %d seconds" % (time.time() - start_time))
+
+        if verbose:
+            print("Board initialized in %d seconds" % (time.time() - start_time))
 
         for pin in self.analog_mapping_query_results:
             self.total_pins_discovered += 1
@@ -245,8 +247,9 @@ class PyMataCommandHandler(threading.Thread):
             if pin != self.pymata.IGNORE:
                 self.number_of_analog_pins_discovered += 1
 
-        print('Total Number of Pins Detected = %d' % self.total_pins_discovered)
-        print('Total Number of Analog Pins Detected = %d' % self.number_of_analog_pins_discovered)
+        if verbose:
+            print('Total Number of Pins Detected = %d' % self.total_pins_discovered)
+            print('Total Number of Analog Pins Detected = %d' % self.number_of_analog_pins_discovered)
 
         # response table initialization
         # for each pin set the mode to input and the last read data value to zero

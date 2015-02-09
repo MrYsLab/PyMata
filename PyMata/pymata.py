@@ -61,6 +61,9 @@ class PyMata:
     # This is the instance reference to the _command_handler
     _command_handler = None
 
+    # verbose can be set to false to suppress output to the console when instantiating PyMata
+    verbose = True
+
     # pin modes
     INPUT = 0x00  # pin set as input
     OUTPUT = 0x01  # pin set as output
@@ -101,20 +104,24 @@ class PyMata:
                                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
 
     # noinspection PyPep8Naming
-    def __init__(self, port_id='/dev/ttyACM0', bluetooth=True):
+    def __init__(self, port_id='/dev/ttyACM0', bluetooth=True, verbose=True):
         """
         The "constructor" instantiates the entire interface. It starts the operational threads for the serial
         interface as well as for the command handler.
         @param port_id: Communications port specifier (COM3, /dev/ttyACM0, etc)
         @param bluetooth: Sets start up delays for bluetooth connectivity. Set to False for faster start up.
+        @param verbose: If set to False, the status print statements are suppressed.
         """
         # Currently only serial communication over USB is supported, but in the future
         # wifi and other transport mechanism support is anticipated
 
         try:
+            # save the user's request if specified
+            self.verbose = verbose
 
-            print("\nPython Version %s" % sys.version)
-            print('\nPyMata version 2.04   Copyright(C) 2013-15 Alan Yorinks    All rights reserved.')
+            if self.verbose:
+                print("\nPython Version %s" % sys.version)
+                print('\nPyMata version 2.05   Copyright(C) 2013-15 Alan Yorinks    All rights reserved.')
 
             # Instantiate the serial support class
             self.transport = PyMataSerial(port_id, self.command_deque)
@@ -124,7 +131,7 @@ class PyMata:
                 time.sleep(5)
 
             # Attempt opening communications with the Arduino micro-controller
-            self.transport.open()
+            self.transport.open(self.verbose)
 
             # additional wait for HC-06 if it is being used
             if bluetooth:
@@ -182,12 +189,14 @@ class PyMata:
             # Command handler should now be prepared to receive replies from the Arduino, so go ahead
             # detect the Arduino board
 
-            print('Please wait while Arduino is being detected. This can take up to 30 seconds ...')
+            if self.verbose:
+                print('\nPlease wait while Arduino is being detected. This can take up to 30 seconds ...')
 
             # perform board auto discovery
-            if not self._command_handler.auto_discover_board():
+            if not self._command_handler.auto_discover_board(self.verbose):
                 # board was not found so shutdown
-                print("Board Auto Discovery Failed!, Shutting Down")
+                if self.verbose:
+                    print("Board Auto Discovery Failed!, Shutting Down")
                 self._command_handler.stop()
                 self.transport.stop()
                 self._command_handler.join()
@@ -195,7 +204,8 @@ class PyMata:
                 time.sleep(2)
 
         except KeyboardInterrupt:
-            print("Program Aborted Before PyMata Instantiated")
+            if self.verbose:
+                print("Program Aborted Before PyMata Instantiated")
             sys.exit()
 
     def analog_mapping_query(self):
@@ -249,8 +259,11 @@ class PyMata:
         self.transport.stop()
         self.transport.close()
 
-        print("PyMata close(): Calling sys.exit(0): Hope to see you soon!")
+        if self.verbose:
+            print("PyMata close(): Calling sys.exit(0): Hope to see you soon!")
+
         sys.exit(0)
+
 
     def digital_read(self, pin):
         """
@@ -263,6 +276,7 @@ class PyMata:
             data = \
                 self._command_handler.digital_response_table[pin][self._command_handler.RESPONSE_TABLE_PIN_DATA_VALUE]
         return data
+
 
     def digital_write(self, pin, value):
         """
@@ -292,6 +306,7 @@ class PyMata:
 
         self._command_handler.send_command(command)
 
+
     def disable_analog_reporting(self, pin):
         """
         Disables analog reporting for a single analog pin.
@@ -300,6 +315,7 @@ class PyMata:
         """
         command = [self._command_handler.REPORT_ANALOG + pin, self.REPORTING_DISABLE]
         self._command_handler.send_command(command)
+
 
     def disable_digital_reporting(self, pin):
         """
@@ -312,6 +328,7 @@ class PyMata:
         command = [self._command_handler.REPORT_DIGITAL + port, self.REPORTING_DISABLE]
         self._command_handler.send_command(command)
 
+
     def enable_analog_reporting(self, pin):
         """
         Enables analog reporting. By turning reporting on for a single pin,
@@ -320,6 +337,7 @@ class PyMata:
         """
         command = [self._command_handler.REPORT_ANALOG + pin, self.REPORTING_ENABLE]
         self._command_handler.send_command(command)
+
 
     def enable_digital_reporting(self, pin):
         """
@@ -331,6 +349,7 @@ class PyMata:
         port = pin // 8
         command = [self._command_handler.REPORT_DIGITAL + port, self.REPORTING_ENABLE]
         self._command_handler.send_command(command)
+
 
     def encoder_config(self, pin_a, pin_b, cb=None):
         """
@@ -360,6 +379,7 @@ class PyMata:
 
         self._command_handler.send_sysex(self._command_handler.ENCODER_CONFIG, data)
 
+
     def extended_analog(self, pin, data):
         """
         This method will send an extended data analog output command to the selected pin
@@ -368,6 +388,7 @@ class PyMata:
         """
         analog_data = [pin, data & 0x7f, (data >> 7) & 0x7f, data >> 14]
         self._command_handler.send_sysex(self._command_handler.EXTENDED_ANALOG, analog_data)
+
 
     def get_analog_latch_data(self, pin):
         """
@@ -379,12 +400,14 @@ class PyMata:
         """
         return self._command_handler.get_analog_latch_data(pin)
 
+
     def get_analog_mapping_request_results(self):
         """
         Call this method after calling analog_mapping_query() to retrieve its results
         @return: raw data returned by firmata
         """
         return self._command_handler.analog_mapping_query_results
+
 
     def get_analog_response_table(self):
         """
@@ -395,12 +418,14 @@ class PyMata:
         """
         return self._command_handler.get_analog_response_table()
 
+
     def get_capability_query_results(self):
         """
         Retrieve the data returned by a previous call to capability_query()
         @return: Raw capability data returned by firmata
         """
         return self._command_handler.capability_query_results
+
 
     def get_digital_latch_data(self, pin):
         """
@@ -412,6 +437,7 @@ class PyMata:
         """
         return self._command_handler.get_digital_latch_data(pin)
 
+
     def get_digital_response_table(self):
         """
         This method returns a list of lists representing the current pin mode
@@ -421,6 +447,7 @@ class PyMata:
         """
         return self._command_handler.get_digital_response_table()
 
+
     def get_firmata_version(self):
         """
         Retrieve the firmata version information returned by a previous call to refresh_report_version()
@@ -428,12 +455,14 @@ class PyMata:
          """
         return self._command_handler.firmata_version
 
+
     def get_firmata_firmware_version(self):
         """
         Retrieve the firmware id information returned by a previous call to refresh_report_firmware()
         @return: Firmata_firmware  list [major, minor, file_name] or None
         """
         return self._command_handler.firmata_firmware
+
 
     def get_pin_state_query_results(self):
         """
@@ -446,6 +475,7 @@ class PyMata:
         self._command_handler.last_pin_query_results = []
         return r_data
 
+
     # noinspection PyMethodMayBeStatic
     def get_pymata_version(self):
         """
@@ -454,6 +484,7 @@ class PyMata:
         @return:
         """
         return [1, 57]
+
 
     # noinspection PyMethodMayBeStatic
     def get_sonar_data(self):
@@ -467,6 +498,7 @@ class PyMata:
         """
         return self._command_handler.active_sonar_map
 
+
     def get_stepper_version(self, timeout=20):
         """
         @param timeout: specify a time to allow arduino to process and return a version
@@ -479,12 +511,14 @@ class PyMata:
 
         while self._command_handler.stepper_library_version <= 0:
             if time.time() - start_time > timeout:
-                print("Stepper Library Version Request timed-out. "
-                      "Did you send a stepper_request_library_version command?")
+                if self.verbose is True:
+                    print("Stepper Library Version Request timed-out. "
+                          "Did you send a stepper_request_library_version command?")
                 return
             else:
                 pass
         return self._command_handler.stepper_library_version
+
 
     def i2c_config(self, read_delay_time=0, pin_type=None, clk_pin=0, data_pin=0):
         """
@@ -517,6 +551,7 @@ class PyMata:
                 self._command_handler.analog_response_table[data_pin][self._command_handler.RESPONSE_TABLE_MODE] \
                     = self.I2C
 
+
     def i2c_read(self, address, register, number_of_bytes, read_type, cb=None):
         """
         This method requests the read of an i2c device. Results are retrieved by a call to
@@ -536,6 +571,7 @@ class PyMata:
 
         self._command_handler.send_sysex(self._command_handler.I2C_REQUEST, data)
 
+
     def i2c_write(self, address, *args):
         """
         Write data to an i2c device.
@@ -547,6 +583,7 @@ class PyMata:
             data.append(item)
         self._command_handler.send_sysex(self._command_handler.I2C_REQUEST, data)
 
+
     def i2c_stop_reading(self, address):
         """
         This method stops an I2C_READ_CONTINUOUSLY operation for the i2c device address specified.
@@ -554,6 +591,7 @@ class PyMata:
         """
         data = [address, self.I2C_STOP_READING]
         self._command_handler.send_sysex(self._command_handler.I2C_REQUEST, data)
+
 
     def i2c_get_read_data(self, address):
         """
@@ -565,6 +603,7 @@ class PyMata:
             map_entry = self._command_handler.i2c_map[address]
             return map_entry[1]
 
+
     def pin_state_query(self, pin):
         """
         This method issues a pin state query command. Data returned is retrieved via
@@ -572,6 +611,7 @@ class PyMata:
         @param pin: pin number
         """
         self._command_handler.send_sysex(self._command_handler.PIN_STATE_QUERY, [pin])
+
 
     def play_tone(self, pin, tone_command, frequency, duration):
         """
@@ -602,6 +642,7 @@ class PyMata:
             data = [tone_command, pin]
         self._command_handler.send_sysex(self._command_handler.TONE_PLAY, data)
 
+
     def refresh_report_version(self):
         """
         This method will query firmata for the report version.
@@ -610,12 +651,14 @@ class PyMata:
         command = [self._command_handler.REPORT_VERSION]
         self._command_handler.send_command(command)
 
+
     def refresh_report_firmware(self):
         """
         This method will query firmata to report firmware. Retrieve the report via a
         call to get_firmata_firmware_version()
         """
         self._command_handler.send_sysex(self._command_handler.REPORT_FIRMWARE, None)
+
 
     def reset(self):
         """
@@ -638,6 +681,7 @@ class PyMata:
                 self.digital_write(pin, 0)
         self._command_handler.system_reset()
 
+
     def set_analog_latch(self, pin, threshold_type, threshold_value, cb=None):
         """
         This method "arms" an analog pin for its data to be latched and saved in the latching table
@@ -656,6 +700,7 @@ class PyMata:
         else:
             return False
 
+
     def set_digital_latch(self, pin, threshold_type, cb=None):
         """
         This method "arms" a digital pin for its data to be latched and saved in the latching table
@@ -671,6 +716,7 @@ class PyMata:
             return True
         else:
             return False
+
 
     def set_pin_mode(self, pin, mode, pin_type, cb=None):
         """
@@ -711,6 +757,7 @@ class PyMata:
             else:
                 self._command_handler.digital_response_table[pin][self._command_handler.RESPONSE_TABLE_MODE] = mode
 
+
     def set_sampling_interval(self, interval):
         """
         This method sends the desired sampling interval to Firmata.
@@ -720,6 +767,7 @@ class PyMata:
         """
         data = [interval & 0x7f, interval >> 7]
         self._command_handler.send_sysex(self._command_handler.SAMPLING_INTERVAL, data)
+
 
     def servo_config(self, pin, min_pulse=544, max_pulse=2400):
         """
@@ -734,6 +782,7 @@ class PyMata:
                    max_pulse >> 7]
 
         self._command_handler.send_sysex(self._command_handler.SERVO_CONFIG, command)
+
 
     def sonar_config(self, trigger_pin, echo_pin, cb=None, ping_interval=50, max_distance=200):
         """
@@ -757,7 +806,8 @@ class PyMata:
         self.set_pin_mode(echo_pin, self.SONAR, self.INPUT)
         # update the ping data map for this pin
         if len(self._command_handler.active_sonar_map) > 6:
-            print("sonar_config: maximum number of devices assigned - ignoring request")
+            if self.verbose:
+                print("sonar_config: maximum number of devices assigned - ignoring request")
             return
         else:
             with self.data_lock:
@@ -765,6 +815,7 @@ class PyMata:
                 # self._command_handler.active_sonar_map[trigger_pin] = self.IGNORE
                 self._command_handler.active_sonar_map[trigger_pin] = [cb, [self.IGNORE]]
         self._command_handler.send_sysex(self._command_handler.SONAR_CONFIG, data)
+
 
     def stepper_config(self, steps_per_revolution, stepper_pins):
         """
@@ -776,6 +827,7 @@ class PyMata:
         for pin in range(len(stepper_pins)):
             data.append(stepper_pins[pin])
         self._command_handler.send_sysex(self._command_handler.STEPPER_DATA, data)
+
 
     def stepper_step(self, motor_speed, number_of_steps):
         """
@@ -793,6 +845,7 @@ class PyMata:
                 abs_number_of_steps & 0x7f, abs_number_of_steps >> 7, direction]
         self._command_handler.send_sysex(self._command_handler.STEPPER_DATA, data)
 
+
     def stepper_request_library_version(self):
         """
         Request the stepper library version from the Arduino.
@@ -801,5 +854,4 @@ class PyMata:
         """
         data = [self.STEPPER_LIBRARY_VERSION]
         self._command_handler.send_sysex(self._command_handler.STEPPER_DATA, data)
-
 

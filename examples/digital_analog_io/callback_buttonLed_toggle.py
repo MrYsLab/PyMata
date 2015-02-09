@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 __author__ = 'Copyright (c) 2015 Alan Yorinks All rights reserved.'
 
 """

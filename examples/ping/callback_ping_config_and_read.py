@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 __author__ = 'Alan Yorinks'
 """
 Copyright (c) 2013 Alan Yorinks All rights reserved.

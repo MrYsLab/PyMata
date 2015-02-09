@@ -1,6 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 
-__author__ = 'Alan Yorinks'
+__author__ = 'Copyright (c) 2015 Alan Yorinks All rights reserved.'
+
 """
 Copyright (c) 2013 Alan Yorinks All rights reserved.
 
@@ -12,17 +13,18 @@ version 3 of the License, or (at your option) any later version.
 This library is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- General Public License for more details.
+General Public License for more details.
 
-You should have received a copy of the GNU  General Public
+You should have received a copy of the GNU General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 
+This file demonstrates how to retrieve capability and configuration data.
+
+The servo_config is set to illustrate the digital_response_table being marked a servo device
 """
 
-
-# import the API class
 import time
 import sys
 import signal
@@ -30,38 +32,30 @@ import signal
 from PyMata.pymata import PyMata
 
 
-firmata = None
+
+def signal_handler(sig, frame):
+    print('You pressed Ctrl+C!!!!')
+    if board is not None:
+        board.reset()
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
 
 # create a PyMata instance
 board = PyMata("/dev/ttyACM0")
 
+board.servo_config(5)
 
-def signal_handler(sig, frame):
-    print('You pressed Ctrl+C!!!!')
-    if firmata is not None:
-        firmata.reset()
-    sys.exit(0)
+# send query request to Arduino
+board.capability_query()
 
+# some boards take a long time to respond - adjust as needed
+time.sleep(5)
+print("Pin Capability Report")
+print(board.get_capability_query_results())
 
-signal.signal(signal.SIGINT, signal_handler)
+print("PyMata Digital Response Table")
+print(board.get_digital_response_table())
 
-# configure 4 pins for 4 SONAR modules
-firmata.sonar_config(12, 12)
-
-time.sleep(1)
-
-# create a forever loop that will sequentially turn on all LEDS,
-# then print out the sonar data for the 4 PING devices
-# then sequentially turns off all LEDS and print PING data again
-
-while 1:
-    data = firmata.get_sonar_data()
-    print(str(data[2]) + ' centimeters')
-    # firmata.get_sonar_data()
-    #print(firmata.get_sonar_data())
-    time.sleep(.2)
-
-
-
-
-
+print("PyMata Analog Response Table")
+print(board.get_analog_response_table())

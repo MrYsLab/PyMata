@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 __author__ = 'Copyright (c) 2015 Alan Yorinks All rights reserved.'
 
 """
@@ -26,6 +28,7 @@ to demonstrating both writing to an LED using PWM and with digital outputs.
 A switch is used to turn an LED on and off, and a potentiometer sets the intensity of a second LED.
 When the potentiometer exceeds a raw value of 1000, the program is terminated.
 """
+
 
 import time
 import signal
@@ -81,7 +84,7 @@ def cb_potentiometer_latch(data):
     board.close()
 
 # create a PyMata instance
-board = PyMata("/dev/ttyACM0")
+board = PyMata("/dev/ttyACM0", True, False)
 
 
 def signal_handler(sig, frame):
