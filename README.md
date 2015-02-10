@@ -18,6 +18,7 @@ the complete StandardFirmata protocol.
   * Latches can easily be re-armed to detect the next transient data change.
   * Latches can be either manually read or a callback can be associated with a latch for immediate notification.
 * Optional __callbacks__ provide asynchronous notification of data updates:
+Check out the example code on the [wiki](https://github.com/MrYsLab/PyMata/wiki)
   * Digital input pins.
   * Analog input pins.
   * Encoder changes.
