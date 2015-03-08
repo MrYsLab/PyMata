@@ -653,11 +653,11 @@ class PyMataCommandHandler(threading.Thread):
 
             # reinitialize tables
             for pin in range(0, self.total_pins_discovered):
-                response_entry = [self.pymata.INPUT, 0]
+                response_entry = [self.pymata.INPUT, 0, None]
                 self.digital_response_table.append(response_entry)
 
             for pin in range(0, self.number_of_analog_pins_discovered):
-                response_entry = [self.pymata.INPUT, 0]
+                response_entry = [self.pymata.INPUT, 0, None]
                 self.analog_response_table.append(response_entry)
 
     #noinspection PyMethodMayBeStatic

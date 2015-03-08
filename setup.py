@@ -5,7 +5,7 @@ from distutils.core import setup
 setup(
     name='PyMata',
     packages=['PyMata'],
-    version='2.05',
+    version='2.06',
     description="A Python Protocol Abstraction Library For Arduino Firmata",
     author='Alan Yorinks',
     author_email='MisterYsLab@gmail.com',
