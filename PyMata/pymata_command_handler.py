@@ -481,7 +481,7 @@ class PyMataCommandHandler(threading.Thread):
         # set all the pins for this reporting port
         # get the first pin number for this report
         pin = port * 8
-        for pin in range(pin, pin + 8):
+        for pin in range(pin, min(pin + 8, self.total_pins_discovered)):
             # shift through all the bit positions and set the digital response table
             with self.pymata.data_lock:
                 # look at the previously stored value for this pin
