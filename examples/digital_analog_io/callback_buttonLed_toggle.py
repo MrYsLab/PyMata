@@ -29,8 +29,8 @@ import sys
 from PyMata.pymata import PyMata
 
 # Digital pins
-GREEN_LED = 12
-PUSH_BUTTON = 6
+GREEN_LED = 6
+PUSH_BUTTON = 12
 
 # Switch states
 ON = 1
