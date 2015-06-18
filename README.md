@@ -30,7 +30,7 @@ Check out the example code on the [wiki](https://github.com/MrYsLab/PyMata/wiki)
   * Polling methods and callbacks are available simultaneously and can be used in a mixed polled/callback environment.
   * Callbacks return data in a single list.
   
-  ###The callback data return values:
+  **The callback data return values:**
   
 | Callback Type | List Element 0 | List Element 1 | List Element 2 | List Element 3 |
 | ------------- | -------------- | -------------- | -------------- | -------------- |
@@ -70,11 +70,12 @@ signal.signal(signal.SIGINT, signal_handler)
 # Your Application Continues Below This Point
 ```
 
-####Want to extend PyMata? See [Our Instructables Article](http://www.instructables.com/id/Going-Beyond-StandardFirmata-Adding-New-Device-Sup/) explaining how stepper motor support was added. Use it as a guide to customize PyMata for your own needs.
-###[Check Out Mr. Y's Blog Here](http://mryslab.blogspot.com/) for all the latest news!
+### Misc
+- Want to extend PyMata? See [Our Instructables Article](http://www.instructables.com/id/Going-Beyond-StandardFirmata-Adding-New-Device-Sup/) explaining how stepper motor support was added. Use it as a guide to customize PyMata for your own needs.
+- [Check Out Mr. Y's Blog Here](http://mryslab.blogspot.com/) for all the latest news!
 
 
-##Special Note For Linux Users Wishing to Use Python 3.4
+### Special Note For Linux Users Wishing to Use Python 3.4
 Python 3.4 (CPython) for Linux appears to run slower than Python 2.7.
 We will be investigating further and monitoring for a solution.
 The problem has been reported to python.org and may be tracked here: [http://bugs.python.org/issue23324] (http://bugs.python.org/issue23324)
