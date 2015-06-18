@@ -70,7 +70,7 @@ def signal_handler(sig, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 # Create a PyMata instance
-board = PyMata("/dev/ttyACM0", verbose=False)
+board = PyMata("/dev/ttyACM0", verbose=True)
 
 # Set pin modes
 # Set the pin to digital output to light the green LED
