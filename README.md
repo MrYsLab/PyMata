@@ -4,7 +4,7 @@ PyMata is a high performance, multi-threaded, non-blocking Python client for the
 the complete StandardFirmata protocol.
 
 
-###Major features
+##Major features
 * __Implements the entire Firmata 2.4.1 protocol.__
 * __Python 2.7+ and Python 3.4+__ compatibility through a shared code set. (If you are running Python 3.4 on Linux, please see note below).
 * Easy to use and intuitive __API__. You can view the [PyMata API Documentation here](http://htmlpreview.github.com/?https://github.com/MrYsLab/PyMata/blob/master/documentation/html/PyMata.pymata.PyMata-class.html) or view in the Documentation/html directory.
@@ -17,8 +17,10 @@ the complete StandardFirmata protocol.
   * Digital latches compare a data change to either a high or low, specified by the user.
   * Latches can easily be re-armed to detect the next transient data change.
   * Latches can be either manually read or a callback can be associated with a latch for immediate notification.
-* Optional __callbacks__ provide asynchronous notification of data updates:
-Check out the example code on the [wiki](https://github.com/MrYsLab/PyMata/wiki)
+* Optional __callbacks__ provide asynchronous notification of data updates.
+
+## Callbacks
+Check out the example code on the [wiki](https://github.com/MrYsLab/PyMata/wiki).
   * Digital input pins.
   * Analog input pins.
   * Encoder changes.
@@ -30,7 +32,7 @@ Check out the example code on the [wiki](https://github.com/MrYsLab/PyMata/wiki)
   * Polling methods and callbacks are available simultaneously and can be used in a mixed polled/callback environment.
   * Callbacks return data in a single list.
   
-  ###The callback data return values:
+### The callback data return values
   
 | Callback Type | List Element 0 | List Element 1 | List Element 2 | List Element 3 |
 | ------------- | -------------- | -------------- | -------------- | -------------- |
@@ -44,7 +46,7 @@ Check out the example code on the [wiki](https://github.com/MrYsLab/PyMata/wiki)
 
 
 
-### Control-C Signal Handler
+## Control-C Signal Handler
 Below is a sample Control-C signal handler that can be added to a PyMata Application.
 It suppresses exceptions being reported as a result of the user entering a Control-C to abort the application.
 
@@ -70,11 +72,12 @@ signal.signal(signal.SIGINT, signal_handler)
 # Your Application Continues Below This Point
 ```
 
-####Want to extend PyMata? See [Our Instructables Article](http://www.instructables.com/id/Going-Beyond-StandardFirmata-Adding-New-Device-Sup/) explaining how stepper motor support was added. Use it as a guide to customize PyMata for your own needs.
-###[Check Out Mr. Y's Blog Here](http://mryslab.blogspot.com/) for all the latest news!
+## Misc
+- Want to extend PyMata? See [Our Instructables Article](http://www.instructables.com/id/Going-Beyond-StandardFirmata-Adding-New-Device-Sup/) explaining how stepper motor support was added. Use it as a guide to customize PyMata for your own needs.
+- [Check Out Mr. Y's Blog Here](http://mryslab.blogspot.com/) for all the latest news!
 
 
-##Special Note For Linux Users Wishing to Use Python 3.4
+## Special Note For Linux Users Wishing to Use Python 3.4
 Python 3.4 (CPython) for Linux appears to run slower than Python 2.7.
 We will be investigating further and monitoring for a solution.
 The problem has been reported to python.org and may be tracked here: [http://bugs.python.org/issue23324] (http://bugs.python.org/issue23324)
