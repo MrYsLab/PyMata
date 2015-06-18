@@ -1,9 +1,6 @@
 #!/usr/bin/python
-
-__author__ = 'Copyright (c) 2015 Alan Yorinks All rights reserved.'
-
 """
-Copyright (c) 2013 Alan Yorinks All rights reserved.
+Copyright (c) 2013-2015 Alan Yorinks All rights reserved.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU  General Public
@@ -22,7 +19,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 This file demonstrates how to retrieve capability and configuration data.
 
-The servo_config is set to illustrate the digital_response_table being marked a servo device
+The servo_config is set to illustrate the digital_response_table being marked
+a servo device. Pin 12 is set to digital output and pin A0 is set to analog
+imput.
+
+Your output should like this:
+
+PyMata Digital Response Table
+[[0, 0, None], [0, 0, None], [0, 0, None], [0, 0, None], [0, 0, None],
+ [4, 0, None], [0, 0, None], [0, 0, None], [0, 0, None], [0, 0, None],
+ [0, 0, None], [0, 0, None], [1, 0, None], [0, 0, None], [0, 0, None],
+ [0, 0, None], [0, 0, None], [0, 0, None], [0, 0, None], [0, 0, None]]
+PyMata Analog Response Table
+[[0, 216, None], [0, 0, None], [0, 0, None], [0, 0, None], [0, 0, None],
+ [0, 0, None]]
+
 """
 
 import time
@@ -31,25 +42,26 @@ import signal
 
 from PyMata.pymata import PyMata
 
-
-
 def signal_handler(sig, frame):
-    print('You pressed Ctrl+C!!!!')
+    print('You pressed Ctrl+C')
     if board is not None:
         board.reset()
     sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
 
-# create a PyMata instance
+# Create a PyMata instance
 board = PyMata("/dev/ttyACM0")
 
+# Set the pin mode
 board.servo_config(5)
+board.set_pin_mode(12, board.OUTPUT, board.DIGITAL)
+board.set_pin_mode(0, board.INPUT, board.ANALOG)
 
-# send query request to Arduino
+# Send query request to Arduino
 board.capability_query()
 
-# some boards take a long time to respond - adjust as needed
+# Some boards take a long time to respond - adjust as needed
 time.sleep(5)
 print("Pin Capability Report")
 print(board.get_capability_query_results())
@@ -59,3 +71,4 @@ print(board.get_digital_response_table())
 
 print("PyMata Analog Response Table")
 print(board.get_analog_response_table())
+
