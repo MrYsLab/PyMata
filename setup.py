@@ -5,12 +5,13 @@ from distutils.core import setup
 setup(
     name='PyMata',
     packages=['PyMata'],
-    version='2.07',
+    version='2.07a',
     description="A Python Protocol Abstraction Library For Arduino Firmata",
     author='Alan Yorinks',
     author_email='MisterYsLab@gmail.com',
     url='https://github.com/MrYsLab/PyMata',
     download_url = 'https://github.com/MrYsLab/PyMata',
+    install_requires=['pyserial == 2.7'],
     keywords = ['Firmata', 'Arduino', 'Protocol'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
