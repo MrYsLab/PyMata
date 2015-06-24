@@ -121,7 +121,7 @@ class PyMata:
 
             if self.verbose:
                 print("\nPython Version %s" % sys.version)
-                print('\nPyMata version 2.07  Copyright(C) 2013-15 Alan Yorinks    All rights reserved.')
+                print('\nPyMata version 2.07a  Copyright(C) 2013-15 Alan Yorinks    All rights reserved.')
 
             # Instantiate the serial support class
             self.transport = PyMataSerial(port_id, self.command_deque)
@@ -483,7 +483,7 @@ class PyMata:
 
         @return:
         """
-        return [2, 07]
+        return ['2', '07a']
 
 
     # noinspection PyMethodMayBeStatic
