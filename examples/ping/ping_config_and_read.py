@@ -22,32 +22,30 @@ import signal
 
 from PyMata.pymata import PyMata
 
-firmata = None
 
 # create a PyMata instance
 board = PyMata("/dev/ttyACM0", verbose=True)
 
+
+# you may need to press ctrl c twice
 def signal_handler(sig, frame):
     print('You pressed Ctrl+C')
-    if firmata is not None:
-        firmata.reset()
+    if board is not None:
+        board.reset()
+        board.close()
     sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
 
-# Configure 4 pins for 4 SONAR modules
-firmata.sonar_config(12, 12)
+# Configure the trigger and echo pins
+board.sonar_config(12, 12)
 
 time.sleep(1)
 
-# Create a forever loop that will sequentially turn on all LEDS,
-# then print out the sonar data for the 4 PING devices
-# then sequentially turns off all LEDS and print PING data again
+# Create a forever loop that will print out the sonar data for the PING device
 
 while 1:
-    data = firmata.get_sonar_data()
+    data = board.get_sonar_data()
     print(str(data[2]) + ' centimeters')
-    # firmata.get_sonar_data()
-    #print(firmata.get_sonar_data())
     time.sleep(.2)
 

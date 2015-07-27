@@ -22,23 +22,32 @@ import signal
 
 from PyMata.pymata import PyMata
 
+
 # Ping callback function
 def cb_ping(data):
     print(str(data[2]) + ' centimeters')
 
+
 # Create a PyMata instance
 board = PyMata("/dev/ttyACM0", verbose=True)
 
+
+# you may need to press control-c twice to exit
 def signal_handler(sig, frame):
     print('You pressed Ctrl+C!!!!')
     if board is not None:
         board.reset()
+        board.close()
     sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
 
-# Configure 4 pins for 4 SONAR modules
+# Configure Trigger and Echo pins
+# Using default of 50 ms ping interval and max distance of 200 cm.
 board.sonar_config(12, 12, cb_ping)
+
+# Example of changing ping interval to 100, and max distance to 150
+# board.sonar_config(12, 12, cb_ping, 100, 150)
 
 time.sleep(10)
 board.close()
