@@ -122,6 +122,8 @@ class PyMataSerial(threading.Thread):
                 if self.arduino.inWaiting():
                     c = self.arduino.read()
                     self.command_deque.append(ord(c))
+                else:
+                    time.sleep(.1)
             except OSError:
                 pass
             except IOError:
