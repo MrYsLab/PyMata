@@ -3,7 +3,7 @@ PyMata
 PyMata is a high performance, multi-threaded, non-blocking Python client for the Firmata Protocol that supports
 the complete StandardFirmata protocol.
 
-A new version for Python 3.4.3, pymata_aio, can be found [here](https://github.com/MrYsLab/pymata-aio). 
+A new version for Python 3.5, pymata_aio, can be found [here](https://github.com/MrYsLab/pymata-aio). 
 
 
 ##Major features
@@ -79,6 +79,6 @@ signal.signal(signal.SIGINT, signal_handler)
 - [Check Out Mr. Y's Blog Here](http://mryslab.blogspot.com/) for all the latest news!
 
 
-# Special Note For Linux Users Wishing to Use Python 3.4
-# [pymata_aio is now available and for Python 3.4.3.](https://github.com/MrYsLab/pymata-aio)
+# Special Note For Linux Users Wishing to Use Python 3.5
+# [pymata_aio is now available and for Python 3.5.](https://github.com/MrYsLab/pymata-aio)
 # [Check out the pymata_aio wiki!](https://github.com/MrYsLab/pymata-aio/wiki)
