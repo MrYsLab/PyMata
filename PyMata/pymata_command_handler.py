@@ -830,8 +830,8 @@ class PyMataCommandHandler(threading.Thread):
 
                     # go to the beginning of the loop to process the next command
                     continue
-                else:
-                    time.sleep(.1)
+            else:
+                time.sleep(.1)
 
 
 
