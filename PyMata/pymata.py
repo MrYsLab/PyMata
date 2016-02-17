@@ -386,7 +386,7 @@ class PyMata:
         @param pin: 0 - 127
         @param data: 0 - 0xfffff
         """
-        analog_data = [pin, data & 0x7f, (data >> 7) & 0x7f, (data >> 14) & 0x3fff]
+        analog_data = [pin, data & 0x7f, (data >> 7) & 0x7f, (data >> 14) & 0x7f]
         self._command_handler.send_sysex(self._command_handler.EXTENDED_ANALOG, analog_data)
 
 
@@ -842,7 +842,7 @@ class PyMata:
         else:
             direction = 0
         abs_number_of_steps = abs(number_of_steps)
-        data = [self.STEPPER_STEP, motor_speed & 0x7f, (motor_speed >> 7) & 0x7f, (motor_speed >> 14) & 0x3fff,
+        data = [self.STEPPER_STEP, motor_speed & 0x7f, (motor_speed >> 7) & 0x7f, (motor_speed >> 14) & 0x7f,
                 abs_number_of_steps & 0x7f, (abs_number_of_steps >> 7) & 0x7f, direction]
         self._command_handler.send_sysex(self._command_handler.STEPPER_DATA, data)
 
