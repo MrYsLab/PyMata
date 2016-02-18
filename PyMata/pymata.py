@@ -234,7 +234,7 @@ class PyMata:
         """
 
         if self._command_handler.ANALOG_MESSAGE + pin < 0xf0:
-            command = [self._command_handler.ANALOG_MESSAGE + pin, value & 0x7f, value >> 7]
+            command = [self._command_handler.ANALOG_MESSAGE + pin, value & 0x7f, (value >> 7) & 0x7f]
             self._command_handler.send_command(command)
         else:
             self.extended_analog(pin, value)
@@ -302,7 +302,7 @@ class PyMata:
 
         # Assemble the command
         command = (calculated_command, self.digital_output_port_pins[port] & 0x7f,
-                   self.digital_output_port_pins[port] >> 7)
+                   (self.digital_output_port_pins[port] >> 7) & 0x7f)
 
         self._command_handler.send_command(command)
 
@@ -386,7 +386,7 @@ class PyMata:
         @param pin: 0 - 127
         @param data: 0 - 0xfffff
         """
-        analog_data = [pin, data & 0x7f, (data >> 7) & 0x7f, data >> 14]
+        analog_data = [pin, data & 0x7f, (data >> 7) & 0x7f, (data >> 14) & 0x7f]
         self._command_handler.send_sysex(self._command_handler.EXTENDED_ANALOG, analog_data)
 
 
@@ -535,7 +535,7 @@ class PyMata:
         @param data_pin: pin number (see comment above).
         @return: No Return Value
         """
-        data = [read_delay_time & 0x7f, read_delay_time >> 7]
+        data = [read_delay_time & 0x7f, (read_delay_time >> 7) & 0x7f]
         self._command_handler.send_sysex(self._command_handler.I2C_CONFIG, data)
 
         # If pin type is set, set pin mode in appropriate response table for these pins
@@ -563,8 +563,8 @@ class PyMata:
         @param read_type: I2C_READ  or I2C_READ_CONTINUOUSLY
         @param cb: Optional callback function to report i2c data as result of read command
         """
-        data = [address, read_type, register & 0x7f, register >> 7,
-                number_of_bytes & 0x7f, number_of_bytes >> 7]
+        data = [address, read_type, register & 0x7f, (register >> 7) & 0x7f,
+                number_of_bytes & 0x7f, (number_of_bytes >> 7) & 0x7f]
 
         # add or update entry in i2c_map for reply
         self._command_handler.i2c_map[address] = [cb, None]
@@ -580,7 +580,8 @@ class PyMata:
         """
         data = [address, self.I2C_WRITE]
         for item in args:
-            data.append(item)
+            data.append(item & 0x7f)
+            data.append((item >> 7) & 0x7f)
         self._command_handler.send_sysex(self._command_handler.I2C_REQUEST, data)
 
 
@@ -630,10 +631,10 @@ class PyMata:
         if tone_command == self.TONE_TONE:
             # duration is specified
             if duration:
-                data = [tone_command, pin, frequency & 0x7f, frequency >> 7, duration & 0x7f, duration >> 7]
+                data = [tone_command, pin, frequency & 0x7f, (frequency >> 7) & 0x7f, duration & 0x7f, (duration >> 7) & 0x7f]
 
             else:
-                data = [tone_command, pin, frequency & 0x7f, frequency >> 7, 0, 0]
+                data = [tone_command, pin, frequency & 0x7f, (frequency >> 7) & 0x7f, 0, 0]
 
             self._command_handler.digital_response_table[pin][self._command_handler.RESPONSE_TABLE_MODE] = \
                 self.TONE
@@ -765,7 +766,7 @@ class PyMata:
         @param interval: Integer value for desired sampling interval in milliseconds
         @return: No return value.
         """
-        data = [interval & 0x7f, interval >> 7]
+        data = [interval & 0x7f, (interval >> 7) & 0x7f]
         self._command_handler.send_sysex(self._command_handler.SAMPLING_INTERVAL, data)
 
 
@@ -778,8 +779,8 @@ class PyMata:
         @return: No return value
         """
         self.set_pin_mode(pin, self.SERVO, self.OUTPUT)
-        command = [pin, min_pulse & 0x7f, min_pulse >> 7, max_pulse & 0x7f,
-                   max_pulse >> 7]
+        command = [pin, min_pulse & 0x7f, (min_pulse >> 7) & 0x7f,
+                   max_pulse & 0x7f, (max_pulse >> 7) & 0x7f]
 
         self._command_handler.send_sysex(self._command_handler.SERVO_CONFIG, command)
 
@@ -800,7 +801,7 @@ class PyMata:
         if max_distance > 200:
             max_distance = 200
         max_distance_lsb = max_distance & 0x7f
-        max_distance_msb = max_distance >> 7
+        max_distance_msb = (max_distance >> 7) & 0x7f
         data = [trigger_pin, echo_pin, ping_interval, max_distance_lsb, max_distance_msb]
         self.set_pin_mode(trigger_pin, self.SONAR, self.INPUT)
         self.set_pin_mode(echo_pin, self.SONAR, self.INPUT)
@@ -823,7 +824,7 @@ class PyMata:
         @param steps_per_revolution: number of steps per motor revolution
         @param stepper_pins: a list of control pin numbers - either 4 or 2
         """
-        data = [self.STEPPER_CONFIGURE, steps_per_revolution & 0x7f, steps_per_revolution >> 7]
+        data = [self.STEPPER_CONFIGURE, steps_per_revolution & 0x7f, (steps_per_revolution >> 7) & 0x7f]
         for pin in range(len(stepper_pins)):
             data.append(stepper_pins[pin])
         self._command_handler.send_sysex(self._command_handler.STEPPER_DATA, data)
@@ -841,8 +842,8 @@ class PyMata:
         else:
             direction = 0
         abs_number_of_steps = abs(number_of_steps)
-        data = [self.STEPPER_STEP, motor_speed & 0x7f, (motor_speed >> 7) & 0x7f, motor_speed >> 14,
-                abs_number_of_steps & 0x7f, abs_number_of_steps >> 7, direction]
+        data = [self.STEPPER_STEP, motor_speed & 0x7f, (motor_speed >> 7) & 0x7f, (motor_speed >> 14) & 0x7f,
+                abs_number_of_steps & 0x7f, (abs_number_of_steps >> 7) & 0x7f, direction]
         self._command_handler.send_sysex(self._command_handler.STEPPER_DATA, data)
 
 
