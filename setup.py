@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 
-from distutils.core import setup
+from setuptools import setup
 
 setup(
     name='PyMata',
     packages=['PyMata'],
+    install_requires=['pyserial>=2.7'],
     version='2.12',
     description="A Python Protocol Abstraction Library For Arduino Firmata",
     author='Alan Yorinks',
     author_email='MisterYsLab@gmail.com',
     url='https://github.com/MrYsLab/PyMata',
     download_url='https://github.com/MrYsLab/PyMata',
-    install_requires=['pyserial >= 2.7'],
     keywords=['Firmata', 'Arduino', 'Protocol'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
