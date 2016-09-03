@@ -54,12 +54,12 @@ class PyMataCommandHandler(threading.Thread):
     REPORT_VERSION = 0xF9  # report protocol version
 
     # user defined SYSEX commands
-    ENCODER_CONFIG = 0x20  # create and enable encoder object
+    ENCODER_CONFIG = 0x60  # create and enable encoder object
     TONE_PLAY = 0x5F  # play a tone at a specified frequency and duration
-    SONAR_CONFIG = 0x60  # configure pins to control a Ping type sonar distance device
+    SONAR_CONFIG = 0x62  # configure pins to control a Ping type sonar distance device
 
-    ENCODER_DATA = 0x21  # current encoder position data
-    SONAR_DATA = 0x61  # distance data returned
+    ENCODER_DATA = 0x61  # current encoder position data
+    SONAR_DATA = 0x63  # distance data returned
 
     SERVO_CONFIG = 0x70  # set servo pin and max and min angles
     STRING_DATA = 0x71  # a string message with 14-bits per char
