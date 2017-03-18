@@ -2,7 +2,7 @@ __author__ = 'Copyright (c) 2013 Alan Yorinks All rights reserved.'
 """
 
 @author: Alan Yorinks
-Copyright (c) 2013-15 Alan Yorinks All rights reserved.
+Copyright (c) 2013-17 Alan Yorinks All rights reserved.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU  General Public

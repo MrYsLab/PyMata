@@ -1,7 +1,7 @@
 __author__ = 'Copyright (c) 2013-15 Alan Yorinks All rights reserved.'
 
 """
-Copyright (c) 2013-15 Alan Yorinks All rights reserved.
+Copyright (c) 2013-17 Alan Yorinks All rights reserved.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU  General Public
@@ -121,7 +121,7 @@ class PyMata:
 
             if self.verbose:
                 print("\nPython Version %s" % sys.version)
-                print('\nPyMata version 2.13  Copyright(C) 2013-16 Alan Yorinks    All rights reserved.')
+                print('\nPyMata version 2.14  Copyright(C) 2013-17 Alan Yorinks    All rights reserved.')
 
             # Instantiate the serial support class
             self.transport = PyMataSerial(port_id, self.command_deque)
