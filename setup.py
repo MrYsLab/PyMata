@@ -5,8 +5,10 @@ from setuptools import setup
 setup(
     name='PyMata',
     packages=['PyMata'],
-    install_requires=['pyserial==2.7'],
-    version='2.14',
+    #install_requires=['pyserial==2.7'],
+    install_requires=['pyserial'],
+
+    version='2.15',
     description="A Python Protocol Abstraction Library For Arduino Firmata",
     author='Alan Yorinks',
     author_email='MisterYsLab@gmail.com',

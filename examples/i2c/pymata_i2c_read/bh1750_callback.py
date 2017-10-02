@@ -24,10 +24,10 @@ signal.signal(signal.SIGINT, signal_handler)
 
 def lux_callback(data):
     datax = data[2]
-    print 'Got read data: %s' % data
+    print('Got read data: %s' % data)
     lux = (datax[1] << 8 | datax[2]) >> 4
     lux /= 1.2
-    print str(lux) + ' lux'
+    print(str(lux) + ' lux')
 
 
 while True:

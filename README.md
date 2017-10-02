@@ -5,6 +5,7 @@ the complete StandardFirmata protocol.
 
 A new version for Python 3.5, pymata_aio, can be found [here](https://github.com/MrYsLab/pymata-aio). 
 
+The API can be viewed on the [wiki](http://htmlpreview.github.io/?https://github.com/MrYsLab/PyMata/blob/master/documentation/html/index.html)
 
 ##Major features
 * __Implements the entire Firmata 2.4.1 protocol.__
