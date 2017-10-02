@@ -1,21 +1,19 @@
 __author__ = 'Copyright (c) 2013 Alan Yorinks All rights reserved.'
-
 """
-Copyright (c) 2013-17 Alan Yorinks All rights reserved.
+ Copyright (c) 2015-2017 Alan Yorinks All rights reserved.
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU  General Public
-License as published by the Free Software Foundation; either
-version 3 of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ Version 3 as published by the Free Software Foundation; either
+ or (at your option) any later version.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ General Public License for more details.
 
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-General Public License for more details.
-
-You should have received a copy of the GNU General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ You should have received a copy of the GNU AFFERO GENERAL PUBLIC LICENSE
+ along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
 import threading
@@ -235,7 +233,7 @@ class PyMataCommandHandler(threading.Thread):
             if time.time() - start_time > 30:
                 return False
                 # keep sending out a capability query until there is a response
-            self.send_sysex(self.ANALOG_MAPPING_QUERY, None)
+            self.send_sysex(self.ANALOG_MAPPING_QUERY)
             time.sleep(.1)
 
         if verbose:
@@ -627,7 +625,6 @@ class PyMataCommandHandler(threading.Thread):
         send_message = ""
         for i in command:
             send_message += chr(i)
-            #send_message += bytes(i)
 
         for data in send_message:
             self.pymata.transport.write(data)
@@ -660,7 +657,7 @@ class PyMataCommandHandler(threading.Thread):
                 response_entry = [self.pymata.INPUT, 0, None]
                 self.analog_response_table.append(response_entry)
 
-    #noinspection PyMethodMayBeStatic
+    # noinspection PyMethodMayBeStatic
     # keeps pycharm happy
     def _string_data(self, data):
         """
@@ -791,7 +788,7 @@ class PyMataCommandHandler(threading.Thread):
                             # go to the beginning of the loop to process the next command
                     continue
 
-                #is this a command byte in the range of 0x80-0xff - these are the non-sysex messages
+                # is this a command byte in the range of 0x80-0xff - these are the non-sysex messages
 
                 elif 0x80 <= data <= 0xff:
                     # look up the method for the command in the command dispatch table
@@ -818,14 +815,14 @@ class PyMataCommandHandler(threading.Thread):
                     # get the number of parameters that this command provides
                     num_args = dispatch_entry[1]
 
-                    #look at the number of args that the selected method requires
+                    # look at the number of args that the selected method requires
                     # now get that number of bytes to pass to the called method
                     for i in range(num_args):
                         while len(self.pymata.command_deque) == 0:
                             pass
                         data = self.pymata.command_deque.popleft()
                         command_data.append(data)
-                        #go execute the command with the argument list
+                        # go execute the command with the argument list
                     method(command_data)
 
                     # go to the beginning of the loop to process the next command
