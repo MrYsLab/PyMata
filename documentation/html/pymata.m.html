@@ -4,7 +4,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 
     <title>PyMata.pymata API documentation</title>
-    <meta name="description" content="" />
+    <meta name="description" content="Copyright (c) 2015-2017 Alan Yorinks All rights reserved.
+
+This program is free software; you can re..." />
 
   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
   
@@ -1112,28 +1114,36 @@ table {
 
   <header id="section-intro">
   <h1 class="title"><span class="name">PyMata.pymata</span> module</h1>
-  
+  <p>Copyright (c) 2015-2017 Alan Yorinks All rights reserved.</p>
+<p>This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+Version 3 as published by the Free Software Foundation; either
+or (at your option) any later version.
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.</p>
+<p>You should have received a copy of the GNU AFFERO GENERAL PUBLIC LICENSE
+along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</p>
   
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata" class="source">
-    <div class="codehilite"><pre><span></span><span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Copyright (c) 2013-15 Alan Yorinks All rights reserved.&#39;</span>
+    <div class="codehilite"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"> Copyright (c) 2015-2017 Alan Yorinks All rights reserved.</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Copyright (c) 2013-17 Alan Yorinks All rights reserved.</span>
+<span class="sd"> This program is free software; you can redistribute it and/or</span>
+<span class="sd"> modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE</span>
+<span class="sd"> Version 3 as published by the Free Software Foundation; either</span>
+<span class="sd"> or (at your option) any later version.</span>
+<span class="sd"> This library is distributed in the hope that it will be useful,</span>
+<span class="sd"> but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="sd"> MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU</span>
+<span class="sd"> General Public License for more details.</span>
 
-<span class="sd">This program is free software; you can redistribute it and/or</span>
-<span class="sd">modify it under the terms of the GNU  General Public</span>
-<span class="sd">License as published by the Free Software Foundation; either</span>
-<span class="sd">version 3 of the License, or (at your option) any later version.</span>
-
-<span class="sd">This library is distributed in the hope that it will be useful,</span>
-<span class="sd">but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="sd">MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU</span>
-<span class="sd">General Public License for more details.</span>
-
-<span class="sd">You should have received a copy of the GNU General Public</span>
-<span class="sd">License along with this library; if not, write to the Free Software</span>
-<span class="sd">Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</span>
+<span class="sd"> You should have received a copy of the GNU AFFERO GENERAL PUBLIC LICENSE</span>
+<span class="sd"> along with this library; if not, write to the Free Software</span>
+<span class="sd"> Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>
@@ -1226,9 +1236,12 @@ table {
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The &quot;constructor&quot; instantiates the entire interface. It starts the operational threads for the serial</span>
 <span class="sd">        interface as well as for the command handler.</span>
-<span class="sd">        @param port_id: Communications port specifier (COM3, /dev/ttyACM0, etc)</span>
-<span class="sd">        @param bluetooth: Sets start up delays for bluetooth connectivity. Set to False for faster start up.</span>
-<span class="sd">        @param verbose: If set to False, the status print statements are suppressed.</span>
+
+<span class="sd">        :param port_id: Communications port specifier (COM3, /dev/ttyACM0, etc)</span>
+
+<span class="sd">        :param bluetooth: Sets start up delays for bluetooth connectivity. Set to False for faster start up.</span>
+
+<span class="sd">        :param verbose: If set to False, the status print statements are suppressed.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Currently only serial communication over USB is supported, but in the future</span>
         <span class="c1"># wifi and other transport mechanism support is anticipated</span>
@@ -1239,7 +1252,7 @@ table {
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
                 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Python Version </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
-                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PyMata version 2.14  Copyright(C) 2013-17 Alan Yorinks    All rights reserved.&#39;</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PyMata version 2.16  Copyright(C) 2013-17 Alan Yorinks    All rights reserved.&#39;</span><span class="p">)</span>
 
             <span class="c1"># Instantiate the serial support class</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">transport</span> <span class="o">=</span> <span class="n">PyMataSerial</span><span class="p">(</span><span class="n">port_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_deque</span><span class="p">)</span>
@@ -1336,8 +1349,10 @@ table {
     <span class="k">def</span> <span class="nf">analog_read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve the last analog data value received for the specified pin.</span>
-<span class="sd">        @param pin: Selected pin</span>
-<span class="sd">        @return: The last value entered into the analog response table.</span>
+
+<span class="sd">        :param pin: Selected pin</span>
+
+<span class="sd">        :return: The last value entered into the analog response table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">analog_response_table</span><span class="p">[</span><span class="n">pin</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">RESPONSE_TABLE_PIN_DATA_VALUE</span><span class="p">]</span>
@@ -1346,9 +1361,12 @@ table {
     <span class="k">def</span> <span class="nf">analog_write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the specified pin to the specified value.</span>
-<span class="sd">        @param pin: Pin number</span>
-<span class="sd">        @param value: Pin value</span>
-<span class="sd">        @return: No return value</span>
+
+<span class="sd">        :param pin: Pin number</span>
+
+<span class="sd">        :param value: Pin value</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">ANALOG_MESSAGE</span> <span class="o">+</span> <span class="n">pin</span> <span class="o">&lt;</span> <span class="mh">0xf0</span><span class="p">:</span>
@@ -1369,7 +1387,7 @@ table {
     <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method will close the transport (serial port) and exit</span>
-<span class="sd">        @return: No return value, but sys.exit(0) is called.</span>
+<span class="sd">        :return: No return value, but sys.exit(0) is called.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">system_reset</span><span class="p">()</span>
@@ -1387,8 +1405,10 @@ table {
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve the last digital data value received for the specified pin.</span>
 <span class="sd">        NOTE: This command will return values for digital, pwm, etc,  pin types</span>
-<span class="sd">        @param pin: Selected pin</span>
-<span class="sd">        @return: The last value entered into the digital response table.</span>
+
+<span class="sd">        :param pin: Selected pin</span>
+
+<span class="sd">        :return: The last value entered into the digital response table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> \
@@ -1399,9 +1419,12 @@ table {
     <span class="k">def</span> <span class="nf">digital_write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the specified pin to the specified value.</span>
-<span class="sd">        @param pin: pin number</span>
-<span class="sd">        @param value: pin value</span>
-<span class="sd">        @return: No return value</span>
+
+<span class="sd">        :param pin: pin number</span>
+
+<span class="sd">        :param value: pin value</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># The command value is not a fixed value, but needs to be calculated using the</span>
         <span class="c1"># pin&#39;s port number</span>
@@ -1428,8 +1451,10 @@ table {
     <span class="k">def</span> <span class="nf">disable_analog_reporting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Disables analog reporting for a single analog pin.</span>
-<span class="sd">        @param pin: Analog pin number. For example for A0, the number is 0.</span>
-<span class="sd">        @return: No return value</span>
+
+<span class="sd">        :param pin: Analog pin number. For example for A0, the number is 0.</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">REPORT_ANALOG</span> <span class="o">+</span> <span class="n">pin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">REPORTING_DISABLE</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
@@ -1439,8 +1464,10 @@ table {
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Disables digital reporting. By turning reporting off for this pin, reporting</span>
 <span class="sd">        is disabled for all 8 bits in the &quot;port&quot; -</span>
-<span class="sd">        @param pin: Pin and all pins for this port</span>
-<span class="sd">        @return: No return value</span>
+
+<span class="sd">        :param pin: Pin and all pins for this port</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">port</span> <span class="o">=</span> <span class="n">pin</span> <span class="o">//</span> <span class="mi">8</span>
         <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">REPORT_DIGITAL</span> <span class="o">+</span> <span class="n">port</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">REPORTING_DISABLE</span><span class="p">]</span>
@@ -1449,9 +1476,11 @@ table {
 
     <span class="k">def</span> <span class="nf">enable_analog_reporting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Enables analog reporting. By turning reporting on for a single pin,</span>
-<span class="sd">        @param pin: Analog pin number. For example for A0, the number is 0.</span>
-<span class="sd">        @return: No return value</span>
+<span class="sd">        Enables analog reporting. By turning reporting on for a single pin.</span>
+
+<span class="sd">        :param pin: Analog pin number. For example for A0, the number is 0.</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">REPORT_ANALOG</span> <span class="o">+</span> <span class="n">pin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">REPORTING_ENABLE</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
@@ -1461,8 +1490,10 @@ table {
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Enables digital reporting. By turning reporting on for all 8 bits in the &quot;port&quot; -</span>
 <span class="sd">        this is part of Firmata&#39;s protocol specification.</span>
-<span class="sd">        @param pin: Pin and all pins for this port</span>
-<span class="sd">        @return: No return value</span>
+
+<span class="sd">        :param pin: Pin and all pins for this port</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">port</span> <span class="o">=</span> <span class="n">pin</span> <span class="o">//</span> <span class="mi">8</span>
         <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">REPORT_DIGITAL</span> <span class="o">+</span> <span class="n">port</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">REPORTING_ENABLE</span><span class="p">]</span>
@@ -1479,10 +1510,13 @@ table {
 
 <span class="sd">        Encoder data is retrieved by performing a digital_read from pin a (encoder pin 1)</span>
 
-<span class="sd">        @param pin_a: Encoder pin 1.</span>
-<span class="sd">        @param pin_b: Encoder pin 2.</span>
-<span class="sd">        @param cb: callback function to report encoder changes</span>
-<span class="sd">        @return: No return value</span>
+<span class="sd">        :param pin_a: Encoder pin 1.</span>
+
+<span class="sd">        :param pin_b: Encoder pin 2.</span>
+
+<span class="sd">        :param cb: callback function to report encoder changes</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">pin_a</span><span class="p">,</span> <span class="n">pin_b</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">digital_response_table</span><span class="p">[</span><span class="n">pin_a</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">RESPONSE_TABLE_MODE</span><span class="p">]</span> \
@@ -1501,8 +1535,10 @@ table {
     <span class="k">def</span> <span class="nf">extended_analog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method will send an extended data analog output command to the selected pin</span>
-<span class="sd">        @param pin: 0 - 127</span>
-<span class="sd">        @param data: 0 - 0xfffff</span>
+
+<span class="sd">        :param pin: 0 - 127</span>
+
+<span class="sd">        :param data: 0 - 0xfffff</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">analog_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">pin</span><span class="p">,</span> <span class="n">data</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="mi">14</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">EXTENDED_ANALOG</span><span class="p">,</span> <span class="n">analog_data</span><span class="p">)</span>
@@ -1513,8 +1549,10 @@ table {
 <span class="sd">        A list is returned containing the latch state for the pin, the latched value, and the time stamp</span>
 <span class="sd">        [pin_num, latch_state, latched_value, time_stamp]</span>
 <span class="sd">        If the the latch state is LATCH_LATCHED, the table is reset (data and timestamp set to zero)</span>
-<span class="sd">        @param pin: Pin number.</span>
-<span class="sd">        @return: [pin, latch_state, latch_data_value, time_stamp]</span>
+
+<span class="sd">        :param pin: Pin number.</span>
+
+<span class="sd">        :return: [pin, latch_state, latch_data_value, time_stamp]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">get_analog_latch_data</span><span class="p">(</span><span class="n">pin</span><span class="p">)</span>
 
@@ -1522,7 +1560,7 @@ table {
     <span class="k">def</span> <span class="nf">get_analog_mapping_request_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Call this method after calling analog_mapping_query() to retrieve its results</span>
-<span class="sd">        @return: raw data returned by firmata</span>
+<span class="sd">        :return: raw data returned by firmata</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">analog_mapping_query_results</span>
 
@@ -1532,7 +1570,7 @@ table {
 <span class="sd">        This method returns a list of lists representing the current pin mode and</span>
 <span class="sd">        associated data values for all analog pins.</span>
 <span class="sd">        All configured pin types, both input and output will be listed. Output pin data will contain zero.</span>
-<span class="sd">        @return: The last update of the digital response table</span>
+<span class="sd">        :return: The last update of the digital response table</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">get_analog_response_table</span><span class="p">()</span>
 
@@ -1540,7 +1578,7 @@ table {
     <span class="k">def</span> <span class="nf">get_capability_query_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve the data returned by a previous call to capability_query()</span>
-<span class="sd">        @return: Raw capability data returned by firmata</span>
+<span class="sd">        :return: Raw capability data returned by firmata</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">capability_query_results</span>
 
@@ -1550,8 +1588,10 @@ table {
 <span class="sd">        A list is returned containing the latch state for the pin, the latched value, and the time stamp</span>
 <span class="sd">        [pin_num, latch_state, latched_value, time_stamp]</span>
 <span class="sd">        If the the latch state is LATCH_LATCHED, the table is reset (data and timestamp set to zero)</span>
-<span class="sd">        @param pin: Pin number.</span>
-<span class="sd">        @return: [pin, latch_state, latch_data_value, time_stamp]</span>
+
+<span class="sd">        :param pin: Pin number.</span>
+
+<span class="sd">        :return: [pin, latch_state, latch_data_value, time_stamp]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">get_digital_latch_data</span><span class="p">(</span><span class="n">pin</span><span class="p">)</span>
 
@@ -1561,7 +1601,7 @@ table {
 <span class="sd">        This method returns a list of lists representing the current pin mode</span>
 <span class="sd">        and associated data for all digital pins.</span>
 <span class="sd">        All pin types, both input and output will be listed. Output pin data will contain zero.</span>
-<span class="sd">        @return: The last update of the digital response table</span>
+<span class="sd">        :return: The last update of the digital response table</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">get_digital_response_table</span><span class="p">()</span>
 
@@ -1569,7 +1609,7 @@ table {
     <span class="k">def</span> <span class="nf">get_firmata_version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve the firmata version information returned by a previous call to refresh_report_version()</span>
-<span class="sd">        @return: Firmata_version list [major, minor] or None</span>
+<span class="sd">        :return: Firmata_version list [major, minor] or None</span>
 <span class="sd">         &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">firmata_version</span>
 
@@ -1577,7 +1617,7 @@ table {
     <span class="k">def</span> <span class="nf">get_firmata_firmware_version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve the firmware id information returned by a previous call to refresh_report_firmware()</span>
-<span class="sd">        @return: Firmata_firmware  list [major, minor, file_name] or None</span>
+<span class="sd">        :return: Firmata_firmware  list [major, minor, file_name] or None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">firmata_firmware</span>
 
@@ -1587,7 +1627,7 @@ table {
 <span class="sd">        This method returns the results of a previous call to pin_state_query() and then resets</span>
 <span class="sd">        the pin state query data to None</span>
 
-<span class="sd">        @return: Raw pin state query data</span>
+<span class="sd">        :return: Raw pin state query data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">r_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">last_pin_query_results</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">last_pin_query_results</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1599,7 +1639,7 @@ table {
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the PyMata version number in a list: [Major Number, Minor Number]</span>
 
-<span class="sd">        @return:</span>
+<span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;08&#39;</span><span class="p">]</span>
 
@@ -1612,15 +1652,18 @@ table {
 <span class="sd">        current measured distance (in centimeters)</span>
 <span class="sd">        for that pin. If there is no data, the value is set to IGNORE (127).</span>
 
-<span class="sd">        @return: active_sonar_map</span>
+<span class="sd">        :return: active_sonar_map</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">active_sonar_map</span>
 
 
     <span class="k">def</span> <span class="nf">get_stepper_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        @param timeout: specify a time to allow arduino to process and return a version</span>
-<span class="sd">        @return: the stepper version number if it was set.</span>
+<span class="sd">        Get the stepper library version number.</span>
+
+<span class="sd">        :param timeout: specify a time to allow arduino to process and return a version</span>
+
+<span class="sd">        :return: the stepper version number if it was set.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># get current time</span>
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -1647,11 +1690,15 @@ table {
 <span class="sd">        To track pins: Set the pin_type to ANALOG or DIGITAL and provide the pin numbers.</span>
 <span class="sd">        If using ANALOG, pin numbers use the analog number, for example A4: use 4.</span>
 
-<span class="sd">        @param read_delay_time: an optional parameter, default is 0</span>
-<span class="sd">        @param pin_type: ANALOG or DIGITAL to select response table type to track pin numbers</span>
-<span class="sd">        @param clk_pin: pin number (see comment above).</span>
-<span class="sd">        @param data_pin: pin number (see comment above).</span>
-<span class="sd">        @return: No Return Value</span>
+<span class="sd">        :param read_delay_time: an optional parameter, default is 0</span>
+
+<span class="sd">        :param pin_type: ANALOG or DIGITAL to select response table type to track pin numbers</span>
+
+<span class="sd">        :param clk_pin: pin number (see comment above).</span>
+
+<span class="sd">        :param data_pin: pin number (see comment above).</span>
+
+<span class="sd">        :return: No Return Value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">read_delay_time</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">read_delay_time</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">I2C_CONFIG</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
@@ -1675,11 +1722,16 @@ table {
 <span class="sd">        This method requests the read of an i2c device. Results are retrieved by a call to</span>
 <span class="sd">        i2c_get_read_data().</span>
 <span class="sd">        If a callback method is provided, when data is received from the device it will be sent to the callback method</span>
-<span class="sd">        @param address: i2c device address</span>
-<span class="sd">        @param register: register number (can be set to zero)</span>
-<span class="sd">        @param number_of_bytes: number of bytes expected to be returned</span>
-<span class="sd">        @param read_type: I2C_READ  or I2C_READ_CONTINUOUSLY</span>
-<span class="sd">        @param cb: Optional callback function to report i2c data as result of read command</span>
+
+<span class="sd">        :param address: i2c device address</span>
+
+<span class="sd">        :param register: register number (can be set to zero)</span>
+
+<span class="sd">        :param number_of_bytes: number of bytes expected to be returned</span>
+
+<span class="sd">        :param read_type: I2C_READ  or I2C_READ_CONTINUOUSLY</span>
+
+<span class="sd">        :param cb: Optional callback function to report i2c data as result of read command</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">address</span><span class="p">,</span> <span class="n">read_type</span><span class="p">,</span> <span class="n">register</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">register</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span>
                 <span class="n">number_of_bytes</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">number_of_bytes</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">]</span>
@@ -1693,8 +1745,10 @@ table {
     <span class="k">def</span> <span class="nf">i2c_write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Write data to an i2c device.</span>
-<span class="sd">        @param address: i2c device address</span>
-<span class="sd">        @param args: A variable number of bytes to be sent to the device</span>
+
+<span class="sd">        :param address: i2c device address</span>
+
+<span class="sd">        :param args: A variable number of bytes to be sent to the device</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">address</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">I2C_WRITE</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
@@ -1706,7 +1760,8 @@ table {
     <span class="k">def</span> <span class="nf">i2c_stop_reading</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method stops an I2C_READ_CONTINUOUSLY operation for the i2c device address specified.</span>
-<span class="sd">        @param address: address of i2c device</span>
+
+<span class="sd">        :param address: address of i2c device</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">address</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">I2C_STOP_READING</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">I2C_REQUEST</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
@@ -1715,8 +1770,10 @@ table {
     <span class="k">def</span> <span class="nf">i2c_get_read_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method retrieves the i2c read data as the result of an i2c_read() command.</span>
-<span class="sd">        @param address: i2c device address</span>
-<span class="sd">        @return: raw data read from device</span>
+
+<span class="sd">        :param address: i2c device address</span>
+
+<span class="sd">        :return: raw data read from device</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">address</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">i2c_map</span><span class="p">:</span>
             <span class="n">map_entry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">i2c_map</span><span class="p">[</span><span class="n">address</span><span class="p">]</span>
@@ -1727,7 +1784,7 @@ table {
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method issues a pin state query command. Data returned is retrieved via</span>
 <span class="sd">        a call to get_pin_state_query_results()</span>
-<span class="sd">        @param pin: pin number</span>
+<span class="sd">        :param pin: pin number</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">PIN_STATE_QUERY</span><span class="p">,</span> <span class="p">[</span><span class="n">pin</span><span class="p">])</span>
 
@@ -1738,11 +1795,16 @@ table {
 <span class="sd">        If the tone command is set to TONE_TONE, then the specified tone will be played.</span>
 <span class="sd">        Else, if the tone command is TONE_NO_TONE, then any currently playing tone will be disabled.</span>
 <span class="sd">        It is intended for a future release of Arduino Firmata</span>
-<span class="sd">        @param pin: Pin number</span>
-<span class="sd">        @param tone_command: Either TONE_TONE, or TONE_NO_TONE</span>
-<span class="sd">        @param frequency: Frequency of tone</span>
-<span class="sd">        @param duration: Duration of tone in milliseconds</span>
-<span class="sd">        @return: No return value</span>
+
+<span class="sd">        :param pin: Pin number</span>
+
+<span class="sd">        :param tone_command: Either TONE_TONE, or TONE_NO_TONE</span>
+
+<span class="sd">        :param frequency: Frequency of tone</span>
+
+<span class="sd">        :param duration: Duration of tone in milliseconds</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># convert the integer values to bytes</span>
@@ -1782,7 +1844,7 @@ table {
     <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This command sends a reset message to the Arduino. The response tables will be reinitialized</span>
-<span class="sd">        @return: No return value.</span>
+<span class="sd">        :return: No return value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># set all output pins to a value of 0</span>
         <span class="k">for</span> <span class="n">pin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">total_pins_discovered</span><span class="p">):</span>
@@ -1806,11 +1868,16 @@ table {
 <span class="sd">        This method &quot;arms&quot; an analog pin for its data to be latched and saved in the latching table</span>
 <span class="sd">        If a callback method is provided, when latching criteria is achieved, the callback function is called</span>
 <span class="sd">        with latching data notification. In that case, the latching table is not updated.</span>
-<span class="sd">        @param pin: Analog pin number (value following an &#39;A&#39; designator, i.e. A5 = 5</span>
-<span class="sd">        @param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE</span>
-<span class="sd">        @param threshold_value: numerical value - between 0 and 1023</span>
-<span class="sd">        @param cb: callback method</span>
-<span class="sd">        @return: True if successful, False if parameter data is invalid</span>
+
+<span class="sd">        :param pin: Analog pin number (value following an &#39;A&#39; designator, i.e. A5 = 5</span>
+
+<span class="sd">        :param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE</span>
+
+<span class="sd">        :param threshold_value: numerical value - between 0 and 1023</span>
+
+<span class="sd">        :param cb: callback method</span>
+
+<span class="sd">        :return: True if successful, False if parameter data is invalid</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ANALOG_LATCH_GT</span> <span class="o">&lt;=</span> <span class="n">threshold_type</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ANALOG_LATCH_LTE</span><span class="p">:</span>
             <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">threshold_value</span> <span class="o">&lt;=</span> <span class="mi">1023</span><span class="p">:</span>
@@ -1825,10 +1892,14 @@ table {
 <span class="sd">        This method &quot;arms&quot; a digital pin for its data to be latched and saved in the latching table</span>
 <span class="sd">        If a callback method is provided, when latching criteria is achieved, the callback function is called</span>
 <span class="sd">        with latching data notification. In that case, the latching table is not updated.</span>
-<span class="sd">        @param pin: Digital pin number</span>
-<span class="sd">        @param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW</span>
-<span class="sd">        @param cb: callback function</span>
-<span class="sd">        @return: True if successful, False if parameter data is invalid</span>
+
+<span class="sd">        :param pin: Digital pin number</span>
+
+<span class="sd">        :param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW</span>
+
+<span class="sd">        :param cb: callback function</span>
+
+<span class="sd">        :return: True if successful, False if parameter data is invalid</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">threshold_type</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">set_digital_latch</span><span class="p">(</span><span class="n">pin</span><span class="p">,</span> <span class="n">threshold_type</span><span class="p">,</span> <span class="n">cb</span><span class="p">)</span>
@@ -1842,11 +1913,16 @@ table {
 <span class="sd">        This method sets a pin to the desired pin mode for the pin_type.</span>
 <span class="sd">        It automatically enables data reporting.</span>
 <span class="sd">        NOTE: DO NOT CALL THIS METHOD FOR I2C. See i2c_config().</span>
-<span class="sd">        @param pin: Pin number (for analog use the analog number, for example A4: use 4)</span>
-<span class="sd">        @param mode: INPUT, OUTPUT, PWM</span>
-<span class="sd">        @param pin_type: ANALOG or DIGITAL</span>
-<span class="sd">        @param cb: This is an optional callback function to report data changes to the user</span>
-<span class="sd">        @return: No return value</span>
+
+<span class="sd">        :param pin: Pin number (for analog use the analog number, for example A4: use 4)</span>
+
+<span class="sd">        :param mode: INPUT, OUTPUT, PWM</span>
+
+<span class="sd">        :param pin_type: ANALOG or DIGITAL</span>
+
+<span class="sd">        :param cb: This is an optional callback function to report data changes to the user</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">SET_PIN_MODE</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">mode</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
@@ -1881,8 +1957,10 @@ table {
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method sends the desired sampling interval to Firmata.</span>
 <span class="sd">        Note: Standard Firmata  will ignore any interval less than 10 milliseconds</span>
-<span class="sd">        @param interval: Integer value for desired sampling interval in milliseconds</span>
-<span class="sd">        @return: No return value.</span>
+
+<span class="sd">        :param interval: Integer value for desired sampling interval in milliseconds</span>
+
+<span class="sd">        :return: No return value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">interval</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">interval</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">SAMPLING_INTERVAL</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
@@ -1891,10 +1969,14 @@ table {
     <span class="k">def</span> <span class="nf">servo_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">min_pulse</span><span class="o">=</span><span class="mi">544</span><span class="p">,</span> <span class="n">max_pulse</span><span class="o">=</span><span class="mi">2400</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Configure a pin as a servo pin. Set pulse min, max in ms.</span>
-<span class="sd">        @param pin: Servo Pin.</span>
-<span class="sd">        @param min_pulse: Min pulse width in ms.</span>
-<span class="sd">        @param max_pulse: Max pulse width in ms.</span>
-<span class="sd">        @return: No return value</span>
+
+<span class="sd">        :param pin: Servo Pin.</span>
+
+<span class="sd">        :param min_pulse: Min pulse width in ms.</span>
+
+<span class="sd">        :param max_pulse: Max pulse width in ms.</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_pin_mode</span><span class="p">(</span><span class="n">pin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">SERVO</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">OUTPUT</span><span class="p">)</span>
         <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="n">pin</span><span class="p">,</span> <span class="n">min_pulse</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">min_pulse</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span>
@@ -1910,11 +1992,16 @@ table {
 <span class="sd">        Up to a maximum of 6 SONAR devices is supported</span>
 <span class="sd">        If the maximum is exceeded a message is sent to the console and the request is ignored.</span>
 <span class="sd">        NOTE: data is measured in centimeters</span>
-<span class="sd">        @param trigger_pin: The pin number of for the trigger (transmitter).</span>
-<span class="sd">        @param echo_pin: The pin number for the received echo.</span>
-<span class="sd">        @param ping_interval: Minimum interval between pings. Lowest number to use is 33 ms.Max is 127</span>
-<span class="sd">        @param max_distance: Maximum distance in cm. Max is 200.</span>
-<span class="sd">        @param cb: optional callback function to report sonar data changes</span>
+
+<span class="sd">        :param trigger_pin: The pin number of for the trigger (transmitter).</span>
+
+<span class="sd">        :param echo_pin: The pin number for the received echo.</span>
+
+<span class="sd">        :param ping_interval: Minimum interval between pings. Lowest number to use is 33 ms.Max is 127</span>
+
+<span class="sd">        :param max_distance: Maximum distance in cm. Max is 200.</span>
+
+<span class="sd">        :param cb: optional callback function to report sonar data changes</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">max_distance</span> <span class="o">&gt;</span> <span class="mi">200</span><span class="p">:</span>
             <span class="n">max_distance</span> <span class="o">=</span> <span class="mi">200</span>
@@ -1939,8 +2026,10 @@ table {
     <span class="k">def</span> <span class="nf">stepper_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">steps_per_revolution</span><span class="p">,</span> <span class="n">stepper_pins</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Configure stepper motor prior to operation.</span>
-<span class="sd">        @param steps_per_revolution: number of steps per motor revolution</span>
-<span class="sd">        @param stepper_pins: a list of control pin numbers - either 4 or 2</span>
+
+<span class="sd">        :param steps_per_revolution: number of steps per motor revolution</span>
+
+<span class="sd">        :param stepper_pins: a list of control pin numbers - either 4 or 2</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">STEPPER_CONFIGURE</span><span class="p">,</span> <span class="n">steps_per_revolution</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">steps_per_revolution</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">pin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stepper_pins</span><span class="p">)):</span>
@@ -1951,8 +2040,10 @@ table {
     <span class="k">def</span> <span class="nf">stepper_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">motor_speed</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Move a stepper motor for the number of steps at the specified speed</span>
-<span class="sd">        @param motor_speed: 21 bits of data to set motor speed</span>
-<span class="sd">        @param number_of_steps: 14 bits for number of steps &amp; direction</span>
+
+<span class="sd">        :param motor_speed: 21 bits of data to set motor speed</span>
+
+<span class="sd">        :param number_of_steps: 14 bits for number of steps &amp; direction</span>
 <span class="sd">                                positive is forward, negative is reverse</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">number_of_steps</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -2071,9 +2162,12 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The &quot;constructor&quot; instantiates the entire interface. It starts the operational threads for the serial</span>
 <span class="sd">        interface as well as for the command handler.</span>
-<span class="sd">        @param port_id: Communications port specifier (COM3, /dev/ttyACM0, etc)</span>
-<span class="sd">        @param bluetooth: Sets start up delays for bluetooth connectivity. Set to False for faster start up.</span>
-<span class="sd">        @param verbose: If set to False, the status print statements are suppressed.</span>
+
+<span class="sd">        :param port_id: Communications port specifier (COM3, /dev/ttyACM0, etc)</span>
+
+<span class="sd">        :param bluetooth: Sets start up delays for bluetooth connectivity. Set to False for faster start up.</span>
+
+<span class="sd">        :param verbose: If set to False, the status print statements are suppressed.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Currently only serial communication over USB is supported, but in the future</span>
         <span class="c1"># wifi and other transport mechanism support is anticipated</span>
@@ -2084,7 +2178,7 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
                 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Python Version </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
-                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PyMata version 2.14  Copyright(C) 2013-17 Alan Yorinks    All rights reserved.&#39;</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PyMata version 2.16  Copyright(C) 2013-17 Alan Yorinks    All rights reserved.&#39;</span><span class="p">)</span>
 
             <span class="c1"># Instantiate the serial support class</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">transport</span> <span class="o">=</span> <span class="n">PyMataSerial</span><span class="p">(</span><span class="n">port_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_deque</span><span class="p">)</span>
@@ -2181,8 +2275,10 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
     <span class="k">def</span> <span class="nf">analog_read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve the last analog data value received for the specified pin.</span>
-<span class="sd">        @param pin: Selected pin</span>
-<span class="sd">        @return: The last value entered into the analog response table.</span>
+
+<span class="sd">        :param pin: Selected pin</span>
+
+<span class="sd">        :return: The last value entered into the analog response table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">analog_response_table</span><span class="p">[</span><span class="n">pin</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">RESPONSE_TABLE_PIN_DATA_VALUE</span><span class="p">]</span>
@@ -2191,9 +2287,12 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
     <span class="k">def</span> <span class="nf">analog_write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the specified pin to the specified value.</span>
-<span class="sd">        @param pin: Pin number</span>
-<span class="sd">        @param value: Pin value</span>
-<span class="sd">        @return: No return value</span>
+
+<span class="sd">        :param pin: Pin number</span>
+
+<span class="sd">        :param value: Pin value</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">ANALOG_MESSAGE</span> <span class="o">+</span> <span class="n">pin</span> <span class="o">&lt;</span> <span class="mh">0xf0</span><span class="p">:</span>
@@ -2214,7 +2313,7 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
     <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method will close the transport (serial port) and exit</span>
-<span class="sd">        @return: No return value, but sys.exit(0) is called.</span>
+<span class="sd">        :return: No return value, but sys.exit(0) is called.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">system_reset</span><span class="p">()</span>
@@ -2232,8 +2331,10 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve the last digital data value received for the specified pin.</span>
 <span class="sd">        NOTE: This command will return values for digital, pwm, etc,  pin types</span>
-<span class="sd">        @param pin: Selected pin</span>
-<span class="sd">        @return: The last value entered into the digital response table.</span>
+
+<span class="sd">        :param pin: Selected pin</span>
+
+<span class="sd">        :return: The last value entered into the digital response table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> \
@@ -2244,9 +2345,12 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
     <span class="k">def</span> <span class="nf">digital_write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the specified pin to the specified value.</span>
-<span class="sd">        @param pin: pin number</span>
-<span class="sd">        @param value: pin value</span>
-<span class="sd">        @return: No return value</span>
+
+<span class="sd">        :param pin: pin number</span>
+
+<span class="sd">        :param value: pin value</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># The command value is not a fixed value, but needs to be calculated using the</span>
         <span class="c1"># pin&#39;s port number</span>
@@ -2273,8 +2377,10 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
     <span class="k">def</span> <span class="nf">disable_analog_reporting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Disables analog reporting for a single analog pin.</span>
-<span class="sd">        @param pin: Analog pin number. For example for A0, the number is 0.</span>
-<span class="sd">        @return: No return value</span>
+
+<span class="sd">        :param pin: Analog pin number. For example for A0, the number is 0.</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">REPORT_ANALOG</span> <span class="o">+</span> <span class="n">pin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">REPORTING_DISABLE</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
@@ -2284,8 +2390,10 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Disables digital reporting. By turning reporting off for this pin, reporting</span>
 <span class="sd">        is disabled for all 8 bits in the &quot;port&quot; -</span>
-<span class="sd">        @param pin: Pin and all pins for this port</span>
-<span class="sd">        @return: No return value</span>
+
+<span class="sd">        :param pin: Pin and all pins for this port</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">port</span> <span class="o">=</span> <span class="n">pin</span> <span class="o">//</span> <span class="mi">8</span>
         <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">REPORT_DIGITAL</span> <span class="o">+</span> <span class="n">port</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">REPORTING_DISABLE</span><span class="p">]</span>
@@ -2294,9 +2402,11 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 
     <span class="k">def</span> <span class="nf">enable_analog_reporting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Enables analog reporting. By turning reporting on for a single pin,</span>
-<span class="sd">        @param pin: Analog pin number. For example for A0, the number is 0.</span>
-<span class="sd">        @return: No return value</span>
+<span class="sd">        Enables analog reporting. By turning reporting on for a single pin.</span>
+
+<span class="sd">        :param pin: Analog pin number. For example for A0, the number is 0.</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">REPORT_ANALOG</span> <span class="o">+</span> <span class="n">pin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">REPORTING_ENABLE</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
@@ -2306,8 +2416,10 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Enables digital reporting. By turning reporting on for all 8 bits in the &quot;port&quot; -</span>
 <span class="sd">        this is part of Firmata&#39;s protocol specification.</span>
-<span class="sd">        @param pin: Pin and all pins for this port</span>
-<span class="sd">        @return: No return value</span>
+
+<span class="sd">        :param pin: Pin and all pins for this port</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">port</span> <span class="o">=</span> <span class="n">pin</span> <span class="o">//</span> <span class="mi">8</span>
         <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">REPORT_DIGITAL</span> <span class="o">+</span> <span class="n">port</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">REPORTING_ENABLE</span><span class="p">]</span>
@@ -2324,10 +2436,13 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 
 <span class="sd">        Encoder data is retrieved by performing a digital_read from pin a (encoder pin 1)</span>
 
-<span class="sd">        @param pin_a: Encoder pin 1.</span>
-<span class="sd">        @param pin_b: Encoder pin 2.</span>
-<span class="sd">        @param cb: callback function to report encoder changes</span>
-<span class="sd">        @return: No return value</span>
+<span class="sd">        :param pin_a: Encoder pin 1.</span>
+
+<span class="sd">        :param pin_b: Encoder pin 2.</span>
+
+<span class="sd">        :param cb: callback function to report encoder changes</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">pin_a</span><span class="p">,</span> <span class="n">pin_b</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">digital_response_table</span><span class="p">[</span><span class="n">pin_a</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">RESPONSE_TABLE_MODE</span><span class="p">]</span> \
@@ -2346,8 +2461,10 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
     <span class="k">def</span> <span class="nf">extended_analog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method will send an extended data analog output command to the selected pin</span>
-<span class="sd">        @param pin: 0 - 127</span>
-<span class="sd">        @param data: 0 - 0xfffff</span>
+
+<span class="sd">        :param pin: 0 - 127</span>
+
+<span class="sd">        :param data: 0 - 0xfffff</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">analog_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">pin</span><span class="p">,</span> <span class="n">data</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="mi">14</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">EXTENDED_ANALOG</span><span class="p">,</span> <span class="n">analog_data</span><span class="p">)</span>
@@ -2358,8 +2475,10 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 <span class="sd">        A list is returned containing the latch state for the pin, the latched value, and the time stamp</span>
 <span class="sd">        [pin_num, latch_state, latched_value, time_stamp]</span>
 <span class="sd">        If the the latch state is LATCH_LATCHED, the table is reset (data and timestamp set to zero)</span>
-<span class="sd">        @param pin: Pin number.</span>
-<span class="sd">        @return: [pin, latch_state, latch_data_value, time_stamp]</span>
+
+<span class="sd">        :param pin: Pin number.</span>
+
+<span class="sd">        :return: [pin, latch_state, latch_data_value, time_stamp]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">get_analog_latch_data</span><span class="p">(</span><span class="n">pin</span><span class="p">)</span>
 
@@ -2367,7 +2486,7 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
     <span class="k">def</span> <span class="nf">get_analog_mapping_request_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Call this method after calling analog_mapping_query() to retrieve its results</span>
-<span class="sd">        @return: raw data returned by firmata</span>
+<span class="sd">        :return: raw data returned by firmata</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">analog_mapping_query_results</span>
 
@@ -2377,7 +2496,7 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 <span class="sd">        This method returns a list of lists representing the current pin mode and</span>
 <span class="sd">        associated data values for all analog pins.</span>
 <span class="sd">        All configured pin types, both input and output will be listed. Output pin data will contain zero.</span>
-<span class="sd">        @return: The last update of the digital response table</span>
+<span class="sd">        :return: The last update of the digital response table</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">get_analog_response_table</span><span class="p">()</span>
 
@@ -2385,7 +2504,7 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
     <span class="k">def</span> <span class="nf">get_capability_query_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve the data returned by a previous call to capability_query()</span>
-<span class="sd">        @return: Raw capability data returned by firmata</span>
+<span class="sd">        :return: Raw capability data returned by firmata</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">capability_query_results</span>
 
@@ -2395,8 +2514,10 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 <span class="sd">        A list is returned containing the latch state for the pin, the latched value, and the time stamp</span>
 <span class="sd">        [pin_num, latch_state, latched_value, time_stamp]</span>
 <span class="sd">        If the the latch state is LATCH_LATCHED, the table is reset (data and timestamp set to zero)</span>
-<span class="sd">        @param pin: Pin number.</span>
-<span class="sd">        @return: [pin, latch_state, latch_data_value, time_stamp]</span>
+
+<span class="sd">        :param pin: Pin number.</span>
+
+<span class="sd">        :return: [pin, latch_state, latch_data_value, time_stamp]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">get_digital_latch_data</span><span class="p">(</span><span class="n">pin</span><span class="p">)</span>
 
@@ -2406,7 +2527,7 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 <span class="sd">        This method returns a list of lists representing the current pin mode</span>
 <span class="sd">        and associated data for all digital pins.</span>
 <span class="sd">        All pin types, both input and output will be listed. Output pin data will contain zero.</span>
-<span class="sd">        @return: The last update of the digital response table</span>
+<span class="sd">        :return: The last update of the digital response table</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">get_digital_response_table</span><span class="p">()</span>
 
@@ -2414,7 +2535,7 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
     <span class="k">def</span> <span class="nf">get_firmata_version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve the firmata version information returned by a previous call to refresh_report_version()</span>
-<span class="sd">        @return: Firmata_version list [major, minor] or None</span>
+<span class="sd">        :return: Firmata_version list [major, minor] or None</span>
 <span class="sd">         &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">firmata_version</span>
 
@@ -2422,7 +2543,7 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
     <span class="k">def</span> <span class="nf">get_firmata_firmware_version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve the firmware id information returned by a previous call to refresh_report_firmware()</span>
-<span class="sd">        @return: Firmata_firmware  list [major, minor, file_name] or None</span>
+<span class="sd">        :return: Firmata_firmware  list [major, minor, file_name] or None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">firmata_firmware</span>
 
@@ -2432,7 +2553,7 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 <span class="sd">        This method returns the results of a previous call to pin_state_query() and then resets</span>
 <span class="sd">        the pin state query data to None</span>
 
-<span class="sd">        @return: Raw pin state query data</span>
+<span class="sd">        :return: Raw pin state query data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">r_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">last_pin_query_results</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">last_pin_query_results</span> <span class="o">=</span> <span class="p">[]</span>
@@ -2444,7 +2565,7 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the PyMata version number in a list: [Major Number, Minor Number]</span>
 
-<span class="sd">        @return:</span>
+<span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;08&#39;</span><span class="p">]</span>
 
@@ -2457,15 +2578,18 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 <span class="sd">        current measured distance (in centimeters)</span>
 <span class="sd">        for that pin. If there is no data, the value is set to IGNORE (127).</span>
 
-<span class="sd">        @return: active_sonar_map</span>
+<span class="sd">        :return: active_sonar_map</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">active_sonar_map</span>
 
 
     <span class="k">def</span> <span class="nf">get_stepper_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        @param timeout: specify a time to allow arduino to process and return a version</span>
-<span class="sd">        @return: the stepper version number if it was set.</span>
+<span class="sd">        Get the stepper library version number.</span>
+
+<span class="sd">        :param timeout: specify a time to allow arduino to process and return a version</span>
+
+<span class="sd">        :return: the stepper version number if it was set.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># get current time</span>
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -2492,11 +2616,15 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 <span class="sd">        To track pins: Set the pin_type to ANALOG or DIGITAL and provide the pin numbers.</span>
 <span class="sd">        If using ANALOG, pin numbers use the analog number, for example A4: use 4.</span>
 
-<span class="sd">        @param read_delay_time: an optional parameter, default is 0</span>
-<span class="sd">        @param pin_type: ANALOG or DIGITAL to select response table type to track pin numbers</span>
-<span class="sd">        @param clk_pin: pin number (see comment above).</span>
-<span class="sd">        @param data_pin: pin number (see comment above).</span>
-<span class="sd">        @return: No Return Value</span>
+<span class="sd">        :param read_delay_time: an optional parameter, default is 0</span>
+
+<span class="sd">        :param pin_type: ANALOG or DIGITAL to select response table type to track pin numbers</span>
+
+<span class="sd">        :param clk_pin: pin number (see comment above).</span>
+
+<span class="sd">        :param data_pin: pin number (see comment above).</span>
+
+<span class="sd">        :return: No Return Value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">read_delay_time</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">read_delay_time</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">I2C_CONFIG</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
@@ -2520,11 +2648,16 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 <span class="sd">        This method requests the read of an i2c device. Results are retrieved by a call to</span>
 <span class="sd">        i2c_get_read_data().</span>
 <span class="sd">        If a callback method is provided, when data is received from the device it will be sent to the callback method</span>
-<span class="sd">        @param address: i2c device address</span>
-<span class="sd">        @param register: register number (can be set to zero)</span>
-<span class="sd">        @param number_of_bytes: number of bytes expected to be returned</span>
-<span class="sd">        @param read_type: I2C_READ  or I2C_READ_CONTINUOUSLY</span>
-<span class="sd">        @param cb: Optional callback function to report i2c data as result of read command</span>
+
+<span class="sd">        :param address: i2c device address</span>
+
+<span class="sd">        :param register: register number (can be set to zero)</span>
+
+<span class="sd">        :param number_of_bytes: number of bytes expected to be returned</span>
+
+<span class="sd">        :param read_type: I2C_READ  or I2C_READ_CONTINUOUSLY</span>
+
+<span class="sd">        :param cb: Optional callback function to report i2c data as result of read command</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">address</span><span class="p">,</span> <span class="n">read_type</span><span class="p">,</span> <span class="n">register</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">register</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span>
                 <span class="n">number_of_bytes</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">number_of_bytes</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">]</span>
@@ -2538,8 +2671,10 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
     <span class="k">def</span> <span class="nf">i2c_write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Write data to an i2c device.</span>
-<span class="sd">        @param address: i2c device address</span>
-<span class="sd">        @param args: A variable number of bytes to be sent to the device</span>
+
+<span class="sd">        :param address: i2c device address</span>
+
+<span class="sd">        :param args: A variable number of bytes to be sent to the device</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">address</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">I2C_WRITE</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
@@ -2551,7 +2686,8 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
     <span class="k">def</span> <span class="nf">i2c_stop_reading</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method stops an I2C_READ_CONTINUOUSLY operation for the i2c device address specified.</span>
-<span class="sd">        @param address: address of i2c device</span>
+
+<span class="sd">        :param address: address of i2c device</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">address</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">I2C_STOP_READING</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">I2C_REQUEST</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
@@ -2560,8 +2696,10 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
     <span class="k">def</span> <span class="nf">i2c_get_read_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method retrieves the i2c read data as the result of an i2c_read() command.</span>
-<span class="sd">        @param address: i2c device address</span>
-<span class="sd">        @return: raw data read from device</span>
+
+<span class="sd">        :param address: i2c device address</span>
+
+<span class="sd">        :return: raw data read from device</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">address</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">i2c_map</span><span class="p">:</span>
             <span class="n">map_entry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">i2c_map</span><span class="p">[</span><span class="n">address</span><span class="p">]</span>
@@ -2572,7 +2710,7 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method issues a pin state query command. Data returned is retrieved via</span>
 <span class="sd">        a call to get_pin_state_query_results()</span>
-<span class="sd">        @param pin: pin number</span>
+<span class="sd">        :param pin: pin number</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">PIN_STATE_QUERY</span><span class="p">,</span> <span class="p">[</span><span class="n">pin</span><span class="p">])</span>
 
@@ -2583,11 +2721,16 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 <span class="sd">        If the tone command is set to TONE_TONE, then the specified tone will be played.</span>
 <span class="sd">        Else, if the tone command is TONE_NO_TONE, then any currently playing tone will be disabled.</span>
 <span class="sd">        It is intended for a future release of Arduino Firmata</span>
-<span class="sd">        @param pin: Pin number</span>
-<span class="sd">        @param tone_command: Either TONE_TONE, or TONE_NO_TONE</span>
-<span class="sd">        @param frequency: Frequency of tone</span>
-<span class="sd">        @param duration: Duration of tone in milliseconds</span>
-<span class="sd">        @return: No return value</span>
+
+<span class="sd">        :param pin: Pin number</span>
+
+<span class="sd">        :param tone_command: Either TONE_TONE, or TONE_NO_TONE</span>
+
+<span class="sd">        :param frequency: Frequency of tone</span>
+
+<span class="sd">        :param duration: Duration of tone in milliseconds</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># convert the integer values to bytes</span>
@@ -2627,7 +2770,7 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
     <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This command sends a reset message to the Arduino. The response tables will be reinitialized</span>
-<span class="sd">        @return: No return value.</span>
+<span class="sd">        :return: No return value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># set all output pins to a value of 0</span>
         <span class="k">for</span> <span class="n">pin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">total_pins_discovered</span><span class="p">):</span>
@@ -2651,11 +2794,16 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 <span class="sd">        This method &quot;arms&quot; an analog pin for its data to be latched and saved in the latching table</span>
 <span class="sd">        If a callback method is provided, when latching criteria is achieved, the callback function is called</span>
 <span class="sd">        with latching data notification. In that case, the latching table is not updated.</span>
-<span class="sd">        @param pin: Analog pin number (value following an &#39;A&#39; designator, i.e. A5 = 5</span>
-<span class="sd">        @param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE</span>
-<span class="sd">        @param threshold_value: numerical value - between 0 and 1023</span>
-<span class="sd">        @param cb: callback method</span>
-<span class="sd">        @return: True if successful, False if parameter data is invalid</span>
+
+<span class="sd">        :param pin: Analog pin number (value following an &#39;A&#39; designator, i.e. A5 = 5</span>
+
+<span class="sd">        :param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE</span>
+
+<span class="sd">        :param threshold_value: numerical value - between 0 and 1023</span>
+
+<span class="sd">        :param cb: callback method</span>
+
+<span class="sd">        :return: True if successful, False if parameter data is invalid</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ANALOG_LATCH_GT</span> <span class="o">&lt;=</span> <span class="n">threshold_type</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ANALOG_LATCH_LTE</span><span class="p">:</span>
             <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">threshold_value</span> <span class="o">&lt;=</span> <span class="mi">1023</span><span class="p">:</span>
@@ -2670,10 +2818,14 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 <span class="sd">        This method &quot;arms&quot; a digital pin for its data to be latched and saved in the latching table</span>
 <span class="sd">        If a callback method is provided, when latching criteria is achieved, the callback function is called</span>
 <span class="sd">        with latching data notification. In that case, the latching table is not updated.</span>
-<span class="sd">        @param pin: Digital pin number</span>
-<span class="sd">        @param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW</span>
-<span class="sd">        @param cb: callback function</span>
-<span class="sd">        @return: True if successful, False if parameter data is invalid</span>
+
+<span class="sd">        :param pin: Digital pin number</span>
+
+<span class="sd">        :param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW</span>
+
+<span class="sd">        :param cb: callback function</span>
+
+<span class="sd">        :return: True if successful, False if parameter data is invalid</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">threshold_type</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">set_digital_latch</span><span class="p">(</span><span class="n">pin</span><span class="p">,</span> <span class="n">threshold_type</span><span class="p">,</span> <span class="n">cb</span><span class="p">)</span>
@@ -2687,11 +2839,16 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 <span class="sd">        This method sets a pin to the desired pin mode for the pin_type.</span>
 <span class="sd">        It automatically enables data reporting.</span>
 <span class="sd">        NOTE: DO NOT CALL THIS METHOD FOR I2C. See i2c_config().</span>
-<span class="sd">        @param pin: Pin number (for analog use the analog number, for example A4: use 4)</span>
-<span class="sd">        @param mode: INPUT, OUTPUT, PWM</span>
-<span class="sd">        @param pin_type: ANALOG or DIGITAL</span>
-<span class="sd">        @param cb: This is an optional callback function to report data changes to the user</span>
-<span class="sd">        @return: No return value</span>
+
+<span class="sd">        :param pin: Pin number (for analog use the analog number, for example A4: use 4)</span>
+
+<span class="sd">        :param mode: INPUT, OUTPUT, PWM</span>
+
+<span class="sd">        :param pin_type: ANALOG or DIGITAL</span>
+
+<span class="sd">        :param cb: This is an optional callback function to report data changes to the user</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">SET_PIN_MODE</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">mode</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
@@ -2726,8 +2883,10 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method sends the desired sampling interval to Firmata.</span>
 <span class="sd">        Note: Standard Firmata  will ignore any interval less than 10 milliseconds</span>
-<span class="sd">        @param interval: Integer value for desired sampling interval in milliseconds</span>
-<span class="sd">        @return: No return value.</span>
+
+<span class="sd">        :param interval: Integer value for desired sampling interval in milliseconds</span>
+
+<span class="sd">        :return: No return value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">interval</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">interval</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">SAMPLING_INTERVAL</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
@@ -2736,10 +2895,14 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
     <span class="k">def</span> <span class="nf">servo_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">min_pulse</span><span class="o">=</span><span class="mi">544</span><span class="p">,</span> <span class="n">max_pulse</span><span class="o">=</span><span class="mi">2400</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Configure a pin as a servo pin. Set pulse min, max in ms.</span>
-<span class="sd">        @param pin: Servo Pin.</span>
-<span class="sd">        @param min_pulse: Min pulse width in ms.</span>
-<span class="sd">        @param max_pulse: Max pulse width in ms.</span>
-<span class="sd">        @return: No return value</span>
+
+<span class="sd">        :param pin: Servo Pin.</span>
+
+<span class="sd">        :param min_pulse: Min pulse width in ms.</span>
+
+<span class="sd">        :param max_pulse: Max pulse width in ms.</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_pin_mode</span><span class="p">(</span><span class="n">pin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">SERVO</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">OUTPUT</span><span class="p">)</span>
         <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="n">pin</span><span class="p">,</span> <span class="n">min_pulse</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">min_pulse</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span>
@@ -2755,11 +2918,16 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 <span class="sd">        Up to a maximum of 6 SONAR devices is supported</span>
 <span class="sd">        If the maximum is exceeded a message is sent to the console and the request is ignored.</span>
 <span class="sd">        NOTE: data is measured in centimeters</span>
-<span class="sd">        @param trigger_pin: The pin number of for the trigger (transmitter).</span>
-<span class="sd">        @param echo_pin: The pin number for the received echo.</span>
-<span class="sd">        @param ping_interval: Minimum interval between pings. Lowest number to use is 33 ms.Max is 127</span>
-<span class="sd">        @param max_distance: Maximum distance in cm. Max is 200.</span>
-<span class="sd">        @param cb: optional callback function to report sonar data changes</span>
+
+<span class="sd">        :param trigger_pin: The pin number of for the trigger (transmitter).</span>
+
+<span class="sd">        :param echo_pin: The pin number for the received echo.</span>
+
+<span class="sd">        :param ping_interval: Minimum interval between pings. Lowest number to use is 33 ms.Max is 127</span>
+
+<span class="sd">        :param max_distance: Maximum distance in cm. Max is 200.</span>
+
+<span class="sd">        :param cb: optional callback function to report sonar data changes</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">max_distance</span> <span class="o">&gt;</span> <span class="mi">200</span><span class="p">:</span>
             <span class="n">max_distance</span> <span class="o">=</span> <span class="mi">200</span>
@@ -2784,8 +2952,10 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
     <span class="k">def</span> <span class="nf">stepper_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">steps_per_revolution</span><span class="p">,</span> <span class="n">stepper_pins</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Configure stepper motor prior to operation.</span>
-<span class="sd">        @param steps_per_revolution: number of steps per motor revolution</span>
-<span class="sd">        @param stepper_pins: a list of control pin numbers - either 4 or 2</span>
+
+<span class="sd">        :param steps_per_revolution: number of steps per motor revolution</span>
+
+<span class="sd">        :param stepper_pins: a list of control pin numbers - either 4 or 2</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">STEPPER_CONFIGURE</span><span class="p">,</span> <span class="n">steps_per_revolution</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">steps_per_revolution</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">pin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stepper_pins</span><span class="p">)):</span>
@@ -2796,8 +2966,10 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
     <span class="k">def</span> <span class="nf">stepper_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">motor_speed</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Move a stepper motor for the number of steps at the specified speed</span>
-<span class="sd">        @param motor_speed: 21 bits of data to set motor speed</span>
-<span class="sd">        @param number_of_steps: 14 bits for number of steps &amp; direction</span>
+
+<span class="sd">        :param motor_speed: 21 bits of data to set motor speed</span>
+
+<span class="sd">        :param number_of_steps: 14 bits for number of steps &amp; direction</span>
 <span class="sd">                                positive is forward, negative is reverse</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">number_of_steps</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -3172,10 +3344,10 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
     
   
     <div class="desc"><p>The "constructor" instantiates the entire interface. It starts the operational threads for the serial
-interface as well as for the command handler.
-@param port_id: Communications port specifier (COM3, /dev/ttyACM0, etc)
-@param bluetooth: Sets start up delays for bluetooth connectivity. Set to False for faster start up.
-@param verbose: If set to False, the status print statements are suppressed.</p></div>
+interface as well as for the command handler.</p>
+<p>:param port_id: Communications port specifier (COM3, /dev/ttyACM0, etc)</p>
+<p>:param bluetooth: Sets start up delays for bluetooth connectivity. Set to False for faster start up.</p>
+<p>:param verbose: If set to False, the status print statements are suppressed.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.__init__', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.__init__" class="source">
@@ -3183,9 +3355,9 @@ interface as well as for the command handler.
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The &quot;constructor&quot; instantiates the entire interface. It starts the operational threads for the serial</span>
 <span class="sd">    interface as well as for the command handler.</span>
-<span class="sd">    @param port_id: Communications port specifier (COM3, /dev/ttyACM0, etc)</span>
-<span class="sd">    @param bluetooth: Sets start up delays for bluetooth connectivity. Set to False for faster start up.</span>
-<span class="sd">    @param verbose: If set to False, the status print statements are suppressed.</span>
+<span class="sd">    :param port_id: Communications port specifier (COM3, /dev/ttyACM0, etc)</span>
+<span class="sd">    :param bluetooth: Sets start up delays for bluetooth connectivity. Set to False for faster start up.</span>
+<span class="sd">    :param verbose: If set to False, the status print statements are suppressed.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Currently only serial communication over USB is supported, but in the future</span>
     <span class="c1"># wifi and other transport mechanism support is anticipated</span>
@@ -3194,7 +3366,7 @@ interface as well as for the command handler.
         <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Python Version </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
-            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PyMata version 2.14  Copyright(C) 2013-17 Alan Yorinks    All rights reserved.&#39;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PyMata version 2.16  Copyright(C) 2013-17 Alan Yorinks    All rights reserved.&#39;</span><span class="p">)</span>
         <span class="c1"># Instantiate the serial support class</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transport</span> <span class="o">=</span> <span class="n">PyMataSerial</span><span class="p">(</span><span class="n">port_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_deque</span><span class="p">)</span>
         <span class="c1"># wait for HC-06 Bluetooth slave to initialize in case it is being used.</span>
@@ -3305,17 +3477,17 @@ call to get_analog_mapping_request_results()</p></div>
 
     
   
-    <div class="desc"><p>Retrieve the last analog data value received for the specified pin.
-@param pin: Selected pin
-@return: The last value entered into the analog response table.</p></div>
+    <div class="desc"><p>Retrieve the last analog data value received for the specified pin.</p>
+<p>:param pin: Selected pin</p>
+<p>:return: The last value entered into the analog response table.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.analog_read', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.analog_read" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">analog_read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Retrieve the last analog data value received for the specified pin.</span>
-<span class="sd">    @param pin: Selected pin</span>
-<span class="sd">    @return: The last value entered into the analog response table.</span>
+<span class="sd">    :param pin: Selected pin</span>
+<span class="sd">    :return: The last value entered into the analog response table.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">analog_response_table</span><span class="p">[</span><span class="n">pin</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">RESPONSE_TABLE_PIN_DATA_VALUE</span><span class="p">]</span>
@@ -3336,19 +3508,19 @@ call to get_analog_mapping_request_results()</p></div>
 
     
   
-    <div class="desc"><p>Set the specified pin to the specified value.
-@param pin: Pin number
-@param value: Pin value
-@return: No return value</p></div>
+    <div class="desc"><p>Set the specified pin to the specified value.</p>
+<p>:param pin: Pin number</p>
+<p>:param value: Pin value</p>
+<p>:return: No return value</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.analog_write', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.analog_write" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">analog_write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the specified pin to the specified value.</span>
-<span class="sd">    @param pin: Pin number</span>
-<span class="sd">    @param value: Pin value</span>
-<span class="sd">    @return: No return value</span>
+<span class="sd">    :param pin: Pin number</span>
+<span class="sd">    :param value: Pin value</span>
+<span class="sd">    :return: No return value</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">ANALOG_MESSAGE</span> <span class="o">+</span> <span class="n">pin</span> <span class="o">&lt;</span> <span class="mh">0xf0</span><span class="p">:</span>
         <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">ANALOG_MESSAGE</span> <span class="o">+</span> <span class="n">pin</span><span class="p">,</span> <span class="n">value</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">value</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">]</span>
@@ -3403,14 +3575,14 @@ the Mega 2560 R3 it has taken up to 25 seconds for a response.</p></div>
     
   
     <div class="desc"><p>This method will close the transport (serial port) and exit
-@return: No return value, but sys.exit(0) is called.</p></div>
+:return: No return value, but sys.exit(0) is called.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.close', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.close" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This method will close the transport (serial port) and exit</span>
-<span class="sd">    @return: No return value, but sys.exit(0) is called.</span>
+<span class="sd">    :return: No return value, but sys.exit(0) is called.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">system_reset</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
@@ -3436,9 +3608,9 @@ the Mega 2560 R3 it has taken up to 25 seconds for a response.</p></div>
     
   
     <div class="desc"><p>Retrieve the last digital data value received for the specified pin.
-NOTE: This command will return values for digital, pwm, etc,  pin types
-@param pin: Selected pin
-@return: The last value entered into the digital response table.</p></div>
+NOTE: This command will return values for digital, pwm, etc,  pin types</p>
+<p>:param pin: Selected pin</p>
+<p>:return: The last value entered into the digital response table.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.digital_read', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.digital_read" class="source">
@@ -3446,8 +3618,8 @@ NOTE: This command will return values for digital, pwm, etc,  pin types
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Retrieve the last digital data value received for the specified pin.</span>
 <span class="sd">    NOTE: This command will return values for digital, pwm, etc,  pin types</span>
-<span class="sd">    @param pin: Selected pin</span>
-<span class="sd">    @return: The last value entered into the digital response table.</span>
+<span class="sd">    :param pin: Selected pin</span>
+<span class="sd">    :return: The last value entered into the digital response table.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> \
@@ -3469,19 +3641,19 @@ NOTE: This command will return values for digital, pwm, etc,  pin types
 
     
   
-    <div class="desc"><p>Set the specified pin to the specified value.
-@param pin: pin number
-@param value: pin value
-@return: No return value</p></div>
+    <div class="desc"><p>Set the specified pin to the specified value.</p>
+<p>:param pin: pin number</p>
+<p>:param value: pin value</p>
+<p>:return: No return value</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.digital_write', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.digital_write" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">digital_write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the specified pin to the specified value.</span>
-<span class="sd">    @param pin: pin number</span>
-<span class="sd">    @param value: pin value</span>
-<span class="sd">    @return: No return value</span>
+<span class="sd">    :param pin: pin number</span>
+<span class="sd">    :param value: pin value</span>
+<span class="sd">    :return: No return value</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># The command value is not a fixed value, but needs to be calculated using the</span>
     <span class="c1"># pin&#39;s port number</span>
@@ -3515,17 +3687,17 @@ NOTE: This command will return values for digital, pwm, etc,  pin types
 
     
   
-    <div class="desc"><p>Disables analog reporting for a single analog pin.
-@param pin: Analog pin number. For example for A0, the number is 0.
-@return: No return value</p></div>
+    <div class="desc"><p>Disables analog reporting for a single analog pin.</p>
+<p>:param pin: Analog pin number. For example for A0, the number is 0.</p>
+<p>:return: No return value</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.disable_analog_reporting', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.disable_analog_reporting" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">disable_analog_reporting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Disables analog reporting for a single analog pin.</span>
-<span class="sd">    @param pin: Analog pin number. For example for A0, the number is 0.</span>
-<span class="sd">    @return: No return value</span>
+<span class="sd">    :param pin: Analog pin number. For example for A0, the number is 0.</span>
+<span class="sd">    :return: No return value</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">REPORT_ANALOG</span> <span class="o">+</span> <span class="n">pin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">REPORTING_DISABLE</span><span class="p">]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
@@ -3546,9 +3718,9 @@ NOTE: This command will return values for digital, pwm, etc,  pin types
     
   
     <div class="desc"><p>Disables digital reporting. By turning reporting off for this pin, reporting
-is disabled for all 8 bits in the "port" -
-@param pin: Pin and all pins for this port
-@return: No return value</p></div>
+is disabled for all 8 bits in the "port" -</p>
+<p>:param pin: Pin and all pins for this port</p>
+<p>:return: No return value</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.disable_digital_reporting', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.disable_digital_reporting" class="source">
@@ -3556,8 +3728,8 @@ is disabled for all 8 bits in the "port" -
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Disables digital reporting. By turning reporting off for this pin, reporting</span>
 <span class="sd">    is disabled for all 8 bits in the &quot;port&quot; -</span>
-<span class="sd">    @param pin: Pin and all pins for this port</span>
-<span class="sd">    @return: No return value</span>
+<span class="sd">    :param pin: Pin and all pins for this port</span>
+<span class="sd">    :return: No return value</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">port</span> <span class="o">=</span> <span class="n">pin</span> <span class="o">//</span> <span class="mi">8</span>
     <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">REPORT_DIGITAL</span> <span class="o">+</span> <span class="n">port</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">REPORTING_DISABLE</span><span class="p">]</span>
@@ -3578,17 +3750,17 @@ is disabled for all 8 bits in the "port" -
 
     
   
-    <div class="desc"><p>Enables analog reporting. By turning reporting on for a single pin,
-@param pin: Analog pin number. For example for A0, the number is 0.
-@return: No return value</p></div>
+    <div class="desc"><p>Enables analog reporting. By turning reporting on for a single pin.</p>
+<p>:param pin: Analog pin number. For example for A0, the number is 0.</p>
+<p>:return: No return value</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.enable_analog_reporting', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.enable_analog_reporting" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">enable_analog_reporting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Enables analog reporting. By turning reporting on for a single pin,</span>
-<span class="sd">    @param pin: Analog pin number. For example for A0, the number is 0.</span>
-<span class="sd">    @return: No return value</span>
+<span class="sd">    Enables analog reporting. By turning reporting on for a single pin.</span>
+<span class="sd">    :param pin: Analog pin number. For example for A0, the number is 0.</span>
+<span class="sd">    :return: No return value</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">REPORT_ANALOG</span> <span class="o">+</span> <span class="n">pin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">REPORTING_ENABLE</span><span class="p">]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
@@ -3609,9 +3781,9 @@ is disabled for all 8 bits in the "port" -
     
   
     <div class="desc"><p>Enables digital reporting. By turning reporting on for all 8 bits in the "port" -
-this is part of Firmata's protocol specification.
-@param pin: Pin and all pins for this port
-@return: No return value</p></div>
+this is part of Firmata's protocol specification.</p>
+<p>:param pin: Pin and all pins for this port</p>
+<p>:return: No return value</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.enable_digital_reporting', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.enable_digital_reporting" class="source">
@@ -3619,8 +3791,8 @@ this is part of Firmata's protocol specification.
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Enables digital reporting. By turning reporting on for all 8 bits in the &quot;port&quot; -</span>
 <span class="sd">    this is part of Firmata&#39;s protocol specification.</span>
-<span class="sd">    @param pin: Pin and all pins for this port</span>
-<span class="sd">    @return: No return value</span>
+<span class="sd">    :param pin: Pin and all pins for this port</span>
+<span class="sd">    :return: No return value</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">port</span> <span class="o">=</span> <span class="n">pin</span> <span class="o">//</span> <span class="mi">8</span>
     <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">REPORT_DIGITAL</span> <span class="o">+</span> <span class="n">port</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">REPORTING_ENABLE</span><span class="p">]</span>
@@ -3646,10 +3818,10 @@ enable encoder reporting.</p>
 <p>NOTE: This command is not currently part of standard arduino firmata, but is provided for legacy
 support of CodeShield on an Arduino UNO.</p>
 <p>Encoder data is retrieved by performing a digital_read from pin a (encoder pin 1)</p>
-<p>@param pin_a: Encoder pin 1.
-@param pin_b: Encoder pin 2.
-@param cb: callback function to report encoder changes
-@return: No return value</p></div>
+<p>:param pin_a: Encoder pin 1.</p>
+<p>:param pin_b: Encoder pin 2.</p>
+<p>:param cb: callback function to report encoder changes</p>
+<p>:return: No return value</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.encoder_config', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.encoder_config" class="source">
@@ -3660,10 +3832,10 @@ support of CodeShield on an Arduino UNO.</p>
 <span class="sd">    NOTE: This command is not currently part of standard arduino firmata, but is provided for legacy</span>
 <span class="sd">    support of CodeShield on an Arduino UNO.</span>
 <span class="sd">    Encoder data is retrieved by performing a digital_read from pin a (encoder pin 1)</span>
-<span class="sd">    @param pin_a: Encoder pin 1.</span>
-<span class="sd">    @param pin_b: Encoder pin 2.</span>
-<span class="sd">    @param cb: callback function to report encoder changes</span>
-<span class="sd">    @return: No return value</span>
+<span class="sd">    :param pin_a: Encoder pin 1.</span>
+<span class="sd">    :param pin_b: Encoder pin 2.</span>
+<span class="sd">    :param cb: callback function to report encoder changes</span>
+<span class="sd">    :return: No return value</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">pin_a</span><span class="p">,</span> <span class="n">pin_b</span><span class="p">]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">digital_response_table</span><span class="p">[</span><span class="n">pin_a</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">RESPONSE_TABLE_MODE</span><span class="p">]</span> \
@@ -3691,17 +3863,17 @@ support of CodeShield on an Arduino UNO.</p>
 
     
   
-    <div class="desc"><p>This method will send an extended data analog output command to the selected pin
-@param pin: 0 - 127
-@param data: 0 - 0xfffff</p></div>
+    <div class="desc"><p>This method will send an extended data analog output command to the selected pin</p>
+<p>:param pin: 0 - 127</p>
+<p>:param data: 0 - 0xfffff</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.extended_analog', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.extended_analog" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">extended_analog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This method will send an extended data analog output command to the selected pin</span>
-<span class="sd">    @param pin: 0 - 127</span>
-<span class="sd">    @param data: 0 - 0xfffff</span>
+<span class="sd">    :param pin: 0 - 127</span>
+<span class="sd">    :param data: 0 - 0xfffff</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">analog_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">pin</span><span class="p">,</span> <span class="n">data</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="mi">14</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">EXTENDED_ANALOG</span><span class="p">,</span> <span class="n">analog_data</span><span class="p">)</span>
@@ -3723,9 +3895,9 @@ support of CodeShield on an Arduino UNO.</p>
   
     <div class="desc"><p>A list is returned containing the latch state for the pin, the latched value, and the time stamp
 [pin_num, latch_state, latched_value, time_stamp]
-If the the latch state is LATCH_LATCHED, the table is reset (data and timestamp set to zero)
-@param pin: Pin number.
-@return: [pin, latch_state, latch_data_value, time_stamp]</p></div>
+If the the latch state is LATCH_LATCHED, the table is reset (data and timestamp set to zero)</p>
+<p>:param pin: Pin number.</p>
+<p>:return: [pin, latch_state, latch_data_value, time_stamp]</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.get_analog_latch_data', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.get_analog_latch_data" class="source">
@@ -3734,8 +3906,8 @@ If the the latch state is LATCH_LATCHED, the table is reset (data and timestamp 
 <span class="sd">    A list is returned containing the latch state for the pin, the latched value, and the time stamp</span>
 <span class="sd">    [pin_num, latch_state, latched_value, time_stamp]</span>
 <span class="sd">    If the the latch state is LATCH_LATCHED, the table is reset (data and timestamp set to zero)</span>
-<span class="sd">    @param pin: Pin number.</span>
-<span class="sd">    @return: [pin, latch_state, latch_data_value, time_stamp]</span>
+<span class="sd">    :param pin: Pin number.</span>
+<span class="sd">    :return: [pin, latch_state, latch_data_value, time_stamp]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">get_analog_latch_data</span><span class="p">(</span><span class="n">pin</span><span class="p">)</span>
 </pre></div>
@@ -3755,14 +3927,14 @@ If the the latch state is LATCH_LATCHED, the table is reset (data and timestamp 
     
   
     <div class="desc"><p>Call this method after calling analog_mapping_query() to retrieve its results
-@return: raw data returned by firmata</p></div>
+:return: raw data returned by firmata</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.get_analog_mapping_request_results', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.get_analog_mapping_request_results" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_analog_mapping_request_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Call this method after calling analog_mapping_query() to retrieve its results</span>
-<span class="sd">    @return: raw data returned by firmata</span>
+<span class="sd">    :return: raw data returned by firmata</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">analog_mapping_query_results</span>
 </pre></div>
@@ -3784,7 +3956,7 @@ If the the latch state is LATCH_LATCHED, the table is reset (data and timestamp 
     <div class="desc"><p>This method returns a list of lists representing the current pin mode and
 associated data values for all analog pins.
 All configured pin types, both input and output will be listed. Output pin data will contain zero.
-@return: The last update of the digital response table</p></div>
+:return: The last update of the digital response table</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.get_analog_response_table', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.get_analog_response_table" class="source">
@@ -3793,7 +3965,7 @@ All configured pin types, both input and output will be listed. Output pin data 
 <span class="sd">    This method returns a list of lists representing the current pin mode and</span>
 <span class="sd">    associated data values for all analog pins.</span>
 <span class="sd">    All configured pin types, both input and output will be listed. Output pin data will contain zero.</span>
-<span class="sd">    @return: The last update of the digital response table</span>
+<span class="sd">    :return: The last update of the digital response table</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">get_analog_response_table</span><span class="p">()</span>
 </pre></div>
@@ -3813,14 +3985,14 @@ All configured pin types, both input and output will be listed. Output pin data 
     
   
     <div class="desc"><p>Retrieve the data returned by a previous call to capability_query()
-@return: Raw capability data returned by firmata</p></div>
+:return: Raw capability data returned by firmata</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.get_capability_query_results', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.get_capability_query_results" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_capability_query_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Retrieve the data returned by a previous call to capability_query()</span>
-<span class="sd">    @return: Raw capability data returned by firmata</span>
+<span class="sd">    :return: Raw capability data returned by firmata</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">capability_query_results</span>
 </pre></div>
@@ -3841,9 +4013,9 @@ All configured pin types, both input and output will be listed. Output pin data 
   
     <div class="desc"><p>A list is returned containing the latch state for the pin, the latched value, and the time stamp
 [pin_num, latch_state, latched_value, time_stamp]
-If the the latch state is LATCH_LATCHED, the table is reset (data and timestamp set to zero)
-@param pin: Pin number.
-@return: [pin, latch_state, latch_data_value, time_stamp]</p></div>
+If the the latch state is LATCH_LATCHED, the table is reset (data and timestamp set to zero)</p>
+<p>:param pin: Pin number.</p>
+<p>:return: [pin, latch_state, latch_data_value, time_stamp]</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.get_digital_latch_data', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.get_digital_latch_data" class="source">
@@ -3852,8 +4024,8 @@ If the the latch state is LATCH_LATCHED, the table is reset (data and timestamp 
 <span class="sd">    A list is returned containing the latch state for the pin, the latched value, and the time stamp</span>
 <span class="sd">    [pin_num, latch_state, latched_value, time_stamp]</span>
 <span class="sd">    If the the latch state is LATCH_LATCHED, the table is reset (data and timestamp set to zero)</span>
-<span class="sd">    @param pin: Pin number.</span>
-<span class="sd">    @return: [pin, latch_state, latch_data_value, time_stamp]</span>
+<span class="sd">    :param pin: Pin number.</span>
+<span class="sd">    :return: [pin, latch_state, latch_data_value, time_stamp]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">get_digital_latch_data</span><span class="p">(</span><span class="n">pin</span><span class="p">)</span>
 </pre></div>
@@ -3875,7 +4047,7 @@ If the the latch state is LATCH_LATCHED, the table is reset (data and timestamp 
     <div class="desc"><p>This method returns a list of lists representing the current pin mode
 and associated data for all digital pins.
 All pin types, both input and output will be listed. Output pin data will contain zero.
-@return: The last update of the digital response table</p></div>
+:return: The last update of the digital response table</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.get_digital_response_table', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.get_digital_response_table" class="source">
@@ -3884,7 +4056,7 @@ All pin types, both input and output will be listed. Output pin data will contai
 <span class="sd">    This method returns a list of lists representing the current pin mode</span>
 <span class="sd">    and associated data for all digital pins.</span>
 <span class="sd">    All pin types, both input and output will be listed. Output pin data will contain zero.</span>
-<span class="sd">    @return: The last update of the digital response table</span>
+<span class="sd">    :return: The last update of the digital response table</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">get_digital_response_table</span><span class="p">()</span>
 </pre></div>
@@ -3904,14 +4076,14 @@ All pin types, both input and output will be listed. Output pin data will contai
     
   
     <div class="desc"><p>Retrieve the firmware id information returned by a previous call to refresh_report_firmware()
-@return: Firmata_firmware  list [major, minor, file_name] or None</p></div>
+:return: Firmata_firmware  list [major, minor, file_name] or None</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.get_firmata_firmware_version', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.get_firmata_firmware_version" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_firmata_firmware_version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Retrieve the firmware id information returned by a previous call to refresh_report_firmware()</span>
-<span class="sd">    @return: Firmata_firmware  list [major, minor, file_name] or None</span>
+<span class="sd">    :return: Firmata_firmware  list [major, minor, file_name] or None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">firmata_firmware</span>
 </pre></div>
@@ -3931,14 +4103,14 @@ All pin types, both input and output will be listed. Output pin data will contai
     
   
     <div class="desc"><p>Retrieve the firmata version information returned by a previous call to refresh_report_version()
-@return: Firmata_version list [major, minor] or None</p></div>
+:return: Firmata_version list [major, minor] or None</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.get_firmata_version', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.get_firmata_version" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_firmata_version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Retrieve the firmata version information returned by a previous call to refresh_report_version()</span>
-<span class="sd">    @return: Firmata_version list [major, minor] or None</span>
+<span class="sd">    :return: Firmata_version list [major, minor] or None</span>
 <span class="sd">     &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">firmata_version</span>
 </pre></div>
@@ -3959,7 +4131,7 @@ All pin types, both input and output will be listed. Output pin data will contai
   
     <div class="desc"><p>This method returns the results of a previous call to pin_state_query() and then resets
 the pin state query data to None</p>
-<p>@return: Raw pin state query data</p></div>
+<p>:return: Raw pin state query data</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.get_pin_state_query_results', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.get_pin_state_query_results" class="source">
@@ -3967,7 +4139,7 @@ the pin state query data to None</p>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This method returns the results of a previous call to pin_state_query() and then resets</span>
 <span class="sd">    the pin state query data to None</span>
-<span class="sd">    @return: Raw pin state query data</span>
+<span class="sd">    :return: Raw pin state query data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">r_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">last_pin_query_results</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">last_pin_query_results</span> <span class="o">=</span> <span class="p">[]</span>
@@ -3989,14 +4161,14 @@ the pin state query data to None</p>
     
   
     <div class="desc"><p>Returns the PyMata version number in a list: [Major Number, Minor Number]</p>
-<p>@return:</p></div>
+<p>:return:</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.get_pymata_version', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.get_pymata_version" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_pymata_version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the PyMata version number in a list: [Major Number, Minor Number]</span>
-<span class="sd">    @return:</span>
+<span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;08&#39;</span><span class="p">]</span>
 </pre></div>
@@ -4019,7 +4191,7 @@ the pin state query data to None</p>
 The 'key' is the trigger pin specified in sonar_config() and the 'data' is the
 current measured distance (in centimeters)
 for that pin. If there is no data, the value is set to IGNORE (127).</p>
-<p>@return: active_sonar_map</p></div>
+<p>:return: active_sonar_map</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.get_sonar_data', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.get_sonar_data" class="source">
@@ -4029,7 +4201,7 @@ for that pin. If there is no data, the value is set to IGNORE (127).</p>
 <span class="sd">    The &#39;key&#39; is the trigger pin specified in sonar_config() and the &#39;data&#39; is the</span>
 <span class="sd">    current measured distance (in centimeters)</span>
 <span class="sd">    for that pin. If there is no data, the value is set to IGNORE (127).</span>
-<span class="sd">    @return: active_sonar_map</span>
+<span class="sd">    :return: active_sonar_map</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">active_sonar_map</span>
 </pre></div>
@@ -4048,15 +4220,17 @@ for that pin. If there is no data, the value is set to IGNORE (127).</p>
 
     
   
-    <div class="desc"><p>@param timeout: specify a time to allow arduino to process and return a version
-@return: the stepper version number if it was set.</p></div>
+    <div class="desc"><p>Get the stepper library version number.</p>
+<p>:param timeout: specify a time to allow arduino to process and return a version</p>
+<p>:return: the stepper version number if it was set.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.get_stepper_version', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.get_stepper_version" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_stepper_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    @param timeout: specify a time to allow arduino to process and return a version</span>
-<span class="sd">    @return: the stepper version number if it was set.</span>
+<span class="sd">    Get the stepper library version number.</span>
+<span class="sd">    :param timeout: specify a time to allow arduino to process and return a version</span>
+<span class="sd">    :return: the stepper version number if it was set.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># get current time</span>
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -4092,11 +4266,11 @@ It allows setting of a read time delay amount, and to optionally track
 the pins as I2C in the appropriate response table.
 To track pins: Set the pin_type to ANALOG or DIGITAL and provide the pin numbers.
 If using ANALOG, pin numbers use the analog number, for example A4: use 4.</p>
-<p>@param read_delay_time: an optional parameter, default is 0
-@param pin_type: ANALOG or DIGITAL to select response table type to track pin numbers
-@param clk_pin: pin number (see comment above).
-@param data_pin: pin number (see comment above).
-@return: No Return Value</p></div>
+<p>:param read_delay_time: an optional parameter, default is 0</p>
+<p>:param pin_type: ANALOG or DIGITAL to select response table type to track pin numbers</p>
+<p>:param clk_pin: pin number (see comment above).</p>
+<p>:param data_pin: pin number (see comment above).</p>
+<p>:return: No Return Value</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.i2c_config', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.i2c_config" class="source">
@@ -4108,11 +4282,11 @@ If using ANALOG, pin numbers use the analog number, for example A4: use 4.</p>
 <span class="sd">    the pins as I2C in the appropriate response table.</span>
 <span class="sd">    To track pins: Set the pin_type to ANALOG or DIGITAL and provide the pin numbers.</span>
 <span class="sd">    If using ANALOG, pin numbers use the analog number, for example A4: use 4.</span>
-<span class="sd">    @param read_delay_time: an optional parameter, default is 0</span>
-<span class="sd">    @param pin_type: ANALOG or DIGITAL to select response table type to track pin numbers</span>
-<span class="sd">    @param clk_pin: pin number (see comment above).</span>
-<span class="sd">    @param data_pin: pin number (see comment above).</span>
-<span class="sd">    @return: No Return Value</span>
+<span class="sd">    :param read_delay_time: an optional parameter, default is 0</span>
+<span class="sd">    :param pin_type: ANALOG or DIGITAL to select response table type to track pin numbers</span>
+<span class="sd">    :param clk_pin: pin number (see comment above).</span>
+<span class="sd">    :param data_pin: pin number (see comment above).</span>
+<span class="sd">    :return: No Return Value</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">read_delay_time</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">read_delay_time</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">I2C_CONFIG</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
@@ -4144,17 +4318,17 @@ If using ANALOG, pin numbers use the analog number, for example A4: use 4.</p>
 
     
   
-    <div class="desc"><p>This method retrieves the i2c read data as the result of an i2c_read() command.
-@param address: i2c device address
-@return: raw data read from device</p></div>
+    <div class="desc"><p>This method retrieves the i2c read data as the result of an i2c_read() command.</p>
+<p>:param address: i2c device address</p>
+<p>:return: raw data read from device</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.i2c_get_read_data', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.i2c_get_read_data" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">i2c_get_read_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This method retrieves the i2c read data as the result of an i2c_read() command.</span>
-<span class="sd">    @param address: i2c device address</span>
-<span class="sd">    @return: raw data read from device</span>
+<span class="sd">    :param address: i2c device address</span>
+<span class="sd">    :return: raw data read from device</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">address</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">i2c_map</span><span class="p">:</span>
         <span class="n">map_entry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">i2c_map</span><span class="p">[</span><span class="n">address</span><span class="p">]</span>
@@ -4177,12 +4351,12 @@ If using ANALOG, pin numbers use the analog number, for example A4: use 4.</p>
   
     <div class="desc"><p>This method requests the read of an i2c device. Results are retrieved by a call to
 i2c_get_read_data().
-If a callback method is provided, when data is received from the device it will be sent to the callback method
-@param address: i2c device address
-@param register: register number (can be set to zero)
-@param number_of_bytes: number of bytes expected to be returned
-@param read_type: I2C_READ  or I2C_READ_CONTINUOUSLY
-@param cb: Optional callback function to report i2c data as result of read command</p></div>
+If a callback method is provided, when data is received from the device it will be sent to the callback method</p>
+<p>:param address: i2c device address</p>
+<p>:param register: register number (can be set to zero)</p>
+<p>:param number_of_bytes: number of bytes expected to be returned</p>
+<p>:param read_type: I2C_READ  or I2C_READ_CONTINUOUSLY</p>
+<p>:param cb: Optional callback function to report i2c data as result of read command</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.i2c_read', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.i2c_read" class="source">
@@ -4191,11 +4365,11 @@ If a callback method is provided, when data is received from the device it will 
 <span class="sd">    This method requests the read of an i2c device. Results are retrieved by a call to</span>
 <span class="sd">    i2c_get_read_data().</span>
 <span class="sd">    If a callback method is provided, when data is received from the device it will be sent to the callback method</span>
-<span class="sd">    @param address: i2c device address</span>
-<span class="sd">    @param register: register number (can be set to zero)</span>
-<span class="sd">    @param number_of_bytes: number of bytes expected to be returned</span>
-<span class="sd">    @param read_type: I2C_READ  or I2C_READ_CONTINUOUSLY</span>
-<span class="sd">    @param cb: Optional callback function to report i2c data as result of read command</span>
+<span class="sd">    :param address: i2c device address</span>
+<span class="sd">    :param register: register number (can be set to zero)</span>
+<span class="sd">    :param number_of_bytes: number of bytes expected to be returned</span>
+<span class="sd">    :param read_type: I2C_READ  or I2C_READ_CONTINUOUSLY</span>
+<span class="sd">    :param cb: Optional callback function to report i2c data as result of read command</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">address</span><span class="p">,</span> <span class="n">read_type</span><span class="p">,</span> <span class="n">register</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">register</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span>
             <span class="n">number_of_bytes</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">number_of_bytes</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">]</span>
@@ -4218,15 +4392,15 @@ If a callback method is provided, when data is received from the device it will 
 
     
   
-    <div class="desc"><p>This method stops an I2C_READ_CONTINUOUSLY operation for the i2c device address specified.
-@param address: address of i2c device</p></div>
+    <div class="desc"><p>This method stops an I2C_READ_CONTINUOUSLY operation for the i2c device address specified.</p>
+<p>:param address: address of i2c device</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.i2c_stop_reading', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.i2c_stop_reading" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">i2c_stop_reading</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This method stops an I2C_READ_CONTINUOUSLY operation for the i2c device address specified.</span>
-<span class="sd">    @param address: address of i2c device</span>
+<span class="sd">    :param address: address of i2c device</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">address</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">I2C_STOP_READING</span><span class="p">]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">I2C_REQUEST</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
@@ -4246,17 +4420,17 @@ If a callback method is provided, when data is received from the device it will 
 
     
   
-    <div class="desc"><p>Write data to an i2c device.
-@param address: i2c device address
-@param args: A variable number of bytes to be sent to the device</p></div>
+    <div class="desc"><p>Write data to an i2c device.</p>
+<p>:param address: i2c device address</p>
+<p>:param args: A variable number of bytes to be sent to the device</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.i2c_write', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.i2c_write" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">i2c_write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Write data to an i2c device.</span>
-<span class="sd">    @param address: i2c device address</span>
-<span class="sd">    @param args: A variable number of bytes to be sent to the device</span>
+<span class="sd">    :param address: i2c device address</span>
+<span class="sd">    :param args: A variable number of bytes to be sent to the device</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">address</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">I2C_WRITE</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
@@ -4281,7 +4455,7 @@ If a callback method is provided, when data is received from the device it will 
   
     <div class="desc"><p>This method issues a pin state query command. Data returned is retrieved via
 a call to get_pin_state_query_results()
-@param pin: pin number</p></div>
+:param pin: pin number</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.pin_state_query', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.pin_state_query" class="source">
@@ -4289,7 +4463,7 @@ a call to get_pin_state_query_results()
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This method issues a pin state query command. Data returned is retrieved via</span>
 <span class="sd">    a call to get_pin_state_query_results()</span>
-<span class="sd">    @param pin: pin number</span>
+<span class="sd">    :param pin: pin number</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">PIN_STATE_QUERY</span><span class="p">,</span> <span class="p">[</span><span class="n">pin</span><span class="p">])</span>
 </pre></div>
@@ -4311,12 +4485,12 @@ a call to get_pin_state_query_results()
     <div class="desc"><p>This method will call the Tone library for the selected pin.
 If the tone command is set to TONE_TONE, then the specified tone will be played.
 Else, if the tone command is TONE_NO_TONE, then any currently playing tone will be disabled.
-It is intended for a future release of Arduino Firmata
-@param pin: Pin number
-@param tone_command: Either TONE_TONE, or TONE_NO_TONE
-@param frequency: Frequency of tone
-@param duration: Duration of tone in milliseconds
-@return: No return value</p></div>
+It is intended for a future release of Arduino Firmata</p>
+<p>:param pin: Pin number</p>
+<p>:param tone_command: Either TONE_TONE, or TONE_NO_TONE</p>
+<p>:param frequency: Frequency of tone</p>
+<p>:param duration: Duration of tone in milliseconds</p>
+<p>:return: No return value</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.play_tone', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.play_tone" class="source">
@@ -4326,11 +4500,11 @@ It is intended for a future release of Arduino Firmata
 <span class="sd">    If the tone command is set to TONE_TONE, then the specified tone will be played.</span>
 <span class="sd">    Else, if the tone command is TONE_NO_TONE, then any currently playing tone will be disabled.</span>
 <span class="sd">    It is intended for a future release of Arduino Firmata</span>
-<span class="sd">    @param pin: Pin number</span>
-<span class="sd">    @param tone_command: Either TONE_TONE, or TONE_NO_TONE</span>
-<span class="sd">    @param frequency: Frequency of tone</span>
-<span class="sd">    @param duration: Duration of tone in milliseconds</span>
-<span class="sd">    @return: No return value</span>
+<span class="sd">    :param pin: Pin number</span>
+<span class="sd">    :param tone_command: Either TONE_TONE, or TONE_NO_TONE</span>
+<span class="sd">    :param frequency: Frequency of tone</span>
+<span class="sd">    :param duration: Duration of tone in milliseconds</span>
+<span class="sd">    :return: No return value</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># convert the integer values to bytes</span>
     <span class="k">if</span> <span class="n">tone_command</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">TONE_TONE</span><span class="p">:</span>
@@ -4417,14 +4591,14 @@ Retrieve the report version via a call to get_firmata_version()</p></div>
     
   
     <div class="desc"><p>This command sends a reset message to the Arduino. The response tables will be reinitialized
-@return: No return value.</p></div>
+:return: No return value.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.reset', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.reset" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This command sends a reset message to the Arduino. The response tables will be reinitialized</span>
-<span class="sd">    @return: No return value.</span>
+<span class="sd">    :return: No return value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># set all output pins to a value of 0</span>
     <span class="k">for</span> <span class="n">pin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">total_pins_discovered</span><span class="p">):</span>
@@ -4457,21 +4631,21 @@ Retrieve the report version via a call to get_firmata_version()</p></div>
 
     
   
-    <div class="desc"><p>Configure a pin as a servo pin. Set pulse min, max in ms.
-@param pin: Servo Pin.
-@param min_pulse: Min pulse width in ms.
-@param max_pulse: Max pulse width in ms.
-@return: No return value</p></div>
+    <div class="desc"><p>Configure a pin as a servo pin. Set pulse min, max in ms.</p>
+<p>:param pin: Servo Pin.</p>
+<p>:param min_pulse: Min pulse width in ms.</p>
+<p>:param max_pulse: Max pulse width in ms.</p>
+<p>:return: No return value</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.servo_config', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.servo_config" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">servo_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">min_pulse</span><span class="o">=</span><span class="mi">544</span><span class="p">,</span> <span class="n">max_pulse</span><span class="o">=</span><span class="mi">2400</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Configure a pin as a servo pin. Set pulse min, max in ms.</span>
-<span class="sd">    @param pin: Servo Pin.</span>
-<span class="sd">    @param min_pulse: Min pulse width in ms.</span>
-<span class="sd">    @param max_pulse: Max pulse width in ms.</span>
-<span class="sd">    @return: No return value</span>
+<span class="sd">    :param pin: Servo Pin.</span>
+<span class="sd">    :param min_pulse: Min pulse width in ms.</span>
+<span class="sd">    :param max_pulse: Max pulse width in ms.</span>
+<span class="sd">    :return: No return value</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">set_pin_mode</span><span class="p">(</span><span class="n">pin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">SERVO</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">OUTPUT</span><span class="p">)</span>
     <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="n">pin</span><span class="p">,</span> <span class="n">min_pulse</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">min_pulse</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span>
@@ -4495,12 +4669,12 @@ Retrieve the report version via a call to get_firmata_version()</p></div>
   
     <div class="desc"><p>This method "arms" an analog pin for its data to be latched and saved in the latching table
 If a callback method is provided, when latching criteria is achieved, the callback function is called
-with latching data notification. In that case, the latching table is not updated.
-@param pin: Analog pin number (value following an 'A' designator, i.e. A5 = 5
-@param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE
-@param threshold_value: numerical value - between 0 and 1023
-@param cb: callback method
-@return: True if successful, False if parameter data is invalid</p></div>
+with latching data notification. In that case, the latching table is not updated.</p>
+<p>:param pin: Analog pin number (value following an 'A' designator, i.e. A5 = 5</p>
+<p>:param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE</p>
+<p>:param threshold_value: numerical value - between 0 and 1023</p>
+<p>:param cb: callback method</p>
+<p>:return: True if successful, False if parameter data is invalid</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.set_analog_latch', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.set_analog_latch" class="source">
@@ -4509,11 +4683,11 @@ with latching data notification. In that case, the latching table is not updated
 <span class="sd">    This method &quot;arms&quot; an analog pin for its data to be latched and saved in the latching table</span>
 <span class="sd">    If a callback method is provided, when latching criteria is achieved, the callback function is called</span>
 <span class="sd">    with latching data notification. In that case, the latching table is not updated.</span>
-<span class="sd">    @param pin: Analog pin number (value following an &#39;A&#39; designator, i.e. A5 = 5</span>
-<span class="sd">    @param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE</span>
-<span class="sd">    @param threshold_value: numerical value - between 0 and 1023</span>
-<span class="sd">    @param cb: callback method</span>
-<span class="sd">    @return: True if successful, False if parameter data is invalid</span>
+<span class="sd">    :param pin: Analog pin number (value following an &#39;A&#39; designator, i.e. A5 = 5</span>
+<span class="sd">    :param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE</span>
+<span class="sd">    :param threshold_value: numerical value - between 0 and 1023</span>
+<span class="sd">    :param cb: callback method</span>
+<span class="sd">    :return: True if successful, False if parameter data is invalid</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ANALOG_LATCH_GT</span> <span class="o">&lt;=</span> <span class="n">threshold_type</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ANALOG_LATCH_LTE</span><span class="p">:</span>
         <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">threshold_value</span> <span class="o">&lt;=</span> <span class="mi">1023</span><span class="p">:</span>
@@ -4539,11 +4713,11 @@ with latching data notification. In that case, the latching table is not updated
   
     <div class="desc"><p>This method "arms" a digital pin for its data to be latched and saved in the latching table
 If a callback method is provided, when latching criteria is achieved, the callback function is called
-with latching data notification. In that case, the latching table is not updated.
-@param pin: Digital pin number
-@param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW
-@param cb: callback function
-@return: True if successful, False if parameter data is invalid</p></div>
+with latching data notification. In that case, the latching table is not updated.</p>
+<p>:param pin: Digital pin number</p>
+<p>:param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW</p>
+<p>:param cb: callback function</p>
+<p>:return: True if successful, False if parameter data is invalid</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.set_digital_latch', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.set_digital_latch" class="source">
@@ -4552,10 +4726,10 @@ with latching data notification. In that case, the latching table is not updated
 <span class="sd">    This method &quot;arms&quot; a digital pin for its data to be latched and saved in the latching table</span>
 <span class="sd">    If a callback method is provided, when latching criteria is achieved, the callback function is called</span>
 <span class="sd">    with latching data notification. In that case, the latching table is not updated.</span>
-<span class="sd">    @param pin: Digital pin number</span>
-<span class="sd">    @param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW</span>
-<span class="sd">    @param cb: callback function</span>
-<span class="sd">    @return: True if successful, False if parameter data is invalid</span>
+<span class="sd">    :param pin: Digital pin number</span>
+<span class="sd">    :param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW</span>
+<span class="sd">    :param cb: callback function</span>
+<span class="sd">    :return: True if successful, False if parameter data is invalid</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">threshold_type</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">set_digital_latch</span><span class="p">(</span><span class="n">pin</span><span class="p">,</span> <span class="n">threshold_type</span><span class="p">,</span> <span class="n">cb</span><span class="p">)</span>
@@ -4580,12 +4754,12 @@ with latching data notification. In that case, the latching table is not updated
   
     <div class="desc"><p>This method sets a pin to the desired pin mode for the pin_type.
 It automatically enables data reporting.
-NOTE: DO NOT CALL THIS METHOD FOR I2C. See i2c_config().
-@param pin: Pin number (for analog use the analog number, for example A4: use 4)
-@param mode: INPUT, OUTPUT, PWM
-@param pin_type: ANALOG or DIGITAL
-@param cb: This is an optional callback function to report data changes to the user
-@return: No return value</p></div>
+NOTE: DO NOT CALL THIS METHOD FOR I2C. See i2c_config().</p>
+<p>:param pin: Pin number (for analog use the analog number, for example A4: use 4)</p>
+<p>:param mode: INPUT, OUTPUT, PWM</p>
+<p>:param pin_type: ANALOG or DIGITAL</p>
+<p>:param cb: This is an optional callback function to report data changes to the user</p>
+<p>:return: No return value</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.set_pin_mode', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.set_pin_mode" class="source">
@@ -4594,11 +4768,11 @@ NOTE: DO NOT CALL THIS METHOD FOR I2C. See i2c_config().
 <span class="sd">    This method sets a pin to the desired pin mode for the pin_type.</span>
 <span class="sd">    It automatically enables data reporting.</span>
 <span class="sd">    NOTE: DO NOT CALL THIS METHOD FOR I2C. See i2c_config().</span>
-<span class="sd">    @param pin: Pin number (for analog use the analog number, for example A4: use 4)</span>
-<span class="sd">    @param mode: INPUT, OUTPUT, PWM</span>
-<span class="sd">    @param pin_type: ANALOG or DIGITAL</span>
-<span class="sd">    @param cb: This is an optional callback function to report data changes to the user</span>
-<span class="sd">    @return: No return value</span>
+<span class="sd">    :param pin: Pin number (for analog use the analog number, for example A4: use 4)</span>
+<span class="sd">    :param mode: INPUT, OUTPUT, PWM</span>
+<span class="sd">    :param pin_type: ANALOG or DIGITAL</span>
+<span class="sd">    :param cb: This is an optional callback function to report data changes to the user</span>
+<span class="sd">    :return: No return value</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">SET_PIN_MODE</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">mode</span><span class="p">]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
@@ -4638,9 +4812,9 @@ NOTE: DO NOT CALL THIS METHOD FOR I2C. See i2c_config().
     
   
     <div class="desc"><p>This method sends the desired sampling interval to Firmata.
-Note: Standard Firmata  will ignore any interval less than 10 milliseconds
-@param interval: Integer value for desired sampling interval in milliseconds
-@return: No return value.</p></div>
+Note: Standard Firmata  will ignore any interval less than 10 milliseconds</p>
+<p>:param interval: Integer value for desired sampling interval in milliseconds</p>
+<p>:return: No return value.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.set_sampling_interval', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.set_sampling_interval" class="source">
@@ -4648,8 +4822,8 @@ Note: Standard Firmata  will ignore any interval less than 10 milliseconds
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This method sends the desired sampling interval to Firmata.</span>
 <span class="sd">    Note: Standard Firmata  will ignore any interval less than 10 milliseconds</span>
-<span class="sd">    @param interval: Integer value for desired sampling interval in milliseconds</span>
-<span class="sd">    @return: No return value.</span>
+<span class="sd">    :param interval: Integer value for desired sampling interval in milliseconds</span>
+<span class="sd">    :return: No return value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">interval</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">interval</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">SAMPLING_INTERVAL</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
@@ -4673,12 +4847,12 @@ Note: Standard Firmata  will ignore any interval less than 10 milliseconds
 Single pin configuration may be used. To do so, set both the trigger and echo pins to the same value.
 Up to a maximum of 6 SONAR devices is supported
 If the maximum is exceeded a message is sent to the console and the request is ignored.
-NOTE: data is measured in centimeters
-@param trigger_pin: The pin number of for the trigger (transmitter).
-@param echo_pin: The pin number for the received echo.
-@param ping_interval: Minimum interval between pings. Lowest number to use is 33 ms.Max is 127
-@param max_distance: Maximum distance in cm. Max is 200.
-@param cb: optional callback function to report sonar data changes</p></div>
+NOTE: data is measured in centimeters</p>
+<p>:param trigger_pin: The pin number of for the trigger (transmitter).</p>
+<p>:param echo_pin: The pin number for the received echo.</p>
+<p>:param ping_interval: Minimum interval between pings. Lowest number to use is 33 ms.Max is 127</p>
+<p>:param max_distance: Maximum distance in cm. Max is 200.</p>
+<p>:param cb: optional callback function to report sonar data changes</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.sonar_config', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.sonar_config" class="source">
@@ -4689,11 +4863,11 @@ NOTE: data is measured in centimeters
 <span class="sd">    Up to a maximum of 6 SONAR devices is supported</span>
 <span class="sd">    If the maximum is exceeded a message is sent to the console and the request is ignored.</span>
 <span class="sd">    NOTE: data is measured in centimeters</span>
-<span class="sd">    @param trigger_pin: The pin number of for the trigger (transmitter).</span>
-<span class="sd">    @param echo_pin: The pin number for the received echo.</span>
-<span class="sd">    @param ping_interval: Minimum interval between pings. Lowest number to use is 33 ms.Max is 127</span>
-<span class="sd">    @param max_distance: Maximum distance in cm. Max is 200.</span>
-<span class="sd">    @param cb: optional callback function to report sonar data changes</span>
+<span class="sd">    :param trigger_pin: The pin number of for the trigger (transmitter).</span>
+<span class="sd">    :param echo_pin: The pin number for the received echo.</span>
+<span class="sd">    :param ping_interval: Minimum interval between pings. Lowest number to use is 33 ms.Max is 127</span>
+<span class="sd">    :param max_distance: Maximum distance in cm. Max is 200.</span>
+<span class="sd">    :param cb: optional callback function to report sonar data changes</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">max_distance</span> <span class="o">&gt;</span> <span class="mi">200</span><span class="p">:</span>
         <span class="n">max_distance</span> <span class="o">=</span> <span class="mi">200</span>
@@ -4728,17 +4902,17 @@ NOTE: data is measured in centimeters
 
     
   
-    <div class="desc"><p>Configure stepper motor prior to operation.
-@param steps_per_revolution: number of steps per motor revolution
-@param stepper_pins: a list of control pin numbers - either 4 or 2</p></div>
+    <div class="desc"><p>Configure stepper motor prior to operation.</p>
+<p>:param steps_per_revolution: number of steps per motor revolution</p>
+<p>:param stepper_pins: a list of control pin numbers - either 4 or 2</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.stepper_config', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.stepper_config" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">stepper_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">steps_per_revolution</span><span class="p">,</span> <span class="n">stepper_pins</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Configure stepper motor prior to operation.</span>
-<span class="sd">    @param steps_per_revolution: number of steps per motor revolution</span>
-<span class="sd">    @param stepper_pins: a list of control pin numbers - either 4 or 2</span>
+<span class="sd">    :param steps_per_revolution: number of steps per motor revolution</span>
+<span class="sd">    :param stepper_pins: a list of control pin numbers - either 4 or 2</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">STEPPER_CONFIGURE</span><span class="p">,</span> <span class="n">steps_per_revolution</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="p">(</span><span class="n">steps_per_revolution</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">pin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stepper_pins</span><span class="p">)):</span>
@@ -4790,9 +4964,9 @@ get_stepper_version</p></div>
 
     
   
-    <div class="desc"><p>Move a stepper motor for the number of steps at the specified speed
-@param motor_speed: 21 bits of data to set motor speed
-@param number_of_steps: 14 bits for number of steps &amp; direction
+    <div class="desc"><p>Move a stepper motor for the number of steps at the specified speed</p>
+<p>:param motor_speed: 21 bits of data to set motor speed</p>
+<p>:param number_of_steps: 14 bits for number of steps &amp; direction
                         positive is forward, negative is reverse</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.stepper_step', this);">Show source &equiv;</a></p>
@@ -4800,8 +4974,8 @@ get_stepper_version</p></div>
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">stepper_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">motor_speed</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Move a stepper motor for the number of steps at the specified speed</span>
-<span class="sd">    @param motor_speed: 21 bits of data to set motor speed</span>
-<span class="sd">    @param number_of_steps: 14 bits for number of steps &amp; direction</span>
+<span class="sd">    :param motor_speed: 21 bits of data to set motor speed</span>
+<span class="sd">    :param number_of_steps: 14 bits for number of steps &amp; direction</span>
 <span class="sd">                            positive is forward, negative is reverse</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">number_of_steps</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>

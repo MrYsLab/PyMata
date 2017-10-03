@@ -4,7 +4,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 
     <title>PyMata.pymata_command_handler API documentation</title>
-    <meta name="description" content="" />
+    <meta name="description" content="Copyright (c) 2015-2017 Alan Yorinks All rights reserved.
+
+This program is free software; you can re..." />
 
   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
   
@@ -1100,28 +1102,36 @@ table {
 
   <header id="section-intro">
   <h1 class="title"><span class="name">PyMata.pymata_command_handler</span> module</h1>
-  
+  <p>Copyright (c) 2015-2017 Alan Yorinks All rights reserved.</p>
+<p>This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+Version 3 as published by the Free Software Foundation; either
+or (at your option) any later version.
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.</p>
+<p>You should have received a copy of the GNU AFFERO GENERAL PUBLIC LICENSE
+along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</p>
   
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler" class="source">
-    <div class="codehilite"><pre><span></span><span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Copyright (c) 2013 Alan Yorinks All rights reserved.&#39;</span>
+    <div class="codehilite"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"> Copyright (c) 2015-2017 Alan Yorinks All rights reserved.</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Copyright (c) 2013-17 Alan Yorinks All rights reserved.</span>
+<span class="sd"> This program is free software; you can redistribute it and/or</span>
+<span class="sd"> modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE</span>
+<span class="sd"> Version 3 as published by the Free Software Foundation; either</span>
+<span class="sd"> or (at your option) any later version.</span>
+<span class="sd"> This library is distributed in the hope that it will be useful,</span>
+<span class="sd"> but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="sd"> MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU</span>
+<span class="sd"> General Public License for more details.</span>
 
-<span class="sd">This program is free software; you can redistribute it and/or</span>
-<span class="sd">modify it under the terms of the GNU  General Public</span>
-<span class="sd">License as published by the Free Software Foundation; either</span>
-<span class="sd">version 3 of the License, or (at your option) any later version.</span>
-
-<span class="sd">This library is distributed in the hope that it will be useful,</span>
-<span class="sd">but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="sd">MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU</span>
-<span class="sd">General Public License for more details.</span>
-
-<span class="sd">You should have received a copy of the GNU General Public</span>
-<span class="sd">License along with this library; if not, write to the Free Software</span>
-<span class="sd">Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</span>
+<span class="sd"> You should have received a copy of the GNU AFFERO GENERAL PUBLIC LICENSE</span>
+<span class="sd"> along with this library; if not, write to the Free Software</span>
+<span class="sd"> Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">threading</span>
@@ -1296,7 +1306,8 @@ table {
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pymata</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        constructor for CommandHandler class</span>
-<span class="sd">        @param pymata: A reference to the pymata instance.</span>
+<span class="sd">        </span>
+<span class="sd">        :param pymata: A reference to the pymata instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># reference pointer to pymata</span>
@@ -1330,7 +1341,7 @@ table {
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method will allow up to 30 seconds for discovery (communicating with) an Arduino board</span>
 <span class="sd">        and then will determine a pin configuration table for the board.</span>
-<span class="sd">        @return: True if board is successfully discovered or False upon timeout</span>
+<span class="sd">        :return: True if board is successfully discovered or False upon timeout</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># get current time</span>
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -1341,7 +1352,7 @@ table {
             <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">False</span>
                 <span class="c1"># keep sending out a capability query until there is a response</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ANALOG_MAPPING_QUERY</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ANALOG_MAPPING_QUERY</span><span class="p">)</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="o">.</span><span class="mi">1</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
@@ -1384,8 +1395,10 @@ table {
 <span class="sd">        or after refresh_report_version() is called</span>
 
 <span class="sd">        Use the api method api_get_version to retrieve this information</span>
-<span class="sd">        @param data: Message data from Firmata</span>
-<span class="sd">        @return: No return value.</span>
+<span class="sd">        </span>
+<span class="sd">        :param data: Message data from Firmata</span>
+<span class="sd">        </span>
+<span class="sd">        :return: No return value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">firmata_version</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># add major</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">firmata_version</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># add minor</span>
@@ -1393,10 +1406,14 @@ table {
     <span class="k">def</span> <span class="nf">set_analog_latch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">threshold_type</span><span class="p">,</span> <span class="n">threshold_value</span><span class="p">,</span> <span class="n">cb</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method &quot;arms&quot; a pin to allow data latching for the pin.</span>
-<span class="sd">        @param pin: Analog pin number (value following an &#39;A&#39; designator, i.e. A5 = 5</span>
-<span class="sd">        @param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE</span>
-<span class="sd">        @param threshold_value: numerical value</span>
-<span class="sd">        @param cb: User provided callback function</span>
+
+<span class="sd">        :param pin: Analog pin number (value following an &#39;A&#39; designator, i.e. A5 = 5</span>
+
+<span class="sd">        :param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE</span>
+
+<span class="sd">        :param threshold_value: numerical value</span>
+
+<span class="sd">        :param cb: User provided callback function</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">analog_latch_table</span><span class="p">[</span><span class="n">pin</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">LATCH_ARMED</span><span class="p">,</span> <span class="n">threshold_type</span><span class="p">,</span> <span class="n">threshold_value</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cb</span><span class="p">]</span>
@@ -1404,9 +1421,12 @@ table {
     <span class="k">def</span> <span class="nf">set_digital_latch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">threshold_type</span><span class="p">,</span> <span class="n">cb</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method &quot;arms&quot; a pin to allow data latching for the pin.</span>
-<span class="sd">        @param pin: digital pin number</span>
-<span class="sd">        @param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW</span>
-<span class="sd">        @param cb: User provided callback function</span>
+
+<span class="sd">        :param pin: digital pin number</span>
+
+<span class="sd">        :param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW</span>
+
+<span class="sd">        :param cb: User provided callback function</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">digital_latch_table</span><span class="p">[</span><span class="n">pin</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">LATCH_ARMED</span><span class="p">,</span> <span class="n">threshold_type</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cb</span><span class="p">]</span>
@@ -1416,8 +1436,10 @@ table {
 <span class="sd">        This method reads the analog latch table for the specified pin and returns a list that contains:</span>
 <span class="sd">        [latch_state, latched_data, and time_stamp].</span>
 <span class="sd">        If the latch state is latched, the entry in the table is cleared</span>
-<span class="sd">        @param pin:  pin number</span>
-<span class="sd">        @return: [latch_state, latched_data, and time_stamp]</span>
+
+<span class="sd">        :param pin:  pin number</span>
+
+<span class="sd">        :return: [latch_state, latched_data, and time_stamp]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
             <span class="n">pin_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analog_latch_table</span><span class="p">[</span><span class="n">pin</span><span class="p">]</span>
@@ -1436,8 +1458,10 @@ table {
 <span class="sd">        This method reads the digital latch table for the specified pin and returns a list that contains:</span>
 <span class="sd">        [latch_state, latched_data, and time_stamp].</span>
 <span class="sd">        If the latch state is latched, the entry in the table is cleared</span>
-<span class="sd">        @param pin:  pin number</span>
-<span class="sd">        @return: [latch_state, latched_data, and time_stamp]</span>
+
+<span class="sd">        :param pin:  pin number</span>
+
+<span class="sd">        :return: [latch_state, latched_data, and time_stamp]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
             <span class="n">pin_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">digital_latch_table</span><span class="p">[</span><span class="n">pin</span><span class="p">]</span>
@@ -1456,8 +1480,10 @@ table {
 <span class="sd">        or after refresh_report_firmware() is called</span>
 <span class="sd">        </span>
 <span class="sd">        Use the api method api_get_firmware_version to retrieve this information</span>
-<span class="sd">        @param data: Message data from Firmata</span>
-<span class="sd">        @return: No return value.</span>
+
+<span class="sd">        :param data: Message data from Firmata</span>
+
+<span class="sd">        :return: No return value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">firmata_firmware</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># add major</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">firmata_firmware</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># add minor</span>
@@ -1485,8 +1511,10 @@ table {
 <span class="sd">        This method also checks to see if latching was requested for the pin. If the latch criteria was met,</span>
 <span class="sd">        the latching table is updated. If a latching callback function was provided by the user, a latching</span>
 <span class="sd">        notification callback message is sent to the user in place of updating the latching table.</span>
-<span class="sd">        @param data: Message data from Firmata</span>
-<span class="sd">        @return: No return value.</span>
+
+<span class="sd">        :param data: Message data from Firmata</span>
+
+<span class="sd">        :return: No return value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
             <span class="c1"># hold on to the previous value</span>
@@ -1578,8 +1606,10 @@ table {
 <span class="sd">        This method handles the incoming digital message.</span>
 <span class="sd">        It stores the data values in the digital response table.</span>
 <span class="sd">        Data is stored for all 8 bits of a  digital port</span>
-<span class="sd">        @param data: Message data from Firmata</span>
-<span class="sd">        @return: No return value.</span>
+
+<span class="sd">        :param data: Message data from Firmata</span>
+
+<span class="sd">        :return: No return value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">port</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">port_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">MSB</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">LSB</span><span class="p">]</span>
@@ -1645,8 +1675,10 @@ table {
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method handles the incoming encoder data message and stores</span>
 <span class="sd">        the data in the digital response table.</span>
-<span class="sd">        @param data: Message data from Firmata</span>
-<span class="sd">        @return: No return value.</span>
+
+<span class="sd">        :param data: Message data from Firmata</span>
+
+<span class="sd">        :return: No return value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">prev_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">digital_response_table</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">RESPONSE_TABLE_MODE</span><span class="p">]][</span><span class="bp">self</span><span class="o">.</span><span class="n">RESPONSE_TABLE_PIN_DATA_VALUE</span><span class="p">]</span>
         <span class="n">val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">MSB</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">LSB</span><span class="p">])</span>
@@ -1666,8 +1698,10 @@ table {
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method handles the incoming sonar data message and stores</span>
 <span class="sd">        the data in the response table.</span>
-<span class="sd">        @param data: Message data from Firmata</span>
-<span class="sd">        @return: No return value.</span>
+
+<span class="sd">        :param data: Message data from Firmata</span>
+
+<span class="sd">        :return: No return value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">MSB</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">LSB</span><span class="p">])</span>
         <span class="n">pin_number</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -1687,7 +1721,7 @@ table {
     <span class="k">def</span> <span class="nf">get_analog_response_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method returns the entire analog response table to the caller</span>
-<span class="sd">        @return: The analog response table.</span>
+<span class="sd">        :return: The analog response table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analog_response_table</span>
@@ -1696,7 +1730,7 @@ table {
     <span class="k">def</span> <span class="nf">get_digital_response_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method returns the entire digital response table to the caller</span>
-<span class="sd">        @return: The digital response table.</span>
+<span class="sd">        :return: The digital response table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">digital_response_table</span>
@@ -1706,9 +1740,11 @@ table {
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method will send a Sysex command to Firmata with any accompanying data</span>
 
-<span class="sd">        @param sysex_command: sysex command</span>
-<span class="sd">        @param sysex_data: data for command</span>
-<span class="sd">        @return : No return value.</span>
+<span class="sd">        :param sysex_command: sysex command</span>
+
+<span class="sd">        :param sysex_data: data for command</span>
+
+<span class="sd">        :return : No return value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">sysex_data</span><span class="p">:</span>
             <span class="n">sysex_data</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1727,13 +1763,14 @@ table {
     <span class="k">def</span> <span class="nf">send_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method is used to transmit a non-sysex command.</span>
-<span class="sd">        @param command: Command to send to firmata includes command + data formatted by caller</span>
-<span class="sd">        @return : No return value.</span>
+
+<span class="sd">        :param command: Command to send to firmata includes command + data formatted by caller</span>
+
+<span class="sd">        :return : No return value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">send_message</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">command</span><span class="p">:</span>
             <span class="n">send_message</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="c1">#send_message += bytes(i)</span>
 
         <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">send_message</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">transport</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -1742,7 +1779,8 @@ table {
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Send the reset command to the Arduino.</span>
 <span class="sd">        It resets the response tables to their initial values</span>
-<span class="sd">        @return: No return value</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SYSTEM_RESET</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">transport</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -1766,15 +1804,16 @@ table {
                 <span class="n">response_entry</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">INPUT</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">None</span><span class="p">]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">analog_response_table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">response_entry</span><span class="p">)</span>
 
-    <span class="c1">#noinspection PyMethodMayBeStatic</span>
+    <span class="c1"># noinspection PyMethodMayBeStatic</span>
     <span class="c1"># keeps pycharm happy</span>
     <span class="k">def</span> <span class="nf">_string_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method handles the incoming string data message from Firmata.</span>
 <span class="sd">        The string is printed to the console</span>
 
-<span class="sd">        @param data: Message data from Firmata</span>
-<span class="sd">        @return: No return value.s</span>
+<span class="sd">        :param data: Message data from Firmata</span>
+
+<span class="sd">        :return: No return value.s</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">print</span><span class="p">(</span><span class="s2">&quot;_string_data:&quot;</span><span class="p">)</span>
         <span class="n">string_to_print</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1788,7 +1827,8 @@ table {
 <span class="sd">        address in a dictionary called i2c_map. The data is retrieved via a call to i2c_get_read_data()</span>
 <span class="sd">        in pymata.py</span>
 <span class="sd">        It a callback was specified in pymata.i2c_read, the raw data is sent through the callback</span>
-<span class="sd">        @param data: raw data returned from i2c device</span>
+
+<span class="sd">        :param data: raw data returned from i2c device</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">reply_data</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1813,7 +1853,8 @@ table {
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method handles a capability response message and stores the results to be retrieved</span>
 <span class="sd">        via get_capability_query_results() in pymata.py</span>
-<span class="sd">        @param data: raw capability data</span>
+
+<span class="sd">        :param data: raw capability data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">capability_query_results</span> <span class="o">=</span> <span class="n">data</span>
 
@@ -1821,7 +1862,8 @@ table {
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method handles a pin state response message and stores the results to be retrieved</span>
 <span class="sd">        via get_pin_state_query_results() in pymata.py</span>
-<span class="sd">        @param data:  raw pin state data</span>
+
+<span class="sd">        :param data:  raw pin state data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">last_pin_query_results</span> <span class="o">=</span> <span class="n">data</span>
 
@@ -1829,7 +1871,8 @@ table {
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method handles an analog mapping query response message and stores the results to be retrieved</span>
 <span class="sd">        via get_analog_mapping_request_results() in pymata.py</span>
-<span class="sd">        @param data: raw analog mapping data</span>
+
+<span class="sd">        :param data: raw analog mapping data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">analog_mapping_query_results</span> <span class="o">=</span> <span class="n">data</span>
 
@@ -1897,7 +1940,7 @@ table {
                             <span class="c1"># go to the beginning of the loop to process the next command</span>
                     <span class="k">continue</span>
 
-                <span class="c1">#is this a command byte in the range of 0x80-0xff - these are the non-sysex messages</span>
+                <span class="c1"># is this a command byte in the range of 0x80-0xff - these are the non-sysex messages</span>
 
                 <span class="k">elif</span> <span class="mh">0x80</span> <span class="o">&lt;=</span> <span class="n">data</span> <span class="o">&lt;=</span> <span class="mh">0xff</span><span class="p">:</span>
                     <span class="c1"># look up the method for the command in the command dispatch table</span>
@@ -1924,14 +1967,14 @@ table {
                     <span class="c1"># get the number of parameters that this command provides</span>
                     <span class="n">num_args</span> <span class="o">=</span> <span class="n">dispatch_entry</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-                    <span class="c1">#look at the number of args that the selected method requires</span>
+                    <span class="c1"># look at the number of args that the selected method requires</span>
                     <span class="c1"># now get that number of bytes to pass to the called method</span>
                     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_args</span><span class="p">):</span>
                         <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">command_deque</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                             <span class="k">pass</span>
                         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">command_deque</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
                         <span class="n">command_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-                        <span class="c1">#go execute the command with the argument list</span>
+                        <span class="c1"># go execute the command with the argument list</span>
                     <span class="n">method</span><span class="p">(</span><span class="n">command_data</span><span class="p">)</span>
 
                     <span class="c1"># go to the beginning of the loop to process the next command</span>
@@ -2131,7 +2174,8 @@ outgoing messages.</p>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pymata</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        constructor for CommandHandler class</span>
-<span class="sd">        @param pymata: A reference to the pymata instance.</span>
+<span class="sd">        </span>
+<span class="sd">        :param pymata: A reference to the pymata instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># reference pointer to pymata</span>
@@ -2165,7 +2209,7 @@ outgoing messages.</p>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method will allow up to 30 seconds for discovery (communicating with) an Arduino board</span>
 <span class="sd">        and then will determine a pin configuration table for the board.</span>
-<span class="sd">        @return: True if board is successfully discovered or False upon timeout</span>
+<span class="sd">        :return: True if board is successfully discovered or False upon timeout</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># get current time</span>
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -2176,7 +2220,7 @@ outgoing messages.</p>
             <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">False</span>
                 <span class="c1"># keep sending out a capability query until there is a response</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ANALOG_MAPPING_QUERY</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ANALOG_MAPPING_QUERY</span><span class="p">)</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="o">.</span><span class="mi">1</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
@@ -2219,8 +2263,10 @@ outgoing messages.</p>
 <span class="sd">        or after refresh_report_version() is called</span>
 
 <span class="sd">        Use the api method api_get_version to retrieve this information</span>
-<span class="sd">        @param data: Message data from Firmata</span>
-<span class="sd">        @return: No return value.</span>
+<span class="sd">        </span>
+<span class="sd">        :param data: Message data from Firmata</span>
+<span class="sd">        </span>
+<span class="sd">        :return: No return value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">firmata_version</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># add major</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">firmata_version</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># add minor</span>
@@ -2228,10 +2274,14 @@ outgoing messages.</p>
     <span class="k">def</span> <span class="nf">set_analog_latch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">threshold_type</span><span class="p">,</span> <span class="n">threshold_value</span><span class="p">,</span> <span class="n">cb</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method &quot;arms&quot; a pin to allow data latching for the pin.</span>
-<span class="sd">        @param pin: Analog pin number (value following an &#39;A&#39; designator, i.e. A5 = 5</span>
-<span class="sd">        @param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE</span>
-<span class="sd">        @param threshold_value: numerical value</span>
-<span class="sd">        @param cb: User provided callback function</span>
+
+<span class="sd">        :param pin: Analog pin number (value following an &#39;A&#39; designator, i.e. A5 = 5</span>
+
+<span class="sd">        :param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE</span>
+
+<span class="sd">        :param threshold_value: numerical value</span>
+
+<span class="sd">        :param cb: User provided callback function</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">analog_latch_table</span><span class="p">[</span><span class="n">pin</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">LATCH_ARMED</span><span class="p">,</span> <span class="n">threshold_type</span><span class="p">,</span> <span class="n">threshold_value</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cb</span><span class="p">]</span>
@@ -2239,9 +2289,12 @@ outgoing messages.</p>
     <span class="k">def</span> <span class="nf">set_digital_latch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">threshold_type</span><span class="p">,</span> <span class="n">cb</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method &quot;arms&quot; a pin to allow data latching for the pin.</span>
-<span class="sd">        @param pin: digital pin number</span>
-<span class="sd">        @param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW</span>
-<span class="sd">        @param cb: User provided callback function</span>
+
+<span class="sd">        :param pin: digital pin number</span>
+
+<span class="sd">        :param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW</span>
+
+<span class="sd">        :param cb: User provided callback function</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">digital_latch_table</span><span class="p">[</span><span class="n">pin</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">LATCH_ARMED</span><span class="p">,</span> <span class="n">threshold_type</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cb</span><span class="p">]</span>
@@ -2251,8 +2304,10 @@ outgoing messages.</p>
 <span class="sd">        This method reads the analog latch table for the specified pin and returns a list that contains:</span>
 <span class="sd">        [latch_state, latched_data, and time_stamp].</span>
 <span class="sd">        If the latch state is latched, the entry in the table is cleared</span>
-<span class="sd">        @param pin:  pin number</span>
-<span class="sd">        @return: [latch_state, latched_data, and time_stamp]</span>
+
+<span class="sd">        :param pin:  pin number</span>
+
+<span class="sd">        :return: [latch_state, latched_data, and time_stamp]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
             <span class="n">pin_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analog_latch_table</span><span class="p">[</span><span class="n">pin</span><span class="p">]</span>
@@ -2271,8 +2326,10 @@ outgoing messages.</p>
 <span class="sd">        This method reads the digital latch table for the specified pin and returns a list that contains:</span>
 <span class="sd">        [latch_state, latched_data, and time_stamp].</span>
 <span class="sd">        If the latch state is latched, the entry in the table is cleared</span>
-<span class="sd">        @param pin:  pin number</span>
-<span class="sd">        @return: [latch_state, latched_data, and time_stamp]</span>
+
+<span class="sd">        :param pin:  pin number</span>
+
+<span class="sd">        :return: [latch_state, latched_data, and time_stamp]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
             <span class="n">pin_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">digital_latch_table</span><span class="p">[</span><span class="n">pin</span><span class="p">]</span>
@@ -2291,8 +2348,10 @@ outgoing messages.</p>
 <span class="sd">        or after refresh_report_firmware() is called</span>
 <span class="sd">        </span>
 <span class="sd">        Use the api method api_get_firmware_version to retrieve this information</span>
-<span class="sd">        @param data: Message data from Firmata</span>
-<span class="sd">        @return: No return value.</span>
+
+<span class="sd">        :param data: Message data from Firmata</span>
+
+<span class="sd">        :return: No return value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">firmata_firmware</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># add major</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">firmata_firmware</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># add minor</span>
@@ -2320,8 +2379,10 @@ outgoing messages.</p>
 <span class="sd">        This method also checks to see if latching was requested for the pin. If the latch criteria was met,</span>
 <span class="sd">        the latching table is updated. If a latching callback function was provided by the user, a latching</span>
 <span class="sd">        notification callback message is sent to the user in place of updating the latching table.</span>
-<span class="sd">        @param data: Message data from Firmata</span>
-<span class="sd">        @return: No return value.</span>
+
+<span class="sd">        :param data: Message data from Firmata</span>
+
+<span class="sd">        :return: No return value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
             <span class="c1"># hold on to the previous value</span>
@@ -2413,8 +2474,10 @@ outgoing messages.</p>
 <span class="sd">        This method handles the incoming digital message.</span>
 <span class="sd">        It stores the data values in the digital response table.</span>
 <span class="sd">        Data is stored for all 8 bits of a  digital port</span>
-<span class="sd">        @param data: Message data from Firmata</span>
-<span class="sd">        @return: No return value.</span>
+
+<span class="sd">        :param data: Message data from Firmata</span>
+
+<span class="sd">        :return: No return value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">port</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">port_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">MSB</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">LSB</span><span class="p">]</span>
@@ -2480,8 +2543,10 @@ outgoing messages.</p>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method handles the incoming encoder data message and stores</span>
 <span class="sd">        the data in the digital response table.</span>
-<span class="sd">        @param data: Message data from Firmata</span>
-<span class="sd">        @return: No return value.</span>
+
+<span class="sd">        :param data: Message data from Firmata</span>
+
+<span class="sd">        :return: No return value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">prev_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">digital_response_table</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">RESPONSE_TABLE_MODE</span><span class="p">]][</span><span class="bp">self</span><span class="o">.</span><span class="n">RESPONSE_TABLE_PIN_DATA_VALUE</span><span class="p">]</span>
         <span class="n">val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">MSB</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">LSB</span><span class="p">])</span>
@@ -2501,8 +2566,10 @@ outgoing messages.</p>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method handles the incoming sonar data message and stores</span>
 <span class="sd">        the data in the response table.</span>
-<span class="sd">        @param data: Message data from Firmata</span>
-<span class="sd">        @return: No return value.</span>
+
+<span class="sd">        :param data: Message data from Firmata</span>
+
+<span class="sd">        :return: No return value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">MSB</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">LSB</span><span class="p">])</span>
         <span class="n">pin_number</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -2522,7 +2589,7 @@ outgoing messages.</p>
     <span class="k">def</span> <span class="nf">get_analog_response_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method returns the entire analog response table to the caller</span>
-<span class="sd">        @return: The analog response table.</span>
+<span class="sd">        :return: The analog response table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analog_response_table</span>
@@ -2531,7 +2598,7 @@ outgoing messages.</p>
     <span class="k">def</span> <span class="nf">get_digital_response_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method returns the entire digital response table to the caller</span>
-<span class="sd">        @return: The digital response table.</span>
+<span class="sd">        :return: The digital response table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">digital_response_table</span>
@@ -2541,9 +2608,11 @@ outgoing messages.</p>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method will send a Sysex command to Firmata with any accompanying data</span>
 
-<span class="sd">        @param sysex_command: sysex command</span>
-<span class="sd">        @param sysex_data: data for command</span>
-<span class="sd">        @return : No return value.</span>
+<span class="sd">        :param sysex_command: sysex command</span>
+
+<span class="sd">        :param sysex_data: data for command</span>
+
+<span class="sd">        :return : No return value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">sysex_data</span><span class="p">:</span>
             <span class="n">sysex_data</span> <span class="o">=</span> <span class="p">[]</span>
@@ -2562,13 +2631,14 @@ outgoing messages.</p>
     <span class="k">def</span> <span class="nf">send_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method is used to transmit a non-sysex command.</span>
-<span class="sd">        @param command: Command to send to firmata includes command + data formatted by caller</span>
-<span class="sd">        @return : No return value.</span>
+
+<span class="sd">        :param command: Command to send to firmata includes command + data formatted by caller</span>
+
+<span class="sd">        :return : No return value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">send_message</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">command</span><span class="p">:</span>
             <span class="n">send_message</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="c1">#send_message += bytes(i)</span>
 
         <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">send_message</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">transport</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -2577,7 +2647,8 @@ outgoing messages.</p>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Send the reset command to the Arduino.</span>
 <span class="sd">        It resets the response tables to their initial values</span>
-<span class="sd">        @return: No return value</span>
+
+<span class="sd">        :return: No return value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SYSTEM_RESET</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">transport</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -2601,15 +2672,16 @@ outgoing messages.</p>
                 <span class="n">response_entry</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">INPUT</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">None</span><span class="p">]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">analog_response_table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">response_entry</span><span class="p">)</span>
 
-    <span class="c1">#noinspection PyMethodMayBeStatic</span>
+    <span class="c1"># noinspection PyMethodMayBeStatic</span>
     <span class="c1"># keeps pycharm happy</span>
     <span class="k">def</span> <span class="nf">_string_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method handles the incoming string data message from Firmata.</span>
 <span class="sd">        The string is printed to the console</span>
 
-<span class="sd">        @param data: Message data from Firmata</span>
-<span class="sd">        @return: No return value.s</span>
+<span class="sd">        :param data: Message data from Firmata</span>
+
+<span class="sd">        :return: No return value.s</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">print</span><span class="p">(</span><span class="s2">&quot;_string_data:&quot;</span><span class="p">)</span>
         <span class="n">string_to_print</span> <span class="o">=</span> <span class="p">[]</span>
@@ -2623,7 +2695,8 @@ outgoing messages.</p>
 <span class="sd">        address in a dictionary called i2c_map. The data is retrieved via a call to i2c_get_read_data()</span>
 <span class="sd">        in pymata.py</span>
 <span class="sd">        It a callback was specified in pymata.i2c_read, the raw data is sent through the callback</span>
-<span class="sd">        @param data: raw data returned from i2c device</span>
+
+<span class="sd">        :param data: raw data returned from i2c device</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">reply_data</span> <span class="o">=</span> <span class="p">[]</span>
@@ -2648,7 +2721,8 @@ outgoing messages.</p>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method handles a capability response message and stores the results to be retrieved</span>
 <span class="sd">        via get_capability_query_results() in pymata.py</span>
-<span class="sd">        @param data: raw capability data</span>
+
+<span class="sd">        :param data: raw capability data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">capability_query_results</span> <span class="o">=</span> <span class="n">data</span>
 
@@ -2656,7 +2730,8 @@ outgoing messages.</p>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method handles a pin state response message and stores the results to be retrieved</span>
 <span class="sd">        via get_pin_state_query_results() in pymata.py</span>
-<span class="sd">        @param data:  raw pin state data</span>
+
+<span class="sd">        :param data:  raw pin state data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">last_pin_query_results</span> <span class="o">=</span> <span class="n">data</span>
 
@@ -2664,7 +2739,8 @@ outgoing messages.</p>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method handles an analog mapping query response message and stores the results to be retrieved</span>
 <span class="sd">        via get_analog_mapping_request_results() in pymata.py</span>
-<span class="sd">        @param data: raw analog mapping data</span>
+
+<span class="sd">        :param data: raw analog mapping data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">analog_mapping_query_results</span> <span class="o">=</span> <span class="n">data</span>
 
@@ -2732,7 +2808,7 @@ outgoing messages.</p>
                             <span class="c1"># go to the beginning of the loop to process the next command</span>
                     <span class="k">continue</span>
 
-                <span class="c1">#is this a command byte in the range of 0x80-0xff - these are the non-sysex messages</span>
+                <span class="c1"># is this a command byte in the range of 0x80-0xff - these are the non-sysex messages</span>
 
                 <span class="k">elif</span> <span class="mh">0x80</span> <span class="o">&lt;=</span> <span class="n">data</span> <span class="o">&lt;=</span> <span class="mh">0xff</span><span class="p">:</span>
                     <span class="c1"># look up the method for the command in the command dispatch table</span>
@@ -2759,14 +2835,14 @@ outgoing messages.</p>
                     <span class="c1"># get the number of parameters that this command provides</span>
                     <span class="n">num_args</span> <span class="o">=</span> <span class="n">dispatch_entry</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-                    <span class="c1">#look at the number of args that the selected method requires</span>
+                    <span class="c1"># look at the number of args that the selected method requires</span>
                     <span class="c1"># now get that number of bytes to pass to the called method</span>
                     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_args</span><span class="p">):</span>
                         <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">command_deque</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                             <span class="k">pass</span>
                         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">command_deque</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
                         <span class="n">command_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-                        <span class="c1">#go execute the command with the argument list</span>
+                        <span class="c1"># go execute the command with the argument list</span>
                     <span class="n">method</span><span class="p">(</span><span class="n">command_data</span><span class="p">)</span>
 
                     <span class="c1"># go to the beginning of the loop to process the next command</span>
@@ -3487,15 +3563,16 @@ outgoing messages.</p>
 
     
   
-    <div class="desc"><p>constructor for CommandHandler class
-@param pymata: A reference to the pymata instance.</p></div>
+    <div class="desc"><p>constructor for CommandHandler class</p>
+<p>:param pymata: A reference to the pymata instance.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler.PyMataCommandHandler.__init__', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler.PyMataCommandHandler.__init__" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pymata</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    constructor for CommandHandler class</span>
-<span class="sd">    @param pymata: A reference to the pymata instance.</span>
+<span class="sd">    </span>
+<span class="sd">    :param pymata: A reference to the pymata instance.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># reference pointer to pymata</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span> <span class="o">=</span> <span class="n">pymata</span>
@@ -3527,8 +3604,8 @@ outgoing messages.</p>
     
   
     <div class="desc"><p>This method handles an analog mapping query response message and stores the results to be retrieved
-via get_analog_mapping_request_results() in pymata.py
-@param data: raw analog mapping data</p></div>
+via get_analog_mapping_request_results() in pymata.py</p>
+<p>:param data: raw analog mapping data</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler.PyMataCommandHandler.analog_mapping_response', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler.PyMataCommandHandler.analog_mapping_response" class="source">
@@ -3536,7 +3613,7 @@ via get_analog_mapping_request_results() in pymata.py
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This method handles an analog mapping query response message and stores the results to be retrieved</span>
 <span class="sd">    via get_analog_mapping_request_results() in pymata.py</span>
-<span class="sd">    @param data: raw analog mapping data</span>
+<span class="sd">    :param data: raw analog mapping data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">analog_mapping_query_results</span> <span class="o">=</span> <span class="n">data</span>
 </pre></div>
@@ -3560,9 +3637,9 @@ It stores the data value for the pin in the analog response table.
 If a callback function was associated with this pin, the callback function is invoked.
 This method also checks to see if latching was requested for the pin. If the latch criteria was met,
 the latching table is updated. If a latching callback function was provided by the user, a latching
-notification callback message is sent to the user in place of updating the latching table.
-@param data: Message data from Firmata
-@return: No return value.</p></div>
+notification callback message is sent to the user in place of updating the latching table.</p>
+<p>:param data: Message data from Firmata</p>
+<p>:return: No return value.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler.PyMataCommandHandler.analog_message', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler.PyMataCommandHandler.analog_message" class="source">
@@ -3574,8 +3651,8 @@ notification callback message is sent to the user in place of updating the latch
 <span class="sd">    This method also checks to see if latching was requested for the pin. If the latch criteria was met,</span>
 <span class="sd">    the latching table is updated. If a latching callback function was provided by the user, a latching</span>
 <span class="sd">    notification callback message is sent to the user in place of updating the latching table.</span>
-<span class="sd">    @param data: Message data from Firmata</span>
-<span class="sd">    @return: No return value.</span>
+<span class="sd">    :param data: Message data from Firmata</span>
+<span class="sd">    :return: No return value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
         <span class="c1"># hold on to the previous value</span>
@@ -3678,7 +3755,7 @@ notification callback message is sent to the user in place of updating the latch
   
     <div class="desc"><p>This method will allow up to 30 seconds for discovery (communicating with) an Arduino board
 and then will determine a pin configuration table for the board.
-@return: True if board is successfully discovered or False upon timeout</p></div>
+:return: True if board is successfully discovered or False upon timeout</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler.PyMataCommandHandler.auto_discover_board', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler.PyMataCommandHandler.auto_discover_board" class="source">
@@ -3686,7 +3763,7 @@ and then will determine a pin configuration table for the board.
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This method will allow up to 30 seconds for discovery (communicating with) an Arduino board</span>
 <span class="sd">    and then will determine a pin configuration table for the board.</span>
-<span class="sd">    @return: True if board is successfully discovered or False upon timeout</span>
+<span class="sd">    :return: True if board is successfully discovered or False upon timeout</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># get current time</span>
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -3695,7 +3772,7 @@ and then will determine a pin configuration table for the board.
         <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">False</span>
             <span class="c1"># keep sending out a capability query until there is a response</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ANALOG_MAPPING_QUERY</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ANALOG_MAPPING_QUERY</span><span class="p">)</span>
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="o">.</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
         <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Board initialized in </span><span class="si">%d</span><span class="s2"> seconds&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">))</span>
@@ -3740,8 +3817,8 @@ and then will determine a pin configuration table for the board.
     
   
     <div class="desc"><p>This method handles a capability response message and stores the results to be retrieved
-via get_capability_query_results() in pymata.py
-@param data: raw capability data</p></div>
+via get_capability_query_results() in pymata.py</p>
+<p>:param data: raw capability data</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler.PyMataCommandHandler.capability_response', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler.PyMataCommandHandler.capability_response" class="source">
@@ -3749,7 +3826,7 @@ via get_capability_query_results() in pymata.py
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This method handles a capability response message and stores the results to be retrieved</span>
 <span class="sd">    via get_capability_query_results() in pymata.py</span>
-<span class="sd">    @param data: raw capability data</span>
+<span class="sd">    :param data: raw capability data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">capability_query_results</span> <span class="o">=</span> <span class="n">data</span>
 </pre></div>
@@ -3770,9 +3847,9 @@ via get_capability_query_results() in pymata.py
   
     <div class="desc"><p>This method handles the incoming digital message.
 It stores the data values in the digital response table.
-Data is stored for all 8 bits of a  digital port
-@param data: Message data from Firmata
-@return: No return value.</p></div>
+Data is stored for all 8 bits of a  digital port</p>
+<p>:param data: Message data from Firmata</p>
+<p>:return: No return value.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler.PyMataCommandHandler.digital_message', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler.PyMataCommandHandler.digital_message" class="source">
@@ -3781,8 +3858,8 @@ Data is stored for all 8 bits of a  digital port
 <span class="sd">    This method handles the incoming digital message.</span>
 <span class="sd">    It stores the data values in the digital response table.</span>
 <span class="sd">    Data is stored for all 8 bits of a  digital port</span>
-<span class="sd">    @param data: Message data from Firmata</span>
-<span class="sd">    @return: No return value.</span>
+<span class="sd">    :param data: Message data from Firmata</span>
+<span class="sd">    :return: No return value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">port</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">port_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">MSB</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">LSB</span><span class="p">]</span>
@@ -3856,9 +3933,9 @@ Data is stored for all 8 bits of a  digital port
     
   
     <div class="desc"><p>This method handles the incoming encoder data message and stores
-the data in the digital response table.
-@param data: Message data from Firmata
-@return: No return value.</p></div>
+the data in the digital response table.</p>
+<p>:param data: Message data from Firmata</p>
+<p>:return: No return value.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler.PyMataCommandHandler.encoder_data', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler.PyMataCommandHandler.encoder_data" class="source">
@@ -3866,8 +3943,8 @@ the data in the digital response table.
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This method handles the incoming encoder data message and stores</span>
 <span class="sd">    the data in the digital response table.</span>
-<span class="sd">    @param data: Message data from Firmata</span>
-<span class="sd">    @return: No return value.</span>
+<span class="sd">    :param data: Message data from Firmata</span>
+<span class="sd">    :return: No return value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">prev_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">digital_response_table</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">RESPONSE_TABLE_MODE</span><span class="p">]][</span><span class="bp">self</span><span class="o">.</span><span class="n">RESPONSE_TABLE_PIN_DATA_VALUE</span><span class="p">]</span>
     <span class="n">val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">MSB</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">LSB</span><span class="p">])</span>
@@ -3921,9 +3998,9 @@ the data in the digital response table.
   
     <div class="desc"><p>This method reads the analog latch table for the specified pin and returns a list that contains:
 [latch_state, latched_data, and time_stamp].
-If the latch state is latched, the entry in the table is cleared
-@param pin:  pin number
-@return: [latch_state, latched_data, and time_stamp]</p></div>
+If the latch state is latched, the entry in the table is cleared</p>
+<p>:param pin:  pin number</p>
+<p>:return: [latch_state, latched_data, and time_stamp]</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler.PyMataCommandHandler.get_analog_latch_data', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler.PyMataCommandHandler.get_analog_latch_data" class="source">
@@ -3932,8 +4009,8 @@ If the latch state is latched, the entry in the table is cleared
 <span class="sd">    This method reads the analog latch table for the specified pin and returns a list that contains:</span>
 <span class="sd">    [latch_state, latched_data, and time_stamp].</span>
 <span class="sd">    If the latch state is latched, the entry in the table is cleared</span>
-<span class="sd">    @param pin:  pin number</span>
-<span class="sd">    @return: [latch_state, latched_data, and time_stamp]</span>
+<span class="sd">    :param pin:  pin number</span>
+<span class="sd">    :return: [latch_state, latched_data, and time_stamp]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
         <span class="n">pin_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analog_latch_table</span><span class="p">[</span><span class="n">pin</span><span class="p">]</span>
@@ -3963,14 +4040,14 @@ If the latch state is latched, the entry in the table is cleared
     
   
     <div class="desc"><p>This method returns the entire analog response table to the caller
-@return: The analog response table.</p></div>
+:return: The analog response table.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler.PyMataCommandHandler.get_analog_response_table', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler.PyMataCommandHandler.get_analog_response_table" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_analog_response_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This method returns the entire analog response table to the caller</span>
-<span class="sd">    @return: The analog response table.</span>
+<span class="sd">    :return: The analog response table.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analog_response_table</span>
@@ -3993,9 +4070,9 @@ If the latch state is latched, the entry in the table is cleared
   
     <div class="desc"><p>This method reads the digital latch table for the specified pin and returns a list that contains:
 [latch_state, latched_data, and time_stamp].
-If the latch state is latched, the entry in the table is cleared
-@param pin:  pin number
-@return: [latch_state, latched_data, and time_stamp]</p></div>
+If the latch state is latched, the entry in the table is cleared</p>
+<p>:param pin:  pin number</p>
+<p>:return: [latch_state, latched_data, and time_stamp]</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler.PyMataCommandHandler.get_digital_latch_data', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler.PyMataCommandHandler.get_digital_latch_data" class="source">
@@ -4004,8 +4081,8 @@ If the latch state is latched, the entry in the table is cleared
 <span class="sd">    This method reads the digital latch table for the specified pin and returns a list that contains:</span>
 <span class="sd">    [latch_state, latched_data, and time_stamp].</span>
 <span class="sd">    If the latch state is latched, the entry in the table is cleared</span>
-<span class="sd">    @param pin:  pin number</span>
-<span class="sd">    @return: [latch_state, latched_data, and time_stamp]</span>
+<span class="sd">    :param pin:  pin number</span>
+<span class="sd">    :return: [latch_state, latched_data, and time_stamp]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
         <span class="n">pin_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">digital_latch_table</span><span class="p">[</span><span class="n">pin</span><span class="p">]</span>
@@ -4034,14 +4111,14 @@ If the latch state is latched, the entry in the table is cleared
     
   
     <div class="desc"><p>This method returns the entire digital response table to the caller
-@return: The digital response table.</p></div>
+:return: The digital response table.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler.PyMataCommandHandler.get_digital_response_table', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler.PyMataCommandHandler.get_digital_response_table" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_digital_response_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This method returns the entire digital response table to the caller</span>
-<span class="sd">    @return: The digital response table.</span>
+<span class="sd">    :return: The digital response table.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">digital_response_table</span>
@@ -4065,8 +4142,8 @@ If the latch state is latched, the entry in the table is cleared
     <div class="desc"><p>This method receives replies to i2c_read requests. It stores the data for each i2c device
 address in a dictionary called i2c_map. The data is retrieved via a call to i2c_get_read_data()
 in pymata.py
-It a callback was specified in pymata.i2c_read, the raw data is sent through the callback
-@param data: raw data returned from i2c device</p></div>
+It a callback was specified in pymata.i2c_read, the raw data is sent through the callback</p>
+<p>:param data: raw data returned from i2c device</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler.PyMataCommandHandler.i2c_reply', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler.PyMataCommandHandler.i2c_reply" class="source">
@@ -4076,7 +4153,7 @@ It a callback was specified in pymata.i2c_read, the raw data is sent through the
 <span class="sd">    address in a dictionary called i2c_map. The data is retrieved via a call to i2c_get_read_data()</span>
 <span class="sd">    in pymata.py</span>
 <span class="sd">    It a callback was specified in pymata.i2c_read, the raw data is sent through the callback</span>
-<span class="sd">    @param data: raw data returned from i2c device</span>
+<span class="sd">    :param data: raw data returned from i2c device</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">reply_data</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">address</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span><span class="p">)</span>
@@ -4286,8 +4363,8 @@ exception.</p></div>
     
   
     <div class="desc"><p>This method handles a pin state response message and stores the results to be retrieved
-via get_pin_state_query_results() in pymata.py
-@param data:  raw pin state data</p></div>
+via get_pin_state_query_results() in pymata.py</p>
+<p>:param data:  raw pin state data</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler.PyMataCommandHandler.pin_state_response', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler.PyMataCommandHandler.pin_state_response" class="source">
@@ -4295,7 +4372,7 @@ via get_pin_state_query_results() in pymata.py
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This method handles a pin state response message and stores the results to be retrieved</span>
 <span class="sd">    via get_pin_state_query_results() in pymata.py</span>
-<span class="sd">    @param data:  raw pin state data</span>
+<span class="sd">    :param data:  raw pin state data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">last_pin_query_results</span> <span class="o">=</span> <span class="n">data</span>
 </pre></div>
@@ -4316,9 +4393,9 @@ via get_pin_state_query_results() in pymata.py
   
     <div class="desc"><p>This method processes the report firmware message,  sent asynchronously by Firmata when it starts up
 or after refresh_report_firmware() is called</p>
-<p>Use the api method api_get_firmware_version to retrieve this information
-@param data: Message data from Firmata
-@return: No return value.</p></div>
+<p>Use the api method api_get_firmware_version to retrieve this information</p>
+<p>:param data: Message data from Firmata</p>
+<p>:return: No return value.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler.PyMataCommandHandler.report_firmware', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler.PyMataCommandHandler.report_firmware" class="source">
@@ -4328,8 +4405,8 @@ or after refresh_report_firmware() is called</p>
 <span class="sd">    or after refresh_report_firmware() is called</span>
 <span class="sd">    </span>
 <span class="sd">    Use the api method api_get_firmware_version to retrieve this information</span>
-<span class="sd">    @param data: Message data from Firmata</span>
-<span class="sd">    @return: No return value.</span>
+<span class="sd">    :param data: Message data from Firmata</span>
+<span class="sd">    :return: No return value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">firmata_firmware</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># add major</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">firmata_firmware</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># add minor</span>
@@ -4362,9 +4439,9 @@ or after refresh_report_firmware() is called</p>
   
     <div class="desc"><p>This method processes the report version message,  sent asynchronously by Firmata when it starts up
 or after refresh_report_version() is called</p>
-<p>Use the api method api_get_version to retrieve this information
-@param data: Message data from Firmata
-@return: No return value.</p></div>
+<p>Use the api method api_get_version to retrieve this information</p>
+<p>:param data: Message data from Firmata</p>
+<p>:return: No return value.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler.PyMataCommandHandler.report_version', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler.PyMataCommandHandler.report_version" class="source">
@@ -4373,8 +4450,10 @@ or after refresh_report_version() is called</p>
 <span class="sd">    This method processes the report version message,  sent asynchronously by Firmata when it starts up</span>
 <span class="sd">    or after refresh_report_version() is called</span>
 <span class="sd">    Use the api method api_get_version to retrieve this information</span>
-<span class="sd">    @param data: Message data from Firmata</span>
-<span class="sd">    @return: No return value.</span>
+<span class="sd">    </span>
+<span class="sd">    :param data: Message data from Firmata</span>
+<span class="sd">    </span>
+<span class="sd">    :return: No return value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">firmata_version</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># add major</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">firmata_version</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># add minor</span>
@@ -4451,7 +4530,7 @@ It also checks the deque for messages to be sent to Firmata.</p></div>
                         <span class="n">method</span><span class="p">(</span><span class="n">command_data</span><span class="p">)</span>
                         <span class="c1"># go to the beginning of the loop to process the next command</span>
                 <span class="k">continue</span>
-            <span class="c1">#is this a command byte in the range of 0x80-0xff - these are the non-sysex messages</span>
+            <span class="c1"># is this a command byte in the range of 0x80-0xff - these are the non-sysex messages</span>
             <span class="k">elif</span> <span class="mh">0x80</span> <span class="o">&lt;=</span> <span class="n">data</span> <span class="o">&lt;=</span> <span class="mh">0xff</span><span class="p">:</span>
                 <span class="c1"># look up the method for the command in the command dispatch table</span>
                 <span class="c1"># for the digital reporting the command value is modified with port number</span>
@@ -4473,14 +4552,14 @@ It also checks the deque for messages to be sent to Firmata.</p></div>
                 <span class="n">method</span> <span class="o">=</span> <span class="n">dispatch_entry</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="c1"># get the number of parameters that this command provides</span>
                 <span class="n">num_args</span> <span class="o">=</span> <span class="n">dispatch_entry</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-                <span class="c1">#look at the number of args that the selected method requires</span>
+                <span class="c1"># look at the number of args that the selected method requires</span>
                 <span class="c1"># now get that number of bytes to pass to the called method</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_args</span><span class="p">):</span>
                     <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">command_deque</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                         <span class="k">pass</span>
                     <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">command_deque</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
                     <span class="n">command_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-                    <span class="c1">#go execute the command with the argument list</span>
+                    <span class="c1"># go execute the command with the argument list</span>
                 <span class="n">method</span><span class="p">(</span><span class="n">command_data</span><span class="p">)</span>
                 <span class="c1"># go to the beginning of the loop to process the next command</span>
                 <span class="k">continue</span>
@@ -4502,22 +4581,21 @@ It also checks the deque for messages to be sent to Firmata.</p></div>
 
     
   
-    <div class="desc"><p>This method is used to transmit a non-sysex command.
-@param command: Command to send to firmata includes command + data formatted by caller
-@return : No return value.</p></div>
+    <div class="desc"><p>This method is used to transmit a non-sysex command.</p>
+<p>:param command: Command to send to firmata includes command + data formatted by caller</p>
+<p>:return : No return value.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler.PyMataCommandHandler.send_command', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler.PyMataCommandHandler.send_command" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">send_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This method is used to transmit a non-sysex command.</span>
-<span class="sd">    @param command: Command to send to firmata includes command + data formatted by caller</span>
-<span class="sd">    @return : No return value.</span>
+<span class="sd">    :param command: Command to send to firmata includes command + data formatted by caller</span>
+<span class="sd">    :return : No return value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">send_message</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">command</span><span class="p">:</span>
         <span class="n">send_message</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-        <span class="c1">#send_message += bytes(i)</span>
     <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">send_message</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">transport</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
@@ -4537,18 +4615,18 @@ It also checks the deque for messages to be sent to Firmata.</p></div>
     
   
     <div class="desc"><p>This method will send a Sysex command to Firmata with any accompanying data</p>
-<p>@param sysex_command: sysex command
-@param sysex_data: data for command
-@return : No return value.</p></div>
+<p>:param sysex_command: sysex command</p>
+<p>:param sysex_data: data for command</p>
+<p>:return : No return value.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler.PyMataCommandHandler.send_sysex', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler.PyMataCommandHandler.send_sysex" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">send_sysex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sysex_command</span><span class="p">,</span> <span class="n">sysex_data</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This method will send a Sysex command to Firmata with any accompanying data</span>
-<span class="sd">    @param sysex_command: sysex command</span>
-<span class="sd">    @param sysex_data: data for command</span>
-<span class="sd">    @return : No return value.</span>
+<span class="sd">    :param sysex_command: sysex command</span>
+<span class="sd">    :param sysex_data: data for command</span>
+<span class="sd">    :return : No return value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">sysex_data</span><span class="p">:</span>
         <span class="n">sysex_data</span> <span class="o">=</span> <span class="p">[]</span>
@@ -4619,21 +4697,21 @@ It also checks the deque for messages to be sent to Firmata.</p></div>
 
     
   
-    <div class="desc"><p>This method "arms" a pin to allow data latching for the pin.
-@param pin: Analog pin number (value following an 'A' designator, i.e. A5 = 5
-@param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE
-@param threshold_value: numerical value
-@param cb: User provided callback function</p></div>
+    <div class="desc"><p>This method "arms" a pin to allow data latching for the pin.</p>
+<p>:param pin: Analog pin number (value following an 'A' designator, i.e. A5 = 5</p>
+<p>:param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE</p>
+<p>:param threshold_value: numerical value</p>
+<p>:param cb: User provided callback function</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler.PyMataCommandHandler.set_analog_latch', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler.PyMataCommandHandler.set_analog_latch" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">set_analog_latch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">threshold_type</span><span class="p">,</span> <span class="n">threshold_value</span><span class="p">,</span> <span class="n">cb</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This method &quot;arms&quot; a pin to allow data latching for the pin.</span>
-<span class="sd">    @param pin: Analog pin number (value following an &#39;A&#39; designator, i.e. A5 = 5</span>
-<span class="sd">    @param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE</span>
-<span class="sd">    @param threshold_value: numerical value</span>
-<span class="sd">    @param cb: User provided callback function</span>
+<span class="sd">    :param pin: Analog pin number (value following an &#39;A&#39; designator, i.e. A5 = 5</span>
+<span class="sd">    :param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE</span>
+<span class="sd">    :param threshold_value: numerical value</span>
+<span class="sd">    :param cb: User provided callback function</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">analog_latch_table</span><span class="p">[</span><span class="n">pin</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">LATCH_ARMED</span><span class="p">,</span> <span class="n">threshold_type</span><span class="p">,</span> <span class="n">threshold_value</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cb</span><span class="p">]</span>
@@ -4653,19 +4731,19 @@ It also checks the deque for messages to be sent to Firmata.</p></div>
 
     
   
-    <div class="desc"><p>This method "arms" a pin to allow data latching for the pin.
-@param pin: digital pin number
-@param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW
-@param cb: User provided callback function</p></div>
+    <div class="desc"><p>This method "arms" a pin to allow data latching for the pin.</p>
+<p>:param pin: digital pin number</p>
+<p>:param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW</p>
+<p>:param cb: User provided callback function</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler.PyMataCommandHandler.set_digital_latch', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler.PyMataCommandHandler.set_digital_latch" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">set_digital_latch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">threshold_type</span><span class="p">,</span> <span class="n">cb</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This method &quot;arms&quot; a pin to allow data latching for the pin.</span>
-<span class="sd">    @param pin: digital pin number</span>
-<span class="sd">    @param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW</span>
-<span class="sd">    @param cb: User provided callback function</span>
+<span class="sd">    :param pin: digital pin number</span>
+<span class="sd">    :param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW</span>
+<span class="sd">    :param cb: User provided callback function</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">data_lock</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">digital_latch_table</span><span class="p">[</span><span class="n">pin</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">LATCH_ARMED</span><span class="p">,</span> <span class="n">threshold_type</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cb</span><span class="p">]</span>
@@ -4686,9 +4764,9 @@ It also checks the deque for messages to be sent to Firmata.</p></div>
     
   
     <div class="desc"><p>This method handles the incoming sonar data message and stores
-the data in the response table.
-@param data: Message data from Firmata
-@return: No return value.</p></div>
+the data in the response table.</p>
+<p>:param data: Message data from Firmata</p>
+<p>:return: No return value.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler.PyMataCommandHandler.sonar_data', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler.PyMataCommandHandler.sonar_data" class="source">
@@ -4696,8 +4774,8 @@ the data in the response table.
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This method handles the incoming sonar data message and stores</span>
 <span class="sd">    the data in the response table.</span>
-<span class="sd">    @param data: Message data from Firmata</span>
-<span class="sd">    @return: No return value.</span>
+<span class="sd">    :param data: Message data from Firmata</span>
+<span class="sd">    :return: No return value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">MSB</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">LSB</span><span class="p">])</span>
     <span class="n">pin_number</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -4820,8 +4898,8 @@ same thread object.</p></div>
     
   
     <div class="desc"><p>Send the reset command to the Arduino.
-It resets the response tables to their initial values
-@return: No return value</p></div>
+It resets the response tables to their initial values</p>
+<p>:return: No return value</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_command_handler.PyMataCommandHandler.system_reset', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_command_handler.PyMataCommandHandler.system_reset" class="source">
@@ -4829,7 +4907,7 @@ It resets the response tables to their initial values
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Send the reset command to the Arduino.</span>
 <span class="sd">    It resets the response tables to their initial values</span>
-<span class="sd">    @return: No return value</span>
+<span class="sd">    :return: No return value</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SYSTEM_RESET</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">pymata</span><span class="o">.</span><span class="n">transport</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>

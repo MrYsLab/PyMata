@@ -4,7 +4,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 
     <title>PyMata.pymata_serial API documentation</title>
-    <meta name="description" content="" />
+    <meta name="description" content="Copyright (c) 2015-2017 Alan Yorinks All rights reserved.
+
+This program is free software; you can re..." />
 
   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
   
@@ -1082,29 +1084,36 @@ table {
 
   <header id="section-intro">
   <h1 class="title"><span class="name">PyMata.pymata_serial</span> module</h1>
-  
+  <p>Copyright (c) 2015-2017 Alan Yorinks All rights reserved.</p>
+<p>This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+Version 3 as published by the Free Software Foundation; either
+or (at your option) any later version.
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.</p>
+<p>You should have received a copy of the GNU AFFERO GENERAL PUBLIC LICENSE
+along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</p>
   
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_serial', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_serial" class="source">
-    <div class="codehilite"><pre><span></span><span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Copyright (c) 2013 Alan Yorinks All rights reserved.&#39;</span>
-<span class="sd">&quot;&quot;&quot;</span>
+    <div class="codehilite"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"> Copyright (c) 2015-2017 Alan Yorinks All rights reserved.</span>
 
-<span class="sd">@author: Alan Yorinks</span>
-<span class="sd">Copyright (c) 2013-17 Alan Yorinks All rights reserved.</span>
+<span class="sd"> This program is free software; you can redistribute it and/or</span>
+<span class="sd"> modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE</span>
+<span class="sd"> Version 3 as published by the Free Software Foundation; either</span>
+<span class="sd"> or (at your option) any later version.</span>
+<span class="sd"> This library is distributed in the hope that it will be useful,</span>
+<span class="sd"> but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="sd"> MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU</span>
+<span class="sd"> General Public License for more details.</span>
 
-<span class="sd">This program is free software; you can redistribute it and/or</span>
-<span class="sd">modify it under the terms of the GNU  General Public</span>
-<span class="sd">License as published by the Free Software Foundation; either</span>
-<span class="sd">version 3 of the License, or (at your option) any later version.</span>
-
-<span class="sd">This library is distributed in the hope that it will be useful,</span>
-<span class="sd">but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="sd">MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU</span>
-<span class="sd">General Public License for more details.</span>
-
-<span class="sd">You should have received a copy of the GNU General Public</span>
-<span class="sd">License along with this library; if not, write to the Free Software</span>
-<span class="sd">Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</span>
+<span class="sd"> You should have received a copy of the GNU AFFERO GENERAL PUBLIC LICENSE</span>
+<span class="sd"> along with this library; if not, write to the Free Software</span>
+<span class="sd"> Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">threading</span>
@@ -1130,7 +1139,8 @@ table {
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port_id</span><span class="p">,</span> <span class="n">command_deque</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructor:</span>
-<span class="sd">        @param command_deque: A reference to the deque shared with the _command_handler</span>
+
+<span class="sd">        :param command_deque: A reference to the deque shared with the _command_handler</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">port_id</span> <span class="o">=</span> <span class="n">port_id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">command_deque</span> <span class="o">=</span> <span class="n">command_deque</span>
@@ -1252,7 +1262,8 @@ table {
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port_id</span><span class="p">,</span> <span class="n">command_deque</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructor:</span>
-<span class="sd">        @param command_deque: A reference to the deque shared with the _command_handler</span>
+
+<span class="sd">        :param command_deque: A reference to the deque shared with the _command_handler</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">port_id</span> <span class="o">=</span> <span class="n">port_id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">command_deque</span> <span class="o">=</span> <span class="n">command_deque</span>
@@ -1413,15 +1424,15 @@ table {
 
     
   
-    <div class="desc"><p>Constructor:
-@param command_deque: A reference to the deque shared with the _command_handler</p></div>
+    <div class="desc"><p>Constructor:</p>
+<p>:param command_deque: A reference to the deque shared with the _command_handler</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_serial.PyMataSerial.__init__', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_serial.PyMataSerial.__init__" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port_id</span><span class="p">,</span> <span class="n">command_deque</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Constructor:</span>
-<span class="sd">    @param command_deque: A reference to the deque shared with the _command_handler</span>
+<span class="sd">    :param command_deque: A reference to the deque shared with the _command_handler</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">port_id</span> <span class="o">=</span> <span class="n">port_id</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">command_deque</span> <span class="o">=</span> <span class="n">command_deque</span>
