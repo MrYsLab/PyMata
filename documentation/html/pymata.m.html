@@ -1232,7 +1232,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</p>
                                 <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">]</span>
 
     <span class="c1"># noinspection PyPep8Naming</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port_id</span><span class="o">=</span><span class="s1">&#39;/dev/ttyACM0&#39;</span><span class="p">,</span> <span class="n">bluetooth</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port_id</span><span class="o">=</span><span class="s1">&#39;/dev/ttyACM0&#39;</span><span class="p">,</span> <span class="n">bluetooth</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">baud_rate</span><span class="o">=</span><span class="mi">57600</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The &quot;constructor&quot; instantiates the entire interface. It starts the operational threads for the serial</span>
 <span class="sd">        interface as well as for the command handler.</span>
@@ -1242,20 +1242,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</p>
 <span class="sd">        :param bluetooth: Sets start up delays for bluetooth connectivity. Set to False for faster start up.</span>
 
 <span class="sd">        :param verbose: If set to False, the status print statements are suppressed.</span>
+
+<span class="sd">        :param baud_rate: Set serial baud rate. Must match that of Firmata sketch on Arduino</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Currently only serial communication over USB is supported, but in the future</span>
         <span class="c1"># wifi and other transport mechanism support is anticipated</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">baud_rate</span> <span class="o">=</span> <span class="n">baud_rate</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># save the user&#39;s request if specified</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
 
+
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
                 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Python Version </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
-                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PyMata version 2.16  Copyright(C) 2013-17 Alan Yorinks    All rights reserved.&#39;</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PyMata version 2.17  Copyright(C) 2013-17 Alan Yorinks    All rights reserved.&#39;</span><span class="p">)</span>
 
             <span class="c1"># Instantiate the serial support class</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">transport</span> <span class="o">=</span> <span class="n">PyMataSerial</span><span class="p">(</span><span class="n">port_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_deque</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">transport</span> <span class="o">=</span> <span class="n">PyMataSerial</span><span class="p">(</span><span class="n">port_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_deque</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">baud_rate</span><span class="p">)</span>
 
             <span class="c1"># wait for HC-06 Bluetooth slave to initialize in case it is being used.</span>
             <span class="k">if</span> <span class="n">bluetooth</span><span class="p">:</span>
@@ -2158,7 +2162,7 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
                                 <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">]</span>
 
     <span class="c1"># noinspection PyPep8Naming</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port_id</span><span class="o">=</span><span class="s1">&#39;/dev/ttyACM0&#39;</span><span class="p">,</span> <span class="n">bluetooth</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port_id</span><span class="o">=</span><span class="s1">&#39;/dev/ttyACM0&#39;</span><span class="p">,</span> <span class="n">bluetooth</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">baud_rate</span><span class="o">=</span><span class="mi">57600</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The &quot;constructor&quot; instantiates the entire interface. It starts the operational threads for the serial</span>
 <span class="sd">        interface as well as for the command handler.</span>
@@ -2168,20 +2172,24 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 <span class="sd">        :param bluetooth: Sets start up delays for bluetooth connectivity. Set to False for faster start up.</span>
 
 <span class="sd">        :param verbose: If set to False, the status print statements are suppressed.</span>
+
+<span class="sd">        :param baud_rate: Set serial baud rate. Must match that of Firmata sketch on Arduino</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Currently only serial communication over USB is supported, but in the future</span>
         <span class="c1"># wifi and other transport mechanism support is anticipated</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">baud_rate</span> <span class="o">=</span> <span class="n">baud_rate</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># save the user&#39;s request if specified</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
 
+
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
                 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Python Version </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
-                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PyMata version 2.16  Copyright(C) 2013-17 Alan Yorinks    All rights reserved.&#39;</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PyMata version 2.17  Copyright(C) 2013-17 Alan Yorinks    All rights reserved.&#39;</span><span class="p">)</span>
 
             <span class="c1"># Instantiate the serial support class</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">transport</span> <span class="o">=</span> <span class="n">PyMataSerial</span><span class="p">(</span><span class="n">port_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_deque</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">transport</span> <span class="o">=</span> <span class="n">PyMataSerial</span><span class="p">(</span><span class="n">port_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_deque</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">baud_rate</span><span class="p">)</span>
 
             <span class="c1"># wait for HC-06 Bluetooth slave to initialize in case it is being used.</span>
             <span class="k">if</span> <span class="n">bluetooth</span><span class="p">:</span>
@@ -3000,7 +3008,6 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
           <h3>Ancestors (in MRO)</h3>
           <ul class="class_list">
           <li><a href="#PyMata.pymata.PyMata">PyMata</a></li>
-          <li>builtins.object</li>
           </ul>
           <h3>Class variables</h3>
             <div class="item">
@@ -3333,11 +3340,22 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 </div>
 
             </div>
-          <h3>Static methods</h3>
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="PyMata.pymata.PyMata.baud_rate" class="name">var <span class="ident">baud_rate</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+          <h3>Methods</h3>
             
   <div class="item">
     <div class="name def" id="PyMata.pymata.PyMata.__init__">
-    <p>def <span class="ident">__init__</span>(</p><p>self, port_id=&#39;/dev/ttyACM0&#39;, bluetooth=True, verbose=True)</p>
+    <p>def <span class="ident">__init__</span>(</p><p>self, port_id=&#39;/dev/ttyACM0&#39;, bluetooth=True, verbose=True, baud_rate=57600)</p>
     </div>
     
 
@@ -3347,28 +3365,31 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 interface as well as for the command handler.</p>
 <p>:param port_id: Communications port specifier (COM3, /dev/ttyACM0, etc)</p>
 <p>:param bluetooth: Sets start up delays for bluetooth connectivity. Set to False for faster start up.</p>
-<p>:param verbose: If set to False, the status print statements are suppressed.</p></div>
+<p>:param verbose: If set to False, the status print statements are suppressed.</p>
+<p>:param baud_rate: Set serial baud rate. Must match that of Firmata sketch on Arduino</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata.PyMata.__init__', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata.PyMata.__init__" class="source">
-    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port_id</span><span class="o">=</span><span class="s1">&#39;/dev/ttyACM0&#39;</span><span class="p">,</span> <span class="n">bluetooth</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port_id</span><span class="o">=</span><span class="s1">&#39;/dev/ttyACM0&#39;</span><span class="p">,</span> <span class="n">bluetooth</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">baud_rate</span><span class="o">=</span><span class="mi">57600</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The &quot;constructor&quot; instantiates the entire interface. It starts the operational threads for the serial</span>
 <span class="sd">    interface as well as for the command handler.</span>
 <span class="sd">    :param port_id: Communications port specifier (COM3, /dev/ttyACM0, etc)</span>
 <span class="sd">    :param bluetooth: Sets start up delays for bluetooth connectivity. Set to False for faster start up.</span>
 <span class="sd">    :param verbose: If set to False, the status print statements are suppressed.</span>
+<span class="sd">    :param baud_rate: Set serial baud rate. Must match that of Firmata sketch on Arduino</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Currently only serial communication over USB is supported, but in the future</span>
     <span class="c1"># wifi and other transport mechanism support is anticipated</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">baud_rate</span> <span class="o">=</span> <span class="n">baud_rate</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="c1"># save the user&#39;s request if specified</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Python Version </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
-            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PyMata version 2.16  Copyright(C) 2013-17 Alan Yorinks    All rights reserved.&#39;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PyMata version 2.17  Copyright(C) 2013-17 Alan Yorinks    All rights reserved.&#39;</span><span class="p">)</span>
         <span class="c1"># Instantiate the serial support class</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">transport</span> <span class="o">=</span> <span class="n">PyMataSerial</span><span class="p">(</span><span class="n">port_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_deque</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transport</span> <span class="o">=</span> <span class="n">PyMataSerial</span><span class="p">(</span><span class="n">port_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_deque</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">baud_rate</span><span class="p">)</span>
         <span class="c1"># wait for HC-06 Bluetooth slave to initialize in case it is being used.</span>
         <span class="k">if</span> <span class="n">bluetooth</span><span class="p">:</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>

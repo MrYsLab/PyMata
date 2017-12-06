@@ -8,7 +8,7 @@ setup(
     #install_requires=['pyserial==2.7'],
     install_requires=['pyserial'],
 
-    version='2.16',
+    version='2.17',
     description="A Python Protocol Abstraction Library For Arduino Firmata",
     author='Alan Yorinks',
     author_email='MisterYsLab@gmail.com',

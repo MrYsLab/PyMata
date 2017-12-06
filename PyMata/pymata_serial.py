@@ -35,13 +35,17 @@ class PyMataSerial(threading.Thread):
     timeout = 1
     command_deque = None
 
-    def __init__(self, port_id, command_deque):
+    def __init__(self, port_id, command_deque, baud_rate):
         """
         Constructor:
-        @param command_deque: A reference to the deque shared with the _command_handler
+
+        :param command_deque: A reference to the deque shared with the _command_handler
+
+        :param baud_rate: must match that of Arduino Sketch
         """
         self.port_id = port_id
         self.command_deque = command_deque
+        self.baud_rate = baud_rate
 
         threading.Thread.__init__(self)
         self.daemon = True

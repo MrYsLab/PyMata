@@ -1,4 +1,3 @@
-__author__ = 'Copyright (c) 2013 Alan Yorinks All rights reserved.'
 """
  Copyright (c) 2015-2017 Alan Yorinks All rights reserved.
 
@@ -188,7 +187,8 @@ class PyMataCommandHandler(threading.Thread):
     def __init__(self, pymata):
         """
         constructor for CommandHandler class
-        @param pymata: A reference to the pymata instance.
+        
+        :param pymata: A reference to the pymata instance.
         """
 
         # reference pointer to pymata
@@ -222,7 +222,7 @@ class PyMataCommandHandler(threading.Thread):
         """
         This method will allow up to 30 seconds for discovery (communicating with) an Arduino board
         and then will determine a pin configuration table for the board.
-        @return: True if board is successfully discovered or False upon timeout
+        :return: True if board is successfully discovered or False upon timeout
         """
         # get current time
         start_time = time.time()
@@ -276,8 +276,10 @@ class PyMataCommandHandler(threading.Thread):
         or after refresh_report_version() is called
 
         Use the api method api_get_version to retrieve this information
-        @param data: Message data from Firmata
-        @return: No return value.
+        
+        :param data: Message data from Firmata
+        
+        :return: No return value.
         """
         self.firmata_version.append(data[0])  # add major
         self.firmata_version.append(data[1])  # add minor
@@ -285,10 +287,14 @@ class PyMataCommandHandler(threading.Thread):
     def set_analog_latch(self, pin, threshold_type, threshold_value, cb):
         """
         This method "arms" a pin to allow data latching for the pin.
-        @param pin: Analog pin number (value following an 'A' designator, i.e. A5 = 5
-        @param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE
-        @param threshold_value: numerical value
-        @param cb: User provided callback function
+
+        :param pin: Analog pin number (value following an 'A' designator, i.e. A5 = 5
+
+        :param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE
+
+        :param threshold_value: numerical value
+
+        :param cb: User provided callback function
         """
         with self.pymata.data_lock:
             self.analog_latch_table[pin] = [self.LATCH_ARMED, threshold_type, threshold_value, 0, 0, cb]
@@ -296,9 +302,12 @@ class PyMataCommandHandler(threading.Thread):
     def set_digital_latch(self, pin, threshold_type, cb):
         """
         This method "arms" a pin to allow data latching for the pin.
-        @param pin: digital pin number
-        @param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW
-        @param cb: User provided callback function
+
+        :param pin: digital pin number
+
+        :param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW
+
+        :param cb: User provided callback function
         """
         with self.pymata.data_lock:
             self.digital_latch_table[pin] = [self.LATCH_ARMED, threshold_type, 0, 0, cb]
@@ -308,8 +317,10 @@ class PyMataCommandHandler(threading.Thread):
         This method reads the analog latch table for the specified pin and returns a list that contains:
         [latch_state, latched_data, and time_stamp].
         If the latch state is latched, the entry in the table is cleared
-        @param pin:  pin number
-        @return: [latch_state, latched_data, and time_stamp]
+
+        :param pin:  pin number
+
+        :return: [latch_state, latched_data, and time_stamp]
         """
         with self.pymata.data_lock:
             pin_data = self.analog_latch_table[pin]
@@ -328,8 +339,10 @@ class PyMataCommandHandler(threading.Thread):
         This method reads the digital latch table for the specified pin and returns a list that contains:
         [latch_state, latched_data, and time_stamp].
         If the latch state is latched, the entry in the table is cleared
-        @param pin:  pin number
-        @return: [latch_state, latched_data, and time_stamp]
+
+        :param pin:  pin number
+
+        :return: [latch_state, latched_data, and time_stamp]
         """
         with self.pymata.data_lock:
             pin_data = self.digital_latch_table[pin]
@@ -348,8 +361,10 @@ class PyMataCommandHandler(threading.Thread):
         or after refresh_report_firmware() is called
         
         Use the api method api_get_firmware_version to retrieve this information
-        @param data: Message data from Firmata
-        @return: No return value.
+
+        :param data: Message data from Firmata
+
+        :return: No return value.
         """
         self.firmata_firmware.append(data[0])  # add major
         self.firmata_firmware.append(data[1])  # add minor
@@ -377,8 +392,10 @@ class PyMataCommandHandler(threading.Thread):
         This method also checks to see if latching was requested for the pin. If the latch criteria was met,
         the latching table is updated. If a latching callback function was provided by the user, a latching
         notification callback message is sent to the user in place of updating the latching table.
-        @param data: Message data from Firmata
-        @return: No return value.
+
+        :param data: Message data from Firmata
+
+        :return: No return value.
         """
         with self.pymata.data_lock:
             # hold on to the previous value
@@ -470,8 +487,10 @@ class PyMataCommandHandler(threading.Thread):
         This method handles the incoming digital message.
         It stores the data values in the digital response table.
         Data is stored for all 8 bits of a  digital port
-        @param data: Message data from Firmata
-        @return: No return value.
+
+        :param data: Message data from Firmata
+
+        :return: No return value.
         """
         port = data[0]
         port_data = (data[self.MSB] << 7) + data[self.LSB]
@@ -537,8 +556,10 @@ class PyMataCommandHandler(threading.Thread):
         """
         This method handles the incoming encoder data message and stores
         the data in the digital response table.
-        @param data: Message data from Firmata
-        @return: No return value.
+
+        :param data: Message data from Firmata
+
+        :return: No return value.
         """
         prev_val = self.digital_response_table[data[self.RESPONSE_TABLE_MODE]][self.RESPONSE_TABLE_PIN_DATA_VALUE]
         val = int((data[self.MSB] << 7) + data[self.LSB])
@@ -558,8 +579,10 @@ class PyMataCommandHandler(threading.Thread):
         """
         This method handles the incoming sonar data message and stores
         the data in the response table.
-        @param data: Message data from Firmata
-        @return: No return value.
+
+        :param data: Message data from Firmata
+
+        :return: No return value.
         """
         val = int((data[self.MSB] << 7) + data[self.LSB])
         pin_number = data[0]
@@ -579,7 +602,7 @@ class PyMataCommandHandler(threading.Thread):
     def get_analog_response_table(self):
         """
         This method returns the entire analog response table to the caller
-        @return: The analog response table.
+        :return: The analog response table.
         """
         with self.pymata.data_lock:
             data = self.analog_response_table
@@ -588,7 +611,7 @@ class PyMataCommandHandler(threading.Thread):
     def get_digital_response_table(self):
         """
         This method returns the entire digital response table to the caller
-        @return: The digital response table.
+        :return: The digital response table.
         """
         with self.pymata.data_lock:
             data = self.digital_response_table
@@ -598,9 +621,11 @@ class PyMataCommandHandler(threading.Thread):
         """
         This method will send a Sysex command to Firmata with any accompanying data
 
-        @param sysex_command: sysex command
-        @param sysex_data: data for command
-        @return : No return value.
+        :param sysex_command: sysex command
+
+        :param sysex_data: data for command
+
+        :return : No return value.
         """
         if not sysex_data:
             sysex_data = []
@@ -619,8 +644,10 @@ class PyMataCommandHandler(threading.Thread):
     def send_command(self, command):
         """
         This method is used to transmit a non-sysex command.
-        @param command: Command to send to firmata includes command + data formatted by caller
-        @return : No return value.
+
+        :param command: Command to send to firmata includes command + data formatted by caller
+
+        :return : No return value.
         """
         send_message = ""
         for i in command:
@@ -633,7 +660,8 @@ class PyMataCommandHandler(threading.Thread):
         """
         Send the reset command to the Arduino.
         It resets the response tables to their initial values
-        @return: No return value
+
+        :return: No return value
         """
         data = chr(self.SYSTEM_RESET)
         self.pymata.transport.write(data)
@@ -664,14 +692,15 @@ class PyMataCommandHandler(threading.Thread):
         This method handles the incoming string data message from Firmata.
         The string is printed to the console
 
-        @param data: Message data from Firmata
-        @return: No return value.s
+        :param data: Message data from Firmata
+
+        :return: No return value.s
         """
         print("_string_data:")
         string_to_print = []
         for i in data[::2]:
             string_to_print.append(chr(i))
-        print(string_to_print)
+        print("".join(string_to_print))
 
     def i2c_reply(self, data):
         """
@@ -679,7 +708,8 @@ class PyMataCommandHandler(threading.Thread):
         address in a dictionary called i2c_map. The data is retrieved via a call to i2c_get_read_data()
         in pymata.py
         It a callback was specified in pymata.i2c_read, the raw data is sent through the callback
-        @param data: raw data returned from i2c device
+
+        :param data: raw data returned from i2c device
         """
 
         reply_data = []
@@ -704,7 +734,8 @@ class PyMataCommandHandler(threading.Thread):
         """
         This method handles a capability response message and stores the results to be retrieved
         via get_capability_query_results() in pymata.py
-        @param data: raw capability data
+
+        :param data: raw capability data
         """
         self.capability_query_results = data
 
@@ -712,7 +743,8 @@ class PyMataCommandHandler(threading.Thread):
         """
         This method handles a pin state response message and stores the results to be retrieved
         via get_pin_state_query_results() in pymata.py
-        @param data:  raw pin state data
+
+        :param data:  raw pin state data
         """
         self.last_pin_query_results = data
 
@@ -720,7 +752,8 @@ class PyMataCommandHandler(threading.Thread):
         """
         This method handles an analog mapping query response message and stores the results to be retrieved
         via get_analog_mapping_request_results() in pymata.py
-        @param data: raw analog mapping data
+
+        :param data: raw analog mapping data
         """
         self.analog_mapping_query_results = data
 

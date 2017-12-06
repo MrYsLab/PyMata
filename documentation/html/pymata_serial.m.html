@@ -1136,14 +1136,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</p>
     <span class="n">timeout</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">command_deque</span> <span class="o">=</span> <span class="bp">None</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port_id</span><span class="p">,</span> <span class="n">command_deque</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port_id</span><span class="p">,</span> <span class="n">command_deque</span><span class="p">,</span> <span class="n">baud_rate</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructor:</span>
 
 <span class="sd">        :param command_deque: A reference to the deque shared with the _command_handler</span>
+
+<span class="sd">        :param baud_rate: must match that of Arduino Sketch</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">port_id</span> <span class="o">=</span> <span class="n">port_id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">command_deque</span> <span class="o">=</span> <span class="n">command_deque</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">baud_rate</span> <span class="o">=</span> <span class="n">baud_rate</span>
 
         <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="bp">True</span>
@@ -1259,14 +1262,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</p>
     <span class="n">timeout</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">command_deque</span> <span class="o">=</span> <span class="bp">None</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port_id</span><span class="p">,</span> <span class="n">command_deque</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port_id</span><span class="p">,</span> <span class="n">command_deque</span><span class="p">,</span> <span class="n">baud_rate</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructor:</span>
 
 <span class="sd">        :param command_deque: A reference to the deque shared with the _command_handler</span>
+
+<span class="sd">        :param baud_rate: must match that of Arduino Sketch</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">port_id</span> <span class="o">=</span> <span class="n">port_id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">command_deque</span> <span class="o">=</span> <span class="n">command_deque</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">baud_rate</span> <span class="o">=</span> <span class="n">baud_rate</span>
 
         <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="bp">True</span>
@@ -1361,7 +1367,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</p>
           <ul class="class_list">
           <li><a href="#PyMata.pymata_serial.PyMataSerial">PyMataSerial</a></li>
           <li>threading.Thread</li>
-          <li>builtins.object</li>
+          <li>threading._Verbose</li>
+          <li>__builtin__.object</li>
           </ul>
           <h3>Class variables</h3>
             <div class="item">
@@ -1414,28 +1421,119 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</p>
 </div>
 
             </div>
-          <h3>Static methods</h3>
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="PyMata.pymata_serial.PyMataSerial.arduino" class="name">var <span class="ident">arduino</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="PyMata.pymata_serial.PyMataSerial.baud_rate" class="name">var <span class="ident">baud_rate</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="PyMata.pymata_serial.PyMataSerial.command_deque" class="name">var <span class="ident">command_deque</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="PyMata.pymata_serial.PyMataSerial.daemon" class="name">var <span class="ident">daemon</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="PyMata.pymata_serial.PyMataSerial.ident" class="name">var <span class="ident">ident</span></p>
+            
+
+            
+  
+    <div class="desc"><p>Thread identifier of this thread or None if it has not been started.</p>
+<p>This is a nonzero integer. See the thread.get_ident() function. Thread
+identifiers may be recycled when a thread exits and another thread is
+created. The identifier is available even after the thread has exited.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="PyMata.pymata_serial.PyMataSerial.name" class="name">var <span class="ident">name</span></p>
+            
+
+            
+  
+    <div class="desc"><p>A string used for identification purposes only.</p>
+<p>It has no semantics. Multiple threads may be given the same name. The
+initial name is set by the constructor.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="PyMata.pymata_serial.PyMataSerial.port_id" class="name">var <span class="ident">port_id</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="PyMata.pymata_serial.PyMataSerial.stop_event" class="name">var <span class="ident">stop_event</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+          <h3>Methods</h3>
             
   <div class="item">
     <div class="name def" id="PyMata.pymata_serial.PyMataSerial.__init__">
-    <p>def <span class="ident">__init__</span>(</p><p>self, port_id, command_deque)</p>
+    <p>def <span class="ident">__init__</span>(</p><p>self, port_id, command_deque, baud_rate)</p>
     </div>
     
 
     
   
     <div class="desc"><p>Constructor:</p>
-<p>:param command_deque: A reference to the deque shared with the _command_handler</p></div>
+<p>:param command_deque: A reference to the deque shared with the _command_handler</p>
+<p>:param baud_rate: must match that of Arduino Sketch</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_serial.PyMataSerial.__init__', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_serial.PyMataSerial.__init__" class="source">
-    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port_id</span><span class="p">,</span> <span class="n">command_deque</span><span class="p">):</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port_id</span><span class="p">,</span> <span class="n">command_deque</span><span class="p">,</span> <span class="n">baud_rate</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Constructor:</span>
 <span class="sd">    :param command_deque: A reference to the deque shared with the _command_handler</span>
+<span class="sd">    :param baud_rate: must match that of Arduino Sketch</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">port_id</span> <span class="o">=</span> <span class="n">port_id</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">command_deque</span> <span class="o">=</span> <span class="n">command_deque</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">baud_rate</span> <span class="o">=</span> <span class="n">baud_rate</span>
     <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="bp">True</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">arduino</span> <span class="o">=</span> <span class="n">serial</span><span class="o">.</span><span class="n">Serial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">baud_rate</span><span class="p">,</span>
@@ -1519,17 +1617,14 @@ returns a list of all alive threads.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_serial.PyMataSerial.isAlive', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_serial.PyMataSerial.isAlive" class="source">
-    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">is_alive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">isAlive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return whether the thread is alive.</span>
 <span class="sd">    This method returns True just before the run() method starts until just</span>
 <span class="sd">    after the run() method terminates. The module function enumerate()</span>
 <span class="sd">    returns a list of all alive threads.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">,</span> <span class="s2">&quot;Thread.__init__() not called&quot;</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_stopped</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_started</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
-        <span class="k">return</span> <span class="bp">False</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_wait_for_tstate_lock</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-    <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_stopped</span>
+    <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">__initialized</span><span class="p">,</span> <span class="s2">&quot;Thread.__init__() not called&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__started</span><span class="o">.</span><span class="n">is_set</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__stopped</span>
 </pre></div>
 
   </div>
@@ -1574,17 +1669,14 @@ returns a list of all alive threads.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata_serial.PyMataSerial.is_alive', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata_serial.PyMataSerial.is_alive" class="source">
-    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">is_alive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">isAlive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return whether the thread is alive.</span>
 <span class="sd">    This method returns True just before the run() method starts until just</span>
 <span class="sd">    after the run() method terminates. The module function enumerate()</span>
 <span class="sd">    returns a list of all alive threads.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">,</span> <span class="s2">&quot;Thread.__init__() not called&quot;</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_stopped</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_started</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
-        <span class="k">return</span> <span class="bp">False</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_wait_for_tstate_lock</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-    <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_stopped</span>
+    <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">__initialized</span><span class="p">,</span> <span class="s2">&quot;Thread.__init__() not called&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__started</span><span class="o">.</span><span class="n">is_set</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__stopped</span>
 </pre></div>
 
   </div>
@@ -1659,18 +1751,36 @@ exception.</p></div>
 <span class="sd">    thread before it has been started and attempts to do so raises the same</span>
 <span class="sd">    exception.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__initialized</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Thread.__init__() not called&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_started</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__started</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;cannot join thread before it is started&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">current_thread</span><span class="p">():</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;cannot join current thread&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">timeout</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_wait_for_tstate_lock</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># the behavior of a negative timeout isn&#39;t documented, but</span>
-        <span class="c1"># historically .join(timeout=x) for x&lt;0 has acted as if timeout=0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_wait_for_tstate_lock</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">timeout</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">__debug__</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__stopped</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_note</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.join(): waiting until thread stops&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__block</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">timeout</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__stopped</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__block</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">__debug__</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_note</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.join(): thread stopped&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">deadline</span> <span class="o">=</span> <span class="n">_time</span><span class="p">()</span> <span class="o">+</span> <span class="n">timeout</span>
+            <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__stopped</span><span class="p">:</span>
+                <span class="n">delay</span> <span class="o">=</span> <span class="n">deadline</span> <span class="o">-</span> <span class="n">_time</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">delay</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">__debug__</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_note</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.join(): timed out&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+                    <span class="k">break</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__block</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">delay</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">__debug__</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_note</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.join(): thread stopped&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__block</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
 </pre></div>
 
   </div>
@@ -1826,19 +1936,21 @@ same thread object.</p></div>
 <span class="sd">    This method will raise a RuntimeError if called more than once on the</span>
 <span class="sd">    same thread object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__initialized</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;thread.__init__() not called&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_started</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__started</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;threads can only be started once&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">__debug__</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_note</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.start(): starting thread&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">_active_limbo_lock</span><span class="p">:</span>
         <span class="n">_limbo</span><span class="p">[</span><span class="bp">self</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">_start_new_thread</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bootstrap</span><span class="p">,</span> <span class="p">())</span>
+        <span class="n">_start_new_thread</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__bootstrap</span><span class="p">,</span> <span class="p">())</span>
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">_active_limbo_lock</span><span class="p">:</span>
             <span class="k">del</span> <span class="n">_limbo</span><span class="p">[</span><span class="bp">self</span><span class="p">]</span>
         <span class="k">raise</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_started</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__started</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
 </pre></div>
 
   </div>
@@ -1897,84 +2009,6 @@ return: None</p></div>
 
   </div>
   
-          <h3>Instance variables</h3>
-            <div class="item">
-            <p id="PyMata.pymata_serial.PyMataSerial.arduino" class="name">var <span class="ident">arduino</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="PyMata.pymata_serial.PyMataSerial.command_deque" class="name">var <span class="ident">command_deque</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="PyMata.pymata_serial.PyMataSerial.daemon" class="name">var <span class="ident">daemon</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="PyMata.pymata_serial.PyMataSerial.ident" class="name">var <span class="ident">ident</span></p>
-            
-
-            
-  
-    <div class="desc"><p>Thread identifier of this thread or None if it has not been started.</p>
-<p>This is a nonzero integer. See the thread.get_ident() function. Thread
-identifiers may be recycled when a thread exits and another thread is
-created. The identifier is available even after the thread has exited.</p></div>
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="PyMata.pymata_serial.PyMataSerial.name" class="name">var <span class="ident">name</span></p>
-            
-
-            
-  
-    <div class="desc"><p>A string used for identification purposes only.</p>
-<p>It has no semantics. Multiple threads may be given the same name. The
-initial name is set by the constructor.</p></div>
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="PyMata.pymata_serial.PyMataSerial.port_id" class="name">var <span class="ident">port_id</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="PyMata.pymata_serial.PyMataSerial.stop_event" class="name">var <span class="ident">stop_event</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
       </div>
       </div>
 

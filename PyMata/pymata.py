@@ -101,27 +101,34 @@ class PyMata:
                                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
 
     # noinspection PyPep8Naming
-    def __init__(self, port_id='/dev/ttyACM0', bluetooth=True, verbose=True):
+    def __init__(self, port_id='/dev/ttyACM0', bluetooth=True, verbose=True, baud_rate=57600):
         """
         The "constructor" instantiates the entire interface. It starts the operational threads for the serial
         interface as well as for the command handler.
-        @param port_id: Communications port specifier (COM3, /dev/ttyACM0, etc)
-        @param bluetooth: Sets start up delays for bluetooth connectivity. Set to False for faster start up.
-        @param verbose: If set to False, the status print statements are suppressed.
+
+        :param port_id: Communications port specifier (COM3, /dev/ttyACM0, etc)
+
+        :param bluetooth: Sets start up delays for bluetooth connectivity. Set to False for faster start up.
+
+        :param verbose: If set to False, the status print statements are suppressed.
+
+        :param baud_rate: Set serial baud rate. Must match that of Firmata sketch on Arduino
         """
         # Currently only serial communication over USB is supported, but in the future
         # wifi and other transport mechanism support is anticipated
 
+        self.baud_rate = baud_rate
         try:
             # save the user's request if specified
             self.verbose = verbose
 
+
             if self.verbose:
                 print("\nPython Version %s" % sys.version)
-                print('\nPyMata version 2.16  Copyright(C) 2013-17 Alan Yorinks    All rights reserved.')
+                print('\nPyMata version 2.17  Copyright(C) 2013-17 Alan Yorinks    All rights reserved.')
 
             # Instantiate the serial support class
-            self.transport = PyMataSerial(port_id, self.command_deque)
+            self.transport = PyMataSerial(port_id, self.command_deque, self.baud_rate)
 
             # wait for HC-06 Bluetooth slave to initialize in case it is being used.
             if bluetooth:
@@ -215,8 +222,10 @@ class PyMata:
     def analog_read(self, pin):
         """
         Retrieve the last analog data value received for the specified pin.
-        @param pin: Selected pin
-        @return: The last value entered into the analog response table.
+
+        :param pin: Selected pin
+
+        :return: The last value entered into the analog response table.
         """
         with self.data_lock:
             data = self._command_handler.analog_response_table[pin][self._command_handler.RESPONSE_TABLE_PIN_DATA_VALUE]
@@ -225,9 +234,12 @@ class PyMata:
     def analog_write(self, pin, value):
         """
         Set the specified pin to the specified value.
-        @param pin: Pin number
-        @param value: Pin value
-        @return: No return value
+
+        :param pin: Pin number
+
+        :param value: Pin value
+
+        :return: No return value
         """
 
         if self._command_handler.ANALOG_MESSAGE + pin < 0xf0:
@@ -248,7 +260,7 @@ class PyMata:
     def close(self):
         """
         This method will close the transport (serial port) and exit
-        @return: No return value, but sys.exit(0) is called.
+        :return: No return value, but sys.exit(0) is called.
         """
 
         self._command_handler.system_reset()
@@ -266,8 +278,10 @@ class PyMata:
         """
         Retrieve the last digital data value received for the specified pin.
         NOTE: This command will return values for digital, pwm, etc,  pin types
-        @param pin: Selected pin
-        @return: The last value entered into the digital response table.
+
+        :param pin: Selected pin
+
+        :return: The last value entered into the digital response table.
         """
         with self.data_lock:
             data = \
@@ -278,9 +292,12 @@ class PyMata:
     def digital_write(self, pin, value):
         """
         Set the specified pin to the specified value.
-        @param pin: pin number
-        @param value: pin value
-        @return: No return value
+
+        :param pin: pin number
+
+        :param value: pin value
+
+        :return: No return value
         """
         # The command value is not a fixed value, but needs to be calculated using the
         # pin's port number
@@ -307,8 +324,10 @@ class PyMata:
     def disable_analog_reporting(self, pin):
         """
         Disables analog reporting for a single analog pin.
-        @param pin: Analog pin number. For example for A0, the number is 0.
-        @return: No return value
+
+        :param pin: Analog pin number. For example for A0, the number is 0.
+
+        :return: No return value
         """
         command = [self._command_handler.REPORT_ANALOG + pin, self.REPORTING_DISABLE]
         self._command_handler.send_command(command)
@@ -318,8 +337,10 @@ class PyMata:
         """
         Disables digital reporting. By turning reporting off for this pin, reporting
         is disabled for all 8 bits in the "port" -
-        @param pin: Pin and all pins for this port
-        @return: No return value
+
+        :param pin: Pin and all pins for this port
+
+        :return: No return value
         """
         port = pin // 8
         command = [self._command_handler.REPORT_DIGITAL + port, self.REPORTING_DISABLE]
@@ -328,9 +349,11 @@ class PyMata:
 
     def enable_analog_reporting(self, pin):
         """
-        Enables analog reporting. By turning reporting on for a single pin,
-        @param pin: Analog pin number. For example for A0, the number is 0.
-        @return: No return value
+        Enables analog reporting. By turning reporting on for a single pin.
+
+        :param pin: Analog pin number. For example for A0, the number is 0.
+
+        :return: No return value
         """
         command = [self._command_handler.REPORT_ANALOG + pin, self.REPORTING_ENABLE]
         self._command_handler.send_command(command)
@@ -340,8 +363,10 @@ class PyMata:
         """
         Enables digital reporting. By turning reporting on for all 8 bits in the "port" -
         this is part of Firmata's protocol specification.
-        @param pin: Pin and all pins for this port
-        @return: No return value
+
+        :param pin: Pin and all pins for this port
+
+        :return: No return value
         """
         port = pin // 8
         command = [self._command_handler.REPORT_DIGITAL + port, self.REPORTING_ENABLE]
@@ -358,10 +383,13 @@ class PyMata:
 
         Encoder data is retrieved by performing a digital_read from pin a (encoder pin 1)
 
-        @param pin_a: Encoder pin 1.
-        @param pin_b: Encoder pin 2.
-        @param cb: callback function to report encoder changes
-        @return: No return value
+        :param pin_a: Encoder pin 1.
+
+        :param pin_b: Encoder pin 2.
+
+        :param cb: callback function to report encoder changes
+
+        :return: No return value
         """
         data = [pin_a, pin_b]
         self._command_handler.digital_response_table[pin_a][self._command_handler.RESPONSE_TABLE_MODE] \
@@ -380,8 +408,10 @@ class PyMata:
     def extended_analog(self, pin, data):
         """
         This method will send an extended data analog output command to the selected pin
-        @param pin: 0 - 127
-        @param data: 0 - 0xfffff
+
+        :param pin: 0 - 127
+
+        :param data: 0 - 0xfffff
         """
         analog_data = [pin, data & 0x7f, (data >> 7) & 0x7f, (data >> 14) & 0x7f]
         self._command_handler.send_sysex(self._command_handler.EXTENDED_ANALOG, analog_data)
@@ -392,8 +422,10 @@ class PyMata:
         A list is returned containing the latch state for the pin, the latched value, and the time stamp
         [pin_num, latch_state, latched_value, time_stamp]
         If the the latch state is LATCH_LATCHED, the table is reset (data and timestamp set to zero)
-        @param pin: Pin number.
-        @return: [pin, latch_state, latch_data_value, time_stamp]
+
+        :param pin: Pin number.
+
+        :return: [pin, latch_state, latch_data_value, time_stamp]
         """
         return self._command_handler.get_analog_latch_data(pin)
 
@@ -401,7 +433,7 @@ class PyMata:
     def get_analog_mapping_request_results(self):
         """
         Call this method after calling analog_mapping_query() to retrieve its results
-        @return: raw data returned by firmata
+        :return: raw data returned by firmata
         """
         return self._command_handler.analog_mapping_query_results
 
@@ -411,7 +443,7 @@ class PyMata:
         This method returns a list of lists representing the current pin mode and
         associated data values for all analog pins.
         All configured pin types, both input and output will be listed. Output pin data will contain zero.
-        @return: The last update of the digital response table
+        :return: The last update of the digital response table
         """
         return self._command_handler.get_analog_response_table()
 
@@ -419,7 +451,7 @@ class PyMata:
     def get_capability_query_results(self):
         """
         Retrieve the data returned by a previous call to capability_query()
-        @return: Raw capability data returned by firmata
+        :return: Raw capability data returned by firmata
         """
         return self._command_handler.capability_query_results
 
@@ -429,8 +461,10 @@ class PyMata:
         A list is returned containing the latch state for the pin, the latched value, and the time stamp
         [pin_num, latch_state, latched_value, time_stamp]
         If the the latch state is LATCH_LATCHED, the table is reset (data and timestamp set to zero)
-        @param pin: Pin number.
-        @return: [pin, latch_state, latch_data_value, time_stamp]
+
+        :param pin: Pin number.
+
+        :return: [pin, latch_state, latch_data_value, time_stamp]
         """
         return self._command_handler.get_digital_latch_data(pin)
 
@@ -440,7 +474,7 @@ class PyMata:
         This method returns a list of lists representing the current pin mode
         and associated data for all digital pins.
         All pin types, both input and output will be listed. Output pin data will contain zero.
-        @return: The last update of the digital response table
+        :return: The last update of the digital response table
         """
         return self._command_handler.get_digital_response_table()
 
@@ -448,7 +482,7 @@ class PyMata:
     def get_firmata_version(self):
         """
         Retrieve the firmata version information returned by a previous call to refresh_report_version()
-        @return: Firmata_version list [major, minor] or None
+        :return: Firmata_version list [major, minor] or None
          """
         return self._command_handler.firmata_version
 
@@ -456,7 +490,7 @@ class PyMata:
     def get_firmata_firmware_version(self):
         """
         Retrieve the firmware id information returned by a previous call to refresh_report_firmware()
-        @return: Firmata_firmware  list [major, minor, file_name] or None
+        :return: Firmata_firmware  list [major, minor, file_name] or None
         """
         return self._command_handler.firmata_firmware
 
@@ -466,7 +500,7 @@ class PyMata:
         This method returns the results of a previous call to pin_state_query() and then resets
         the pin state query data to None
 
-        @return: Raw pin state query data
+        :return: Raw pin state query data
         """
         r_data = self._command_handler.last_pin_query_results
         self._command_handler.last_pin_query_results = []
@@ -478,7 +512,7 @@ class PyMata:
         """
         Returns the PyMata version number in a list: [Major Number, Minor Number]
 
-        @return:
+        :return:
         """
         return ['2', '08']
 
@@ -491,15 +525,18 @@ class PyMata:
         current measured distance (in centimeters)
         for that pin. If there is no data, the value is set to IGNORE (127).
 
-        @return: active_sonar_map
+        :return: active_sonar_map
         """
         return self._command_handler.active_sonar_map
 
 
     def get_stepper_version(self, timeout=20):
         """
-        @param timeout: specify a time to allow arduino to process and return a version
-        @return: the stepper version number if it was set.
+        Get the stepper library version number.
+
+        :param timeout: specify a time to allow arduino to process and return a version
+
+        :return: the stepper version number if it was set.
         """
         # get current time
         start_time = time.time()
@@ -526,11 +563,15 @@ class PyMata:
         To track pins: Set the pin_type to ANALOG or DIGITAL and provide the pin numbers.
         If using ANALOG, pin numbers use the analog number, for example A4: use 4.
 
-        @param read_delay_time: an optional parameter, default is 0
-        @param pin_type: ANALOG or DIGITAL to select response table type to track pin numbers
-        @param clk_pin: pin number (see comment above).
-        @param data_pin: pin number (see comment above).
-        @return: No Return Value
+        :param read_delay_time: an optional parameter, default is 0
+
+        :param pin_type: ANALOG or DIGITAL to select response table type to track pin numbers
+
+        :param clk_pin: pin number (see comment above).
+
+        :param data_pin: pin number (see comment above).
+
+        :return: No Return Value
         """
         data = [read_delay_time & 0x7f, (read_delay_time >> 7) & 0x7f]
         self._command_handler.send_sysex(self._command_handler.I2C_CONFIG, data)
@@ -554,11 +595,16 @@ class PyMata:
         This method requests the read of an i2c device. Results are retrieved by a call to
         i2c_get_read_data().
         If a callback method is provided, when data is received from the device it will be sent to the callback method
-        @param address: i2c device address
-        @param register: register number (can be set to zero)
-        @param number_of_bytes: number of bytes expected to be returned
-        @param read_type: I2C_READ  or I2C_READ_CONTINUOUSLY
-        @param cb: Optional callback function to report i2c data as result of read command
+
+        :param address: i2c device address
+
+        :param register: register number (can be set to zero)
+
+        :param number_of_bytes: number of bytes expected to be returned
+
+        :param read_type: I2C_READ  or I2C_READ_CONTINUOUSLY
+
+        :param cb: Optional callback function to report i2c data as result of read command
         """
         data = [address, read_type, register & 0x7f, (register >> 7) & 0x7f,
                 number_of_bytes & 0x7f, (number_of_bytes >> 7) & 0x7f]
@@ -572,8 +618,10 @@ class PyMata:
     def i2c_write(self, address, *args):
         """
         Write data to an i2c device.
-        @param address: i2c device address
-        @param args: A variable number of bytes to be sent to the device
+
+        :param address: i2c device address
+
+        :param args: A variable number of bytes to be sent to the device
         """
         data = [address, self.I2C_WRITE]
         for item in args:
@@ -585,7 +633,8 @@ class PyMata:
     def i2c_stop_reading(self, address):
         """
         This method stops an I2C_READ_CONTINUOUSLY operation for the i2c device address specified.
-        @param address: address of i2c device
+
+        :param address: address of i2c device
         """
         data = [address, self.I2C_STOP_READING]
         self._command_handler.send_sysex(self._command_handler.I2C_REQUEST, data)
@@ -594,8 +643,10 @@ class PyMata:
     def i2c_get_read_data(self, address):
         """
         This method retrieves the i2c read data as the result of an i2c_read() command.
-        @param address: i2c device address
-        @return: raw data read from device
+
+        :param address: i2c device address
+
+        :return: raw data read from device
         """
         if address in self._command_handler.i2c_map:
             map_entry = self._command_handler.i2c_map[address]
@@ -606,7 +657,7 @@ class PyMata:
         """
         This method issues a pin state query command. Data returned is retrieved via
         a call to get_pin_state_query_results()
-        @param pin: pin number
+        :param pin: pin number
         """
         self._command_handler.send_sysex(self._command_handler.PIN_STATE_QUERY, [pin])
 
@@ -617,11 +668,16 @@ class PyMata:
         If the tone command is set to TONE_TONE, then the specified tone will be played.
         Else, if the tone command is TONE_NO_TONE, then any currently playing tone will be disabled.
         It is intended for a future release of Arduino Firmata
-        @param pin: Pin number
-        @param tone_command: Either TONE_TONE, or TONE_NO_TONE
-        @param frequency: Frequency of tone
-        @param duration: Duration of tone in milliseconds
-        @return: No return value
+
+        :param pin: Pin number
+
+        :param tone_command: Either TONE_TONE, or TONE_NO_TONE
+
+        :param frequency: Frequency of tone
+
+        :param duration: Duration of tone in milliseconds
+
+        :return: No return value
         """
 
         # convert the integer values to bytes
@@ -661,7 +717,7 @@ class PyMata:
     def reset(self):
         """
         This command sends a reset message to the Arduino. The response tables will be reinitialized
-        @return: No return value.
+        :return: No return value.
         """
         # set all output pins to a value of 0
         for pin in range(0, self._command_handler.total_pins_discovered):
@@ -685,11 +741,16 @@ class PyMata:
         This method "arms" an analog pin for its data to be latched and saved in the latching table
         If a callback method is provided, when latching criteria is achieved, the callback function is called
         with latching data notification. In that case, the latching table is not updated.
-        @param pin: Analog pin number (value following an 'A' designator, i.e. A5 = 5
-        @param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE
-        @param threshold_value: numerical value - between 0 and 1023
-        @param cb: callback method
-        @return: True if successful, False if parameter data is invalid
+
+        :param pin: Analog pin number (value following an 'A' designator, i.e. A5 = 5
+
+        :param threshold_type: ANALOG_LATCH_GT | ANALOG_LATCH_LT  | ANALOG_LATCH_GTE | ANALOG_LATCH_LTE
+
+        :param threshold_value: numerical value - between 0 and 1023
+
+        :param cb: callback method
+
+        :return: True if successful, False if parameter data is invalid
         """
         if self.ANALOG_LATCH_GT <= threshold_type <= self.ANALOG_LATCH_LTE:
             if 0 <= threshold_value <= 1023:
@@ -704,10 +765,14 @@ class PyMata:
         This method "arms" a digital pin for its data to be latched and saved in the latching table
         If a callback method is provided, when latching criteria is achieved, the callback function is called
         with latching data notification. In that case, the latching table is not updated.
-        @param pin: Digital pin number
-        @param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW
-        @param cb: callback function
-        @return: True if successful, False if parameter data is invalid
+
+        :param pin: Digital pin number
+
+        :param threshold_type: DIGITAL_LATCH_HIGH | DIGITAL_LATCH_LOW
+
+        :param cb: callback function
+
+        :return: True if successful, False if parameter data is invalid
         """
         if 0 <= threshold_type <= 1:
             self._command_handler.set_digital_latch(pin, threshold_type, cb)
@@ -721,11 +786,16 @@ class PyMata:
         This method sets a pin to the desired pin mode for the pin_type.
         It automatically enables data reporting.
         NOTE: DO NOT CALL THIS METHOD FOR I2C. See i2c_config().
-        @param pin: Pin number (for analog use the analog number, for example A4: use 4)
-        @param mode: INPUT, OUTPUT, PWM
-        @param pin_type: ANALOG or DIGITAL
-        @param cb: This is an optional callback function to report data changes to the user
-        @return: No return value
+
+        :param pin: Pin number (for analog use the analog number, for example A4: use 4)
+
+        :param mode: INPUT, OUTPUT, PWM
+
+        :param pin_type: ANALOG or DIGITAL
+
+        :param cb: This is an optional callback function to report data changes to the user
+
+        :return: No return value
         """
         command = [self._command_handler.SET_PIN_MODE, pin, mode]
         self._command_handler.send_command(command)
@@ -760,8 +830,10 @@ class PyMata:
         """
         This method sends the desired sampling interval to Firmata.
         Note: Standard Firmata  will ignore any interval less than 10 milliseconds
-        @param interval: Integer value for desired sampling interval in milliseconds
-        @return: No return value.
+
+        :param interval: Integer value for desired sampling interval in milliseconds
+
+        :return: No return value.
         """
         data = [interval & 0x7f, (interval >> 7) & 0x7f]
         self._command_handler.send_sysex(self._command_handler.SAMPLING_INTERVAL, data)
@@ -770,10 +842,14 @@ class PyMata:
     def servo_config(self, pin, min_pulse=544, max_pulse=2400):
         """
         Configure a pin as a servo pin. Set pulse min, max in ms.
-        @param pin: Servo Pin.
-        @param min_pulse: Min pulse width in ms.
-        @param max_pulse: Max pulse width in ms.
-        @return: No return value
+
+        :param pin: Servo Pin.
+
+        :param min_pulse: Min pulse width in ms.
+
+        :param max_pulse: Max pulse width in ms.
+
+        :return: No return value
         """
         self.set_pin_mode(pin, self.SERVO, self.OUTPUT)
         command = [pin, min_pulse & 0x7f, (min_pulse >> 7) & 0x7f,
@@ -789,11 +865,16 @@ class PyMata:
         Up to a maximum of 6 SONAR devices is supported
         If the maximum is exceeded a message is sent to the console and the request is ignored.
         NOTE: data is measured in centimeters
-        @param trigger_pin: The pin number of for the trigger (transmitter).
-        @param echo_pin: The pin number for the received echo.
-        @param ping_interval: Minimum interval between pings. Lowest number to use is 33 ms.Max is 127
-        @param max_distance: Maximum distance in cm. Max is 200.
-        @param cb: optional callback function to report sonar data changes
+
+        :param trigger_pin: The pin number of for the trigger (transmitter).
+
+        :param echo_pin: The pin number for the received echo.
+
+        :param ping_interval: Minimum interval between pings. Lowest number to use is 33 ms.Max is 127
+
+        :param max_distance: Maximum distance in cm. Max is 200.
+
+        :param cb: optional callback function to report sonar data changes
         """
         if max_distance > 200:
             max_distance = 200
@@ -818,8 +899,10 @@ class PyMata:
     def stepper_config(self, steps_per_revolution, stepper_pins):
         """
         Configure stepper motor prior to operation.
-        @param steps_per_revolution: number of steps per motor revolution
-        @param stepper_pins: a list of control pin numbers - either 4 or 2
+
+        :param steps_per_revolution: number of steps per motor revolution
+
+        :param stepper_pins: a list of control pin numbers - either 4 or 2
         """
         data = [self.STEPPER_CONFIGURE, steps_per_revolution & 0x7f, (steps_per_revolution >> 7) & 0x7f]
         for pin in range(len(stepper_pins)):
@@ -830,8 +913,10 @@ class PyMata:
     def stepper_step(self, motor_speed, number_of_steps):
         """
         Move a stepper motor for the number of steps at the specified speed
-        @param motor_speed: 21 bits of data to set motor speed
-        @param number_of_steps: 14 bits for number of steps & direction
+
+        :param motor_speed: 21 bits of data to set motor speed
+
+        :param number_of_steps: 14 bits for number of steps & direction
                                 positive is forward, negative is reverse
         """
         if number_of_steps > 0:
