@@ -671,7 +671,7 @@ class PyMataCommandHandler(threading.Thread):
         string_to_print = []
         for i in data[::2]:
             string_to_print.append(chr(i))
-        print(string_to_print)
+        print "".join(string_to_print)
 
     def i2c_reply(self, data):
         """
