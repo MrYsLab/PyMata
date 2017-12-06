@@ -32,7 +32,6 @@ class PyMataCommandHandler(threading.Thread):
 
     There is blocking when accessing the data tables through the _data_lock
     """
-
     # the following defines are from Firmata.h
 
     # message command bytes (128-255/ 0x80- 0xFF)
