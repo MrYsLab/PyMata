@@ -101,7 +101,7 @@ class PyMata:
                                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
 
     # noinspection PyPep8Naming
-    def __init__(self, port_id='/dev/ttyACM0', bluetooth=True, verbose=True):
+    def __init__(self, port_id='/dev/ttyACM0', baud_rate=57600, bluetooth=True, verbose=True):
         """
         The "constructor" instantiates the entire interface. It starts the operational threads for the serial
         interface as well as for the command handler.
@@ -121,7 +121,7 @@ class PyMata:
                 print('\nPyMata version 2.16  Copyright(C) 2013-17 Alan Yorinks    All rights reserved.')
 
             # Instantiate the serial support class
-            self.transport = PyMataSerial(port_id, self.command_deque)
+            self.transport = PyMataSerial(port_id, baud_rate, self.command_deque)
 
             # wait for HC-06 Bluetooth slave to initialize in case it is being used.
             if bluetooth:

@@ -35,12 +35,13 @@ class PyMataSerial(threading.Thread):
     timeout = 1
     command_deque = None
 
-    def __init__(self, port_id, command_deque):
+    def __init__(self, port_id, baud_rate, command_deque):
         """
         Constructor:
         @param command_deque: A reference to the deque shared with the _command_handler
         """
         self.port_id = port_id
+        self.baud_rate = baud_rate
         self.command_deque = command_deque
 
         threading.Thread.__init__(self)
