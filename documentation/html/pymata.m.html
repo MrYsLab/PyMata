@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 
     <title>PyMata.pymata API documentation</title>
-    <meta name="description" content="Copyright (c) 2015-2017 Alan Yorinks All rights reserved.
+    <meta name="description" content="Copyright (c) 2015-2018 Alan Yorinks All rights reserved.
 
 This program is free software; you can re..." />
 
@@ -1114,7 +1114,7 @@ table {
 
   <header id="section-intro">
   <h1 class="title"><span class="name">PyMata.pymata</span> module</h1>
-  <p>Copyright (c) 2015-2017 Alan Yorinks All rights reserved.</p>
+  <p>Copyright (c) 2015-2018 Alan Yorinks All rights reserved.</p>
 <p>This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
 Version 3 as published by the Free Software Foundation; either
@@ -1130,7 +1130,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</p>
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-PyMata.pymata', this);">Show source &equiv;</a></p>
   <div id="source-PyMata.pymata" class="source">
     <div class="codehilite"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd"> Copyright (c) 2015-2017 Alan Yorinks All rights reserved.</span>
+<span class="sd"> Copyright (c) 2015-2018 Alan Yorinks All rights reserved.</span>
 
 <span class="sd"> This program is free software; you can redistribute it and/or</span>
 <span class="sd"> modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE</span>
@@ -1153,7 +1153,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</p>
 
 <span class="kn">from</span> <span class="nn">.pymata_serial</span> <span class="kn">import</span> <span class="n">PyMataSerial</span>
 <span class="kn">from</span> <span class="nn">.pymata_command_handler</span> <span class="kn">import</span> <span class="n">PyMataCommandHandler</span>
-
 
 <span class="c1"># For report data formats refer to http://firmata.org/wiki/Protocol</span>
 
@@ -1201,9 +1200,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</p>
     <span class="n">I2C</span> <span class="o">=</span> <span class="mh">0x06</span>  <span class="c1"># pin included in I2C setup</span>
     <span class="n">ONEWIRE</span> <span class="o">=</span> <span class="mh">0x07</span>  <span class="c1"># possible future feature</span>
     <span class="n">STEPPER</span> <span class="o">=</span> <span class="mh">0x08</span>  <span class="c1"># any pin in stepper mode</span>
-    <span class="n">TONE</span> <span class="o">=</span> <span class="mh">0x09</span>  <span class="c1"># Any pin in TONE mode</span>
-    <span class="n">ENCODER</span> <span class="o">=</span> <span class="mh">0x0a</span>
-    <span class="n">SONAR</span> <span class="o">=</span> <span class="mh">0x0b</span>  <span class="c1"># Any pin in SONAR mode</span>
+    <span class="n">ENCODER</span> <span class="o">=</span> <span class="mh">0x09</span>  <span class="c1"># Any pin in encoder mode</span>
+    <span class="n">SERIAL</span> <span class="o">=</span> <span class="mh">0x0a</span>
+    <span class="n">PULLUP</span> <span class="o">=</span> <span class="mh">0x0b</span>  <span class="c1"># Any pin in pullup mode</span>
+    <span class="n">SONAR</span> <span class="o">=</span> <span class="mh">0x0c</span>  <span class="c1"># Any pin in SONAR mode</span>
+    <span class="n">TONE</span> <span class="o">=</span> <span class="mh">0x0d</span>  <span class="c1"># Any pin in tone mode</span>
     <span class="n">IGNORE</span> <span class="o">=</span> <span class="mh">0x7f</span>
     <span class="n">LATCH_MODE</span> <span class="o">=</span> <span class="mh">0xE0</span>  <span class="c1"># this value is or&#39;ed with pin modes for latched data callback</span>
 
@@ -1256,7 +1257,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</p>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
                 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Python Version </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
-                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PyMata version 2.17  Copyright(C) 2013-17 Alan Yorinks    All rights reserved.&#39;</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PyMata version 2.18  Copyright(C) 2013-18 Alan Yorinks    All rights reserved.&#39;</span><span class="p">)</span>
 
             <span class="c1"># Instantiate the serial support class</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">transport</span> <span class="o">=</span> <span class="n">PyMataSerial</span><span class="p">(</span><span class="n">port_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_deque</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">baud_rate</span><span class="p">)</span>
@@ -1920,7 +1921,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</p>
 
 <span class="sd">        :param pin: Pin number (for analog use the analog number, for example A4: use 4)</span>
 
-<span class="sd">        :param mode: INPUT, OUTPUT, PWM</span>
+<span class="sd">        :param mode: INPUT, OUTPUT, PWM, PULLUP</span>
 
 <span class="sd">        :param pin_type: ANALOG or DIGITAL</span>
 
@@ -1932,7 +1933,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
 
         <span class="c1"># enable reporting for input pins</span>
-        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">INPUT</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">INPUT</span> <span class="ow">or</span> <span class="n">mode</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">PULLUP</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">pin_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ANALOG</span><span class="p">:</span>
 
                 <span class="c1"># set analog response table to show this pin is an input pin</span>
@@ -2131,9 +2132,11 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
     <span class="n">I2C</span> <span class="o">=</span> <span class="mh">0x06</span>  <span class="c1"># pin included in I2C setup</span>
     <span class="n">ONEWIRE</span> <span class="o">=</span> <span class="mh">0x07</span>  <span class="c1"># possible future feature</span>
     <span class="n">STEPPER</span> <span class="o">=</span> <span class="mh">0x08</span>  <span class="c1"># any pin in stepper mode</span>
-    <span class="n">TONE</span> <span class="o">=</span> <span class="mh">0x09</span>  <span class="c1"># Any pin in TONE mode</span>
-    <span class="n">ENCODER</span> <span class="o">=</span> <span class="mh">0x0a</span>
-    <span class="n">SONAR</span> <span class="o">=</span> <span class="mh">0x0b</span>  <span class="c1"># Any pin in SONAR mode</span>
+    <span class="n">ENCODER</span> <span class="o">=</span> <span class="mh">0x09</span>  <span class="c1"># Any pin in encoder mode</span>
+    <span class="n">SERIAL</span> <span class="o">=</span> <span class="mh">0x0a</span>
+    <span class="n">PULLUP</span> <span class="o">=</span> <span class="mh">0x0b</span>  <span class="c1"># Any pin in pullup mode</span>
+    <span class="n">SONAR</span> <span class="o">=</span> <span class="mh">0x0c</span>  <span class="c1"># Any pin in SONAR mode</span>
+    <span class="n">TONE</span> <span class="o">=</span> <span class="mh">0x0d</span>  <span class="c1"># Any pin in tone mode</span>
     <span class="n">IGNORE</span> <span class="o">=</span> <span class="mh">0x7f</span>
     <span class="n">LATCH_MODE</span> <span class="o">=</span> <span class="mh">0xE0</span>  <span class="c1"># this value is or&#39;ed with pin modes for latched data callback</span>
 
@@ -2186,7 +2189,7 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
                 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Python Version </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
-                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PyMata version 2.17  Copyright(C) 2013-17 Alan Yorinks    All rights reserved.&#39;</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PyMata version 2.18  Copyright(C) 2013-18 Alan Yorinks    All rights reserved.&#39;</span><span class="p">)</span>
 
             <span class="c1"># Instantiate the serial support class</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">transport</span> <span class="o">=</span> <span class="n">PyMataSerial</span><span class="p">(</span><span class="n">port_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_deque</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">baud_rate</span><span class="p">)</span>
@@ -2850,7 +2853,7 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 
 <span class="sd">        :param pin: Pin number (for analog use the analog number, for example A4: use 4)</span>
 
-<span class="sd">        :param mode: INPUT, OUTPUT, PWM</span>
+<span class="sd">        :param mode: INPUT, OUTPUT, PWM, PULLUP</span>
 
 <span class="sd">        :param pin_type: ANALOG or DIGITAL</span>
 
@@ -2862,7 +2865,7 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
 
         <span class="c1"># enable reporting for input pins</span>
-        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">INPUT</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">INPUT</span> <span class="ow">or</span> <span class="n">mode</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">PULLUP</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">pin_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ANALOG</span><span class="p">:</span>
 
                 <span class="c1"># set analog response table to show this pin is an input pin</span>
@@ -3008,6 +3011,7 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
           <h3>Ancestors (in MRO)</h3>
           <ul class="class_list">
           <li><a href="#PyMata.pymata.PyMata">PyMata</a></li>
+          <li>builtins.object</li>
           </ul>
           <h3>Class variables</h3>
             <div class="item">
@@ -3171,6 +3175,16 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 
             </div>
             <div class="item">
+            <p id="PyMata.pymata.PyMata.PULLUP" class="name">var <span class="ident">PULLUP</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
             <p id="PyMata.pymata.PyMata.PWM" class="name">var <span class="ident">PWM</span></p>
             
 
@@ -3192,6 +3206,16 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
             </div>
             <div class="item">
             <p id="PyMata.pymata.PyMata.REPORTING_ENABLE" class="name">var <span class="ident">REPORTING_ENABLE</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="PyMata.pymata.PyMata.SERIAL" class="name">var <span class="ident">SERIAL</span></p>
             
 
             
@@ -3340,18 +3364,7 @@ Micro-Controller utilizing Firmata or its derivatives.</p>
 </div>
 
             </div>
-          <h3>Instance variables</h3>
-            <div class="item">
-            <p id="PyMata.pymata.PyMata.baud_rate" class="name">var <span class="ident">baud_rate</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-          <h3>Methods</h3>
+          <h3>Static methods</h3>
             
   <div class="item">
     <div class="name def" id="PyMata.pymata.PyMata.__init__">
@@ -3387,7 +3400,7 @@ interface as well as for the command handler.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Python Version </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
-            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PyMata version 2.17  Copyright(C) 2013-17 Alan Yorinks    All rights reserved.&#39;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PyMata version 2.18  Copyright(C) 2013-18 Alan Yorinks    All rights reserved.&#39;</span><span class="p">)</span>
         <span class="c1"># Instantiate the serial support class</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transport</span> <span class="o">=</span> <span class="n">PyMataSerial</span><span class="p">(</span><span class="n">port_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_deque</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">baud_rate</span><span class="p">)</span>
         <span class="c1"># wait for HC-06 Bluetooth slave to initialize in case it is being used.</span>
@@ -4777,7 +4790,7 @@ with latching data notification. In that case, the latching table is not updated
 It automatically enables data reporting.
 NOTE: DO NOT CALL THIS METHOD FOR I2C. See i2c_config().</p>
 <p>:param pin: Pin number (for analog use the analog number, for example A4: use 4)</p>
-<p>:param mode: INPUT, OUTPUT, PWM</p>
+<p>:param mode: INPUT, OUTPUT, PWM, PULLUP</p>
 <p>:param pin_type: ANALOG or DIGITAL</p>
 <p>:param cb: This is an optional callback function to report data changes to the user</p>
 <p>:return: No return value</p></div>
@@ -4790,7 +4803,7 @@ NOTE: DO NOT CALL THIS METHOD FOR I2C. See i2c_config().</p>
 <span class="sd">    It automatically enables data reporting.</span>
 <span class="sd">    NOTE: DO NOT CALL THIS METHOD FOR I2C. See i2c_config().</span>
 <span class="sd">    :param pin: Pin number (for analog use the analog number, for example A4: use 4)</span>
-<span class="sd">    :param mode: INPUT, OUTPUT, PWM</span>
+<span class="sd">    :param mode: INPUT, OUTPUT, PWM, PULLUP</span>
 <span class="sd">    :param pin_type: ANALOG or DIGITAL</span>
 <span class="sd">    :param cb: This is an optional callback function to report data changes to the user</span>
 <span class="sd">    :return: No return value</span>
@@ -4798,7 +4811,7 @@ NOTE: DO NOT CALL THIS METHOD FOR I2C. See i2c_config().</p>
     <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">SET_PIN_MODE</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">mode</span><span class="p">]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
     <span class="c1"># enable reporting for input pins</span>
-    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">INPUT</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">INPUT</span> <span class="ow">or</span> <span class="n">mode</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">PULLUP</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">pin_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">ANALOG</span><span class="p">:</span>
             <span class="c1"># set analog response table to show this pin is an input pin</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">analog_response_table</span><span class="p">[</span><span class="n">pin</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">_command_handler</span><span class="o">.</span><span class="n">RESPONSE_TABLE_MODE</span><span class="p">]</span> <span class="o">=</span> \
@@ -5014,6 +5027,17 @@ get_stepper_version</p></div>
 
   </div>
   
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="PyMata.pymata.PyMata.baud_rate" class="name">var <span class="ident">baud_rate</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
       </div>
       </div>
 

@@ -2,14 +2,21 @@
 
 from setuptools import setup
 
+with open('README.md') as f:
+    long_description = f.read()
+
+
 setup(
     name='PyMata',
     packages=['PyMata'],
     #install_requires=['pyserial==2.7'],
     install_requires=['pyserial'],
 
-    version='2.17',
+    version='2.18',
     description="A Python Protocol Abstraction Library For Arduino Firmata",
+    long_description=long_description,
+    long_description_content_type='text/markdown',
+
     author='Alan Yorinks',
     author_email='MisterYsLab@gmail.com',
     url='https://github.com/MrYsLab/PyMata',

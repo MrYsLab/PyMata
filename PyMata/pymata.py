@@ -1,5 +1,5 @@
 """
- Copyright (c) 2015-2017 Alan Yorinks All rights reserved.
+ Copyright (c) 2015-2018 Alan Yorinks All rights reserved.
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -69,9 +69,11 @@ class PyMata:
     I2C = 0x06  # pin included in I2C setup
     ONEWIRE = 0x07  # possible future feature
     STEPPER = 0x08  # any pin in stepper mode
-    TONE = 0x09  # Any pin in TONE mode
-    ENCODER = 0x0a
-    SONAR = 0x0b  # Any pin in SONAR mode
+    ENCODER = 0x09  # Any pin in encoder mode
+    SERIAL = 0x0a
+    PULLUP = 0x0b  # Any pin in pullup mode
+    SONAR = 0x0c  # Any pin in SONAR mode
+    TONE = 0x0d  # Any pin in tone mode
     IGNORE = 0x7f
     LATCH_MODE = 0xE0  # this value is or'ed with pin modes for latched data callback
 
@@ -124,7 +126,7 @@ class PyMata:
 
             if self.verbose:
                 print("\nPython Version %s" % sys.version)
-                print('\nPyMata version 2.17  Copyright(C) 2013-17 Alan Yorinks    All rights reserved.')
+                print('\nPyMata version 2.18  Copyright(C) 2013-18 Alan Yorinks    All rights reserved.')
 
             # Instantiate the serial support class
             self.transport = PyMataSerial(port_id, self.command_deque, self.baud_rate)
@@ -788,7 +790,7 @@ class PyMata:
 
         :param pin: Pin number (for analog use the analog number, for example A4: use 4)
 
-        :param mode: INPUT, OUTPUT, PWM
+        :param mode: INPUT, OUTPUT, PWM, PULLUP
 
         :param pin_type: ANALOG or DIGITAL
 
@@ -800,7 +802,7 @@ class PyMata:
         self._command_handler.send_command(command)
 
         # enable reporting for input pins
-        if mode == self.INPUT:
+        if mode == self.INPUT or mode == self.PULLUP:
             if pin_type == self.ANALOG:
 
                 # set analog response table to show this pin is an input pin
