@@ -126,7 +126,7 @@ class PyMata:
 
             if self.verbose:
                 print("\nPython Version %s" % sys.version)
-                print('\nPyMata version 2.18  Copyright(C) 2013-18 Alan Yorinks    All rights reserved.')
+                print('\nPyMata version 2.19  Copyright(C) 2013-18 Alan Yorinks    All rights reserved.')
 
             # Instantiate the serial support class
             self.transport = PyMataSerial(port_id, self.command_deque, self.baud_rate)

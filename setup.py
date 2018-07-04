@@ -12,7 +12,7 @@ setup(
     #install_requires=['pyserial==2.7'],
     install_requires=['pyserial'],
 
-    version='2.18',
+    version='2.19',
     description="A Python Protocol Abstraction Library For Arduino Firmata",
     long_description=long_description,
     long_description_content_type='text/markdown',
