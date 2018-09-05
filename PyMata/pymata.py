@@ -674,7 +674,7 @@ class PyMata:
 
         :param tone_command: Either TONE_TONE, or TONE_NO_TONE
 
-        :param frequency: Frequency of tone
+        :param frequency: Frequency of tone in hz
 
         :param duration: Duration of tone in milliseconds
 
