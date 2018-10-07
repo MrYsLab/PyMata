@@ -3,14 +3,14 @@ PyMata
 PyMata is a high performance, multi-threaded, non-blocking Python client for the Firmata Protocol that supports
 the complete StandardFirmata protocol.
 
-A new version for Python 3.5, pymata_aio, can be found [here](https://github.com/MrYsLab/pymata-aio). 
+A new version for Python 3.5, pymata_aio, can be found [here](https://github.com/MrYsLab/pymata-aio).
 
-The API can be viewed on the [wiki](http://htmlpreview.github.io/?https://github.com/MrYsLab/PyMata/blob/master/documentation/html/index.html)
+The API can be viewed on the [wiki](https://htmlpreview.github.io/?https://raw.githubusercontent.com/MrYsLab/PyMata/master/documentation/html/pymata.m.html)
 
 ##Major features
 * __Implements the entire Firmata 2.4.1 protocol.__
 * __Python 2.7+ and Python 3.4+__ compatibility through a shared code set. (If you are running Python 3.4 on Linux, please see note below).
-* Easy to use and intuitive __API__. You can view the [PyMata API Documentation here](http://htmlpreview.github.com/?https://github.com/MrYsLab/PyMata/blob/master/documentation/html/PyMata.pymata.PyMata-class.html) or view in the Documentation/html directory.
+* Easy to use and intuitive __API__. You can view the [PyMata API Documentation here](https://htmlpreview.github.io/?https://raw.githubusercontent.com/MrYsLab/PyMata/master/documentation/html/pymata.m.html) or view in the Documentation/html directory.
 * Custom support for __stepper motors, Sonar Ping Devices (HC-SRO4), Piezo devices and Rotary Encoders__.
   * Requires the use of FirmataPlus for PyMata - installation instructions may be found [here](https://github.com/MrYsLab/PyMata/wiki/Installing-FirmataPlus).
 * __Wiring diagrams__ are provided for all examples in the examples directory.
@@ -35,9 +35,9 @@ Check out the example code on the [wiki](https://github.com/MrYsLab/PyMata/wiki)
   * Callbacks return data reports in a single list format.
   * Polling methods and callbacks are available simultaneously and can be used in a mixed polled/callback environment.
   * Callbacks return data in a single list.
-  
+
 ### The callback data return values
-  
+
 | Callback Type | List Element 0 | List Element 1 | List Element 2 | List Element 3 |
 | ------------- | -------------- | -------------- | -------------- | -------------- |
 | Analog| ANALOG MODE|Pin Number|Data Value|Not Applicable
