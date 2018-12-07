@@ -11,7 +11,7 @@ The API can be viewed on the [wiki](https://github.com/MrYsLab/PyMata/wiki).
 * __Implements the entire Firmata 2.4.1 protocol.__
 * __Python 2.7+ and Python 3.4+__ compatibility through a shared code set. (If you are running Python 3.4 on Linux, please see note below).
 * Easy to use and intuitive __API__. You can view the [PyMata API Documentation here](https://htmlpreview.github.io/?https://raw.githubusercontent.com/MrYsLab/PyMata/master/documentation/html/pymata.m.html) or view in the Documentation/html directory.
-* Custom support for __stepper motors, Sonar Ping Devices (HC-SRO4), Piezo devices and Rotary Encoders__.
+* Custom support for __stepper motors, Sonar Ping Devices (HC-SR04), Piezo devices and Rotary Encoders__.
   * Requires the use of FirmataPlus for PyMata - installation instructions may be found [here](https://github.com/MrYsLab/PyMata/wiki/Installing-FirmataPlus).
 * __Wiring diagrams__ are provided for all examples in the examples directory.
 * Digial and Analog __Transient Signal Monitoring Via Data Latches:__
