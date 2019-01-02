@@ -84,3 +84,6 @@ signal.signal(signal.SIGINT, signal_handler)
 # Special Note For Linux Users Wishing to Use Python 3.5
 # [pymata_aio is now available and for Python 3.5.](https://github.com/MrYsLab/pymata-aio)
 # [Check out the pymata_aio wiki!](https://github.com/MrYsLab/pymata-aio/wiki)
+
+This project was developed with [Pycharm](https://www.jetbrains.com/pycharm/) ![logo](https://github.com/MrYsLab/python_banyan/blob/master/images/icon_PyCharm.png)
+
