@@ -1,5 +1,5 @@
 """
- Copyright (c) 2015-2017 Alan Yorinks All rights reserved.
+ Copyright (c) 2015-2019 Alan Yorinks All rights reserved.
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -186,7 +186,7 @@ class PyMataCommandHandler(threading.Thread):
     def __init__(self, pymata):
         """
         constructor for CommandHandler class
-        
+
         :param pymata: A reference to the pymata instance.
         """
 
@@ -275,9 +275,9 @@ class PyMataCommandHandler(threading.Thread):
         or after refresh_report_version() is called
 
         Use the api method api_get_version to retrieve this information
-        
+
         :param data: Message data from Firmata
-        
+
         :return: No return value.
         """
         self.firmata_version.append(data[0])  # add major
@@ -358,7 +358,7 @@ class PyMataCommandHandler(threading.Thread):
         """
         This method processes the report firmware message,  sent asynchronously by Firmata when it starts up
         or after refresh_report_firmware() is called
-        
+
         Use the api method api_get_firmware_version to retrieve this information
 
         :param data: Message data from Firmata

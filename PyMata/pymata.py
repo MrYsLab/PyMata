@@ -126,7 +126,7 @@ class PyMata:
 
             if self.verbose:
                 print("\nPython Version %s" % sys.version)
-                print('\nPyMata version 2.19  Copyright(C) 2013-18 Alan Yorinks    All rights reserved.')
+                print('\nPyMata version 2.20  Copyright(C) 2013-19 Alan Yorinks    All rights reserved.')
 
             # Instantiate the serial support class
             self.transport = PyMataSerial(port_id, self.command_deque, self.baud_rate)
@@ -253,8 +253,8 @@ class PyMata:
         """
         Send a Firmata capability query message via sysex. Client retrieves the results with a
         call to get_capability_query_results()
-        The Arduino can be rather slow in responding to this command. For 
-        the Mega 2560 R3 it has taken up to 25 seconds for a response.   
+        The Arduino can be rather slow in responding to this command. For
+        the Mega 2560 R3 it has taken up to 25 seconds for a response.
         """
         self._command_handler.send_sysex(self._command_handler.CAPABILITY_QUERY, None)
 
@@ -798,7 +798,11 @@ class PyMata:
 
         :return: No return value
         """
-        command = [self._command_handler.SET_PIN_MODE, pin, mode]
+
+        if mode == self.INPUT and pin_type == self.ANALOG:
+            command = [self._command_handler.SET_PIN_MODE, pin, pin_type]
+        else:
+            command = [self._command_handler.SET_PIN_MODE, pin, mode]
         self._command_handler.send_command(command)
 
         # enable reporting for input pins
