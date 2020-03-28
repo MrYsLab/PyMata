@@ -1,3 +1,7 @@
+# THIS REPOSITORY HAS BEEN ARCHIVED
+# PLEASE USE [pymata4.](https://github.com/MrYsLab/pymata4)
+
+
 PyMata
 ======
 PyMata is a high performance, multi-threaded, non-blocking Python client for the Firmata Protocol that supports
